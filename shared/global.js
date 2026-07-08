@@ -30,8 +30,14 @@ const defaultMockDB = {
     ],
     roles_permissions: [
         { role: "Super Admin", modules: { users: "View/Add/Edit/Delete/Export/Approve", tasks: "View/Add/Edit/Delete/Export/Approve", leads: "View/Add/Edit/Delete/Export/Approve" } },
-        { role: "Manager", modules: { users: "View/Export", tasks: "View/Add/Edit/Delete/Approve", leads: "View/Add/Edit/Export" } },
-        { role: "Developer", modules: { users: "View", tasks: "View/Edit", leads: "View" } }
+        { role: "Admin", modules: { users: "View/Add/Edit/Export/Approve", tasks: "View/Add/Edit/Delete/Approve", leads: "View/Add/Edit/Export/Approve" } },
+        { role: "Department Manager", modules: { users: "View/Export", tasks: "View/Add/Edit/Delete/Approve", leads: "View/Add/Edit/Export" } },
+        { role: "Team Leader", modules: { users: "View", tasks: "View/Add/Edit/Approve", leads: "View/Edit" } },
+        { role: "Coordinator", modules: { users: "View", tasks: "View/Edit", leads: "View/Edit" } },
+        { role: "Employee/Member", modules: { users: "View", tasks: "View/Edit", leads: "View" } },
+        { role: "Intern", modules: { users: "View", tasks: "View", leads: "View" } },
+        { role: "Client", modules: { users: "View", tasks: "View", leads: "View" } },
+        { role: "Vendor", modules: { users: "View", tasks: "View", leads: "View" } }
     ],
     leads: [
         { id: "LED001", name: "Mango Tech", contact: "John Doe", email: "john@mangotech.com", status: "Fresh", value: "₹12,00,000", phone: "+1 555-0199", date: "2026-07-01", next_followup: "2026-07-10" },
@@ -81,6 +87,12 @@ const defaultMockDB = {
 
 // Initialize Mock Database
 window.mockDB = JSON.parse(localStorage.getItem('erp_mock_db')) || defaultMockDB;
+
+// Upgrade Database if roles list is stale
+if (!window.mockDB.roles_permissions || window.mockDB.roles_permissions.length < 9) {
+    window.mockDB = defaultMockDB;
+    localStorage.setItem('erp_mock_db', JSON.stringify(window.mockDB));
+}
 
 // Save Database Helper
 window.saveMockDB = () => {
