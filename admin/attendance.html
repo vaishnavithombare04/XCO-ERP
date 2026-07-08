@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance - XtrazCon ERP Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+        </div>
+        <div class="header-search d-none d-md-block">
+            <i class="bi bi-search header-search-icon"></i>
+            <input type="text" placeholder="Search attendance logs...">
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+            <a href="notifications.html" class="icon-btn" aria-label="Notifications">
+                <i class="bi bi-bell fs-5"></i>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                    <li><a class="dropdown-item" href="users.html">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <nav class="sidebar-menu">
+                <span class="sidebar-label">Core Modules</span>
+                <a href="index.html" class="sidebar-item">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="sidebar-item">
+                    <i class="bi bi-people"></i> <span>Users & Staff</span>
+                </a>
+                <a href="departments.html" class="sidebar-item">
+                    <i class="bi bi-building"></i> <span>Departments</span>
+                </a>
+                <a href="teams-groups.html" class="sidebar-item">
+                    <i class="bi bi-microsoft-teams"></i> <span>Teams & Groups</span>
+                </a>
+                <a href="roles-permissions.html" class="sidebar-item">
+                    <i class="bi bi-shield-lock"></i> <span>Roles & Permissions</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Operations</span>
+                <a href="crm-leads.html" class="sidebar-item">
+                    <i class="bi bi-funnel"></i> <span>CRM Leads</span>
+                </a>
+                <a href="tasks.html" class="sidebar-item">
+                    <i class="bi bi-kanban"></i> <span>Tasks Kanban</span>
+                </a>
+                <a href="attendance.html" class="sidebar-item active">
+                    <i class="bi bi-clock-history"></i> <span>Attendance</span>
+                </a>
+                <a href="shifts.html" class="sidebar-item">
+                    <i class="bi bi-calendar-range"></i> <span>Shift Schedules</span>
+                </a>
+                <a href="leaves.html" class="sidebar-item">
+                    <i class="bi bi-calendar2-check"></i> <span>Leaves Management</span>
+                </a>
+                <a href="kpi.html" class="sidebar-item">
+                    <i class="bi bi-graph-up-arrow"></i> <span>KPI & Performance</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Partners & Interns</span>
+                <a href="clients.html" class="sidebar-item">
+                    <i class="bi bi-briefcase"></i> <span>Clients Portal</span>
+                </a>
+                <a href="freelancers-interns.html" class="sidebar-item">
+                    <i class="bi bi-person-workspace"></i> <span>Freelancers & Interns</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">System & Reports</span>
+                <a href="notifications.html" class="sidebar-item">
+                    <i class="bi bi-chat-left-dots"></i> <span>Notifications</span>
+                </a>
+                <a href="reports.html" class="sidebar-item">
+                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports & Export</span>
+                </a>
+                <a href="audit-logs.html" class="sidebar-item">
+                    <i class="bi bi-receipt-cutoff"></i> <span>Audit Trail Logs</span>
+                </a>
+                <a href="settings.html" class="sidebar-item">
+                    <i class="bi bi-gear"></i> <span>Global Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold mb-0">Attendance Tracking</h1>
+                    <p class="text-muted font-13 mb-0">Monitor employee check-ins, check-outs, and shifts.</p>
+                </div>
+            </div>
+
+            <!-- Dashboard KPIs -->
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Present today</span>
+                            <h3 class="kpi-value" id="countPresent">3</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Late arrivals</span>
+                            <h3 class="kpi-value" id="countLate">2</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Absent staff</span>
+                            <h3 class="kpi-value" id="countAbsent">1</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">On WFH Mode</span>
+                            <h3 class="kpi-value">0</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Log Table -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Attendance History (July 8, 2026)</h5>
+                            <div class="data-table-container">
+                                <table class="data-table" id="attendanceTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee</th>
+                                            <th>Check-In</th>
+                                            <th>Check-Out</th>
+                                            <th>Shift</th>
+                                            <th>Status</th>
+                                            <th>Total Hours</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attendanceListBody">
+                                        <!-- Dynamically generated rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation Check-in Terminal -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center py-4">
+                            <h5 class="card-title mb-3">Simulate Employee Check-In</h5>
+                            
+                            <!-- Live Digital Clock -->
+                            <div class="fs-1 font-weight-bold my-4 text-primary" id="liveClock">12:00:00 PM</div>
+                            <div class="font-12 text-muted mb-4" id="liveDate">Wednesday, July 8, 2026</div>
+
+                            <div class="d-flex flex-column gap-3">
+                                <select class="form-select" id="terminalEmployeeSelect">
+                                    <!-- Populated dynamically -->
+                                </select>
+                                
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <button class="btn btn-primary w-50" onclick="simCheckIn()"><i class="bi bi-box-arrow-in-right"></i> Check-in</button>
+                                    <button class="btn btn-secondary w-50" onclick="simCheckOut()"><i class="bi bi-box-arrow-out-left"></i> Check-out</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+    <script>
+        function populateEmployees() {
+            const select = document.getElementById('terminalEmployeeSelect');
+            select.innerHTML = mockDB.users.map(u => `<option value="${u.name}">${u.name}</option>`).join('');
+        }
+
+        function renderAttendance() {
+            const body = document.getElementById('attendanceListBody');
+            body.innerHTML = mockDB.attendance.map(a => {
+                let badgeClass = "badge-active";
+                if (a.status === 'Late') badgeClass = "badge-pending";
+                if (a.status === 'Absent') badgeClass = "badge-overdue";
+
+                return `
+                    <tr>
+                        <td class="font-weight-600">${a.employee}</td>
+                        <td>${a.check_in}</td>
+                        <td>${a.check_out}</td>
+                        <td>${a.shift}</td>
+                        <td><span class="status-badge ${badgeClass}">${a.status}</span></td>
+                        <td><strong>${a.hours}</strong></td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Recalculate KPIs
+            const present = mockDB.attendance.filter(a => a.status === 'Present').length;
+            const late = mockDB.attendance.filter(a => a.status === 'Late').length;
+            const absent = mockDB.attendance.filter(a => a.status === 'Absent').length;
+
+            document.getElementById('countPresent').innerText = present;
+            document.getElementById('countLate').innerText = late;
+            document.getElementById('countAbsent').innerText = absent;
+        }
+
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // 0 should be 12
+            document.getElementById('liveClock').innerText = `${hours.toString().padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        function simCheckIn() {
+            const empName = document.getElementById('terminalEmployeeSelect').value;
+            const now = new Date();
+            const checkInTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Check if log already exists for employee
+            let log = mockDB.attendance.find(a => a.employee === empName && a.date === '2026-07-08');
+            if (log) {
+                showToast(`${empName} has already checked in!`, "warning");
+                return;
+            }
+
+            const user = mockDB.users.find(u => u.name === empName);
+            const shiftName = user ? user.shift : "Morning Shift (9AM - 6PM)";
+
+            // Check if late (e.g. check in after 9:05 AM for morning shift)
+            let status = "Present";
+            const currentHour = now.getHours();
+            const currentMin = now.getMinutes();
+            if (shiftName.includes("Morning") && (currentHour > 9 || (currentHour === 9 && currentMin > 5))) {
+                status = "Late";
+            }
+
+            const newLog = {
+                id: `ATT0${mockDB.attendance.length + 1}`,
+                employee: empName,
+                check_in: checkInTime,
+                check_out: "N/A",
+                date: "2026-07-08",
+                shift: shiftName,
+                status: status,
+                hours: "0.0h"
+            };
+
+            mockDB.attendance.unshift(newLog);
+            saveMockDB();
+            logAudit(empName, "Attendance", "Check-in", `Employee checked in at ${checkInTime}`);
+            showToast(`${empName} checked in successfully!`, "success");
+            renderAttendance();
+        }
+
+        function simCheckOut() {
+            const empName = document.getElementById('terminalEmployeeSelect').value;
+            const now = new Date();
+            const checkOutTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            let log = mockDB.attendance.find(a => a.employee === empName && a.date === '2026-07-08');
+            if (!log) {
+                showToast(`No check-in record found today for ${empName}!`, "error");
+                return;
+            }
+
+            if (log.check_out !== "N/A") {
+                showToast(`${empName} has already checked out!`, "warning");
+                return;
+            }
+
+            log.check_out = checkOutTime;
+            log.hours = "8.5h"; // Mock hours
+            saveMockDB();
+            logAudit(empName, "Attendance", "Check-out", `Employee checked out at ${checkOutTime}`);
+            showToast(`${empName} checked out successfully!`, "success");
+            renderAttendance();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateEmployees();
+            renderAttendance();
+            setInterval(updateClock, 1000);
+            updateClock();
+            initDataTable('#attendanceTable');
+        });
+    </script>
+</body>
+</html>

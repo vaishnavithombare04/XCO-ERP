@@ -1,0 +1,655 @@
+/* ==========================================================================
+   XtrazCon IT ERP - Shared Global Design System (global.css)
+   ========================================================================== */
+
+/* Design Tokens & CSS Custom Properties */
+:root {
+    --bg-app: #f4f6f8;
+    --bg-card: #ffffff;
+    --bg-sidebar: #17171b;
+    --bg-sidebar-hover: rgba(255, 255, 255, 0.08);
+    --bg-sidebar-active: rgba(59, 130, 246, 0.15);
+    --border-color: #e2e8f0;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #94a3b8;
+    
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-orange: #f97316;
+    --accent-pink: #ec4899;
+    --accent-green: #10b981;
+    --accent-gray: #64748b;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    
+    --radius-lg: 14px;
+    --radius-md: 8px;
+    --transition-speed: 0.2s;
+}
+
+[data-theme="dark"] {
+    --bg-app: #090c15;
+    --bg-card: #121824;
+    /* Sidebar remains dark (#17171B) in both themes */
+    --border-color: #223049;
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-tertiary: #64748b;
+}
+
+/* ==========================================================================
+   Base Layout Styling
+   ========================================================================== */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    overflow-x: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-container {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 56px);
+    overflow: hidden;
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ==========================================================================
+   Reusable UI Component Classes
+   ========================================================================== */
+
+/* 1. App Header
+   Usage:
+   <header class="app-header">
+       <div class="header-brand">...</div>
+       <div class="header-search">...</div>
+       <div class="header-actions">...</div>
+   </header>
+*/
+.app-header {
+    height: 56px;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-brand img {
+    height: 28px;
+}
+
+.header-brand .brand-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.header-search {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+}
+
+.header-search input {
+    width: 100%;
+    padding: 6px 12px 6px 36px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-size: 13px;
+    outline: none;
+}
+
+.header-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--text-tertiary);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 2. App Sidebar
+   Usage:
+   <aside class="app-sidebar">
+       <nav class="sidebar-menu">
+           <a href="index.html" class="sidebar-item active"><i class="bi bi-grid"></i><span>Dashboard</span></a>
+           ...
+       </nav>
+   </aside>
+*/
+.app-sidebar {
+    width: 240px;
+    background-color: var(--bg-sidebar);
+    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    transition: width var(--transition-speed), transform var(--transition-speed);
+    z-index: 999;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 8px;
+    gap: 4px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+    white-space: nowrap;
+}
+
+.sidebar-item:hover {
+    color: #ffffff;
+    background-color: var(--bg-sidebar-hover);
+}
+
+.sidebar-item.active {
+    color: #3b82f6;
+    background-color: var(--bg-sidebar-active);
+    font-weight: 600;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.08);
+    margin: 12px 14px;
+}
+
+.sidebar-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 14px;
+    color: #4b5563;
+    font-weight: 600;
+}
+
+/* Sidebar Responsive states */
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        width: 64px;
+    }
+    .sidebar-item span, .sidebar-label, .sidebar-divider {
+        display: none;
+    }
+    .sidebar-item {
+        justify-content: center;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .app-sidebar {
+        transform: translateX(-100%);
+        position: absolute;
+        height: calc(100vh - 56px);
+    }
+    .app-sidebar.show {
+        transform: translateX(0);
+        width: 240px;
+    }
+    .app-sidebar.show .sidebar-item span, 
+    .app-sidebar.show .sidebar-label, 
+    .app-sidebar.show .sidebar-divider {
+        display: flex;
+    }
+}
+
+/* 3. Cards & KPI Cards
+   Usage:
+   <div class="card kpi-card">
+       <div class="card-body">
+           <span class="kpi-label">Total Staff</span>
+           <h3 class="kpi-value">245</h3>
+           <span class="kpi-trend trend-up"><i class="bi-arrow-up"></i> 12%</span>
+       </div>
+   </div>
+*/
+.card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.kpi-card .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.kpi-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.kpi-trend {
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.trend-up { color: var(--accent-green); }
+.trend-down { color: #ef4444; }
+
+/* 4. Data Table
+   Usage:
+   <table class="data-table">
+       <thead>
+           <tr>
+               <th>Name <i class="bi bi-arrow-down-up"></i></th>
+           </tr>
+       </thead>
+       <tbody>...</tbody>
+   </table>
+*/
+.data-table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background-color: var(--bg-card);
+}
+
+.data-table th {
+    background-color: var(--bg-app);
+    color: var(--text-secondary);
+    padding: 12px 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+}
+
+.data-table th i {
+    font-size: 10px;
+    margin-left: 4px;
+    color: var(--text-tertiary);
+}
+
+.data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.04);
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 5. Status Badge
+   Usage:
+   <span class="status-badge badge-active">Active</span>
+*/
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: capitalize;
+}
+
+.badge-active, .badge-approved, .badge-completed {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--accent-green);
+}
+
+.badge-pending, .badge-working {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: var(--accent-blue);
+}
+
+.badge-onhold, .badge-hold {
+    background-color: rgba(249, 115, 22, 0.15);
+    color: var(--accent-orange);
+}
+
+.badge-overdue, .badge-rejected {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* 6. Buttons */
+.btn-primary {
+    background-color: var(--accent-blue) !important;
+    border-color: var(--accent-blue) !important;
+    color: #ffffff !important;
+}
+.btn-primary:hover {
+    background-color: #2563eb !important;
+}
+
+.btn-secondary {
+    background-color: var(--bg-app) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+.btn-secondary:hover {
+    background-color: var(--border-color) !important;
+}
+
+.btn-danger {
+    background-color: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: #ffffff !important;
+}
+.btn-danger:hover {
+    background-color: #dc2626 !important;
+}
+
+.btn-ghost {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: var(--text-secondary) !important;
+}
+.btn-ghost:hover {
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+}
+
+.btn-icon-only {
+    width: 32px;
+    height: 32px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md) !important;
+}
+
+/* 7. Modal Form Styling */
+.modal-content {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    color: var(--text-primary) !important;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color) !important;
+}
+
+.form-control, .form-select {
+    background-color: var(--bg-app) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    font-size: 13px !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* 8. Kanban Column & Cards
+   Usage:
+   <div class="kanban-column" data-status="pending">
+       <h4 class="kanban-column-title">Pending</h4>
+       <div class="kanban-cards-wrapper">
+           <div class="kanban-card" draggable="true" data-id="1">...</div>
+       </div>
+   </div>
+*/
+.kanban-board {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    flex: 1;
+}
+
+.kanban-column {
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    background-color: var(--bg-app);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.kanban-column-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanban-cards-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 400px;
+    overflow-y: auto;
+}
+
+.kanban-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    box-shadow: var(--shadow-sm);
+    cursor: grab;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.kanban-card:active {
+    cursor: grabbing;
+}
+
+.kanban-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.kanban-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.kanban-card-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.kanban-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+/* Drag over highlight class */
+.kanban-column.drag-over {
+    background-color: rgba(59, 130, 246, 0.08);
+    border: 2px dashed var(--accent-blue);
+}
+
+/* 9. Toast Notification Container */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.custom-toast {
+    background-color: var(--bg-card);
+    border-left: 4px solid var(--accent-blue);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 280px;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.toast-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.toast-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.toast-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.toast-close {
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.toast-success { border-left-color: var(--accent-green); }
+.toast-error { border-left-color: #ef4444; }
+.toast-warning { border-left-color: var(--accent-orange); }
+.toast-reminder { border-left-color: var(--accent-purple); }
+
+/* 10. Filter Bar
+   Usage:
+   <div class="filter-bar">
+       <input type="text" class="form-control" placeholder="Search...">
+       <select class="form-select">...</select>
+       <button class="btn btn-primary">Export</button>
+   </div>
+*/
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background-color: var(--bg-card);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.filter-bar input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-bar select {
+    width: auto;
+    min-width: 150px;
+}

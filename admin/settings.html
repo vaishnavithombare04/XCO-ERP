@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Settings - XtrazCon ERP Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+        </div>
+        <div class="header-search d-none d-md-block">
+            <i class="bi bi-search header-search-icon"></i>
+            <input type="text" placeholder="Search system settings...">
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+            <a href="notifications.html" class="icon-btn" aria-label="Notifications">
+                <i class="bi bi-bell fs-5"></i>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                    <li><a class="dropdown-item" href="users.html">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <nav class="sidebar-menu">
+                <span class="sidebar-label">Core Modules</span>
+                <a href="index.html" class="sidebar-item">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="sidebar-item">
+                    <i class="bi bi-people"></i> <span>Users & Staff</span>
+                </a>
+                <a href="departments.html" class="sidebar-item">
+                    <i class="bi bi-building"></i> <span>Departments</span>
+                </a>
+                <a href="teams-groups.html" class="sidebar-item">
+                    <i class="bi bi-microsoft-teams"></i> <span>Teams & Groups</span>
+                </a>
+                <a href="roles-permissions.html" class="sidebar-item">
+                    <i class="bi bi-shield-lock"></i> <span>Roles & Permissions</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Operations</span>
+                <a href="crm-leads.html" class="sidebar-item">
+                    <i class="bi bi-funnel"></i> <span>CRM Leads</span>
+                </a>
+                <a href="tasks.html" class="sidebar-item">
+                    <i class="bi bi-kanban"></i> <span>Tasks Kanban</span>
+                </a>
+                <a href="attendance.html" class="sidebar-item">
+                    <i class="bi bi-clock-history"></i> <span>Attendance</span>
+                </a>
+                <a href="shifts.html" class="sidebar-item">
+                    <i class="bi bi-calendar-range"></i> <span>Shift Schedules</span>
+                </a>
+                <a href="leaves.html" class="sidebar-item">
+                    <i class="bi bi-calendar2-check"></i> <span>Leaves Management</span>
+                </a>
+                <a href="kpi.html" class="sidebar-item">
+                    <i class="bi bi-graph-up-arrow"></i> <span>KPI & Performance</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Partners & Interns</span>
+                <a href="clients.html" class="sidebar-item">
+                    <i class="bi bi-briefcase"></i> <span>Clients Portal</span>
+                </a>
+                <a href="freelancers-interns.html" class="sidebar-item">
+                    <i class="bi bi-person-workspace"></i> <span>Freelancers & Interns</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">System & Reports</span>
+                <a href="notifications.html" class="sidebar-item">
+                    <i class="bi bi-chat-left-dots"></i> <span>Notifications</span>
+                </a>
+                <a href="reports.html" class="sidebar-item">
+                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports & Export</span>
+                </a>
+                <a href="audit-logs.html" class="sidebar-item">
+                    <i class="bi bi-receipt-cutoff"></i> <span>Audit Trail Logs</span>
+                </a>
+                <a href="settings.html" class="sidebar-item active">
+                    <i class="bi bi-gear"></i> <span>Global Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content text-start">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold mb-0">Global ERP Settings</h1>
+                    <p class="text-muted font-13 mb-0">Configure enterprise credentials, security parameters, and database schemas.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <!-- Tab Panel Cards -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Company Parameters</h5>
+                            <form id="companySettingsForm" onsubmit="saveCompanySettings(event)">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label font-12 font-weight-600">Enterprise Entity Legal Name</label>
+                                        <input type="text" class="form-control" name="companyName" value="XtrazCon IT Services Ltd.">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label font-12 font-weight-600">Company Domain</label>
+                                        <input type="text" class="form-control" name="domain" value="xtrazcon.com">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label font-12 font-weight-600">Corporate Head Office Address</label>
+                                        <textarea class="form-control" name="address">Cyber Gateway, Phase 2, HITEC City, Hyderabad, TG, India</textarea>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-cloud-check"></i> Save Details</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Firebase Configurations (simulation) -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">Firebase Database Integration Parameters</h5>
+                            <p class="text-muted font-11 mb-3">Provide system access keys to sync local DB schemas with cloud resources.</p>
+                            <form id="firebaseSettingsForm" onsubmit="saveFirebaseSettings(event)">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label class="form-label font-12 font-weight-600">Firebase API Key Credentials</label>
+                                        <input type="password" class="form-control" name="apiKey" value="AIzaSyA888_Mock_FirebaseKey_Xyz">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label font-12 font-weight-600">Auth Domain</label>
+                                        <input type="text" class="form-control" name="authDomain" value="xtrazcon-erp.firebaseapp.com">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label font-12 font-weight-600">Project Cloud ID</label>
+                                        <input type="text" class="form-control" name="projectId" value="xtrazcon-erp">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-cloud-check"></i> Save Credentials</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Security Toggles -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Security Parameters</h5>
+                            
+                            <div class="d-flex flex-column gap-3">
+                                <div class="d-flex justify-content-between align-items-center pb-2 border-bottom">
+                                    <div>
+                                        <h6 class="mb-0 font-13 font-weight-600">Two-Factor Authentication</h6>
+                                        <p class="text-muted font-11 mb-0">Require authenticator codes from staff.</p>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" checked>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center pb-2 border-bottom">
+                                    <div>
+                                        <h6 class="mb-0 font-13 font-weight-600">Audit Logs Automation</h6>
+                                        <p class="text-muted font-11 mb-0">Record all updates to DB parameters.</p>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" checked>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-0 font-13 font-weight-600">Single Sign-On (SSO)</h6>
+                                        <p class="text-muted font-11 mb-0">Allow employee sign-ins via Google Workspace.</p>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+    <script>
+        function saveCompanySettings(e) {
+            e.preventDefault();
+            const form = document.getElementById('companySettingsForm');
+            const data = new FormData(form);
+            localStorage.setItem('erp_company_name', data.get('companyName'));
+            
+            logAudit("Super Admin", "Settings", "Update", "Updated company settings metadata");
+            showToast("Company Settings saved successfully!", "success");
+        }
+
+        function saveFirebaseSettings(e) {
+            e.preventDefault();
+            logAudit("Super Admin", "Settings", "Update", "Updated cloud integration Firebase credentials");
+            showToast("Firebase Integration configurations updated!", "success");
+        }
+    </script>
+</body>
+</html>

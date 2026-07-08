@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Dashboard - XtrazCon ERP Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Chart.js UMD -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+        </div>
+        <div class="header-search d-none d-md-block">
+            <i class="bi bi-search header-search-icon"></i>
+            <input type="text" placeholder="Search files, tasks, or settings...">
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+            <a href="notifications.html" class="icon-btn position-relative" aria-label="Notifications">
+                <i class="bi bi-bell fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                    <li><a class="dropdown-item" href="users.html">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <nav class="sidebar-menu">
+                <span class="sidebar-label">Core Modules</span>
+                <a href="index.html" class="sidebar-item active">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="sidebar-item">
+                    <i class="bi bi-people"></i> <span>Users & Staff</span>
+                </a>
+                <a href="departments.html" class="sidebar-item">
+                    <i class="bi bi-building"></i> <span>Departments</span>
+                </a>
+                <a href="teams-groups.html" class="sidebar-item">
+                    <i class="bi bi-microsoft-teams"></i> <span>Teams & Groups</span>
+                </a>
+                <a href="roles-permissions.html" class="sidebar-item">
+                    <i class="bi bi-shield-lock"></i> <span>Roles & Permissions</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Operations</span>
+                <a href="crm-leads.html" class="sidebar-item">
+                    <i class="bi bi-funnel"></i> <span>CRM Leads</span>
+                </a>
+                <a href="tasks.html" class="sidebar-item">
+                    <i class="bi bi-kanban"></i> <span>Tasks Kanban</span>
+                </a>
+                <a href="attendance.html" class="sidebar-item">
+                    <i class="bi bi-clock-history"></i> <span>Attendance</span>
+                </a>
+                <a href="shifts.html" class="sidebar-item">
+                    <i class="bi bi-calendar-range"></i> <span>Shift Schedules</span>
+                </a>
+                <a href="leaves.html" class="sidebar-item">
+                    <i class="bi bi-calendar2-check"></i> <span>Leaves Management</span>
+                </a>
+                <a href="kpi.html" class="sidebar-item">
+                    <i class="bi bi-graph-up-arrow"></i> <span>KPI & Performance</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Partners & Interns</span>
+                <a href="clients.html" class="sidebar-item">
+                    <i class="bi bi-briefcase"></i> <span>Clients Portal</span>
+                </a>
+                <a href="freelancers-interns.html" class="sidebar-item">
+                    <i class="bi bi-person-workspace"></i> <span>Freelancers & Interns</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">System & Reports</span>
+                <a href="notifications.html" class="sidebar-item">
+                    <i class="bi bi-chat-left-dots"></i> <span>Notifications</span>
+                </a>
+                <a href="reports.html" class="sidebar-item">
+                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports & Export</span>
+                </a>
+                <a href="audit-logs.html" class="sidebar-item">
+                    <i class="bi bi-receipt-cutoff"></i> <span>Audit Trail Logs</span>
+                </a>
+                <a href="settings.html" class="sidebar-item">
+                    <i class="bi bi-gear"></i> <span>Global Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Dashboard Content -->
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold mb-0">Master ERP Dashboard</h1>
+                    <p class="text-muted font-13 mb-0">Real-time enterprise overview dashboard.</p>
+                </div>
+                <div class="date-badge bg-white border rounded px-3 py-2 text-secondary font-12 font-weight-500">
+                    <i class="bi bi-calendar3 me-2"></i> July 8, 2026
+                </div>
+            </div>
+
+            <!-- KPI Cards Grid -->
+            <div class="row g-3">
+                <div class="col-md-4 col-lg-2">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Total Employees</span>
+                            <h3 class="kpi-value">245</h3>
+                            <span class="kpi-trend trend-up"><i class="bi bi-arrow-up-short"></i> +3%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Active Projects</span>
+                            <h3 class="kpi-value">38</h3>
+                            <span class="kpi-trend trend-up"><i class="bi bi-arrow-up-short"></i> +5%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Open Tasks</span>
+                            <h3 class="kpi-value">1,245</h3>
+                            <span class="kpi-trend trend-down"><i class="bi bi-arrow-down-short"></i> -8%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Attendance Today</span>
+                            <h3 class="kpi-value">91%</h3>
+                            <span class="kpi-trend trend-up"><i class="bi bi-arrow-up-short"></i> +1.2%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Active Clients</span>
+                            <h3 class="kpi-value">128</h3>
+                            <span class="kpi-trend trend-up"><i class="bi bi-arrow-up-short"></i> +12</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card kpi-card">
+                        <div class="card-body">
+                            <span class="kpi-label">Monthly Revenue</span>
+                            <h3 class="kpi-value">₹42L</h3>
+                            <span class="kpi-trend trend-up"><i class="bi bi-arrow-up-short"></i> +18%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 1 -->
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Department Productivity</h5>
+                            <div class="flex-grow-1" style="min-height: 220px;">
+                                <canvas id="deptProductivityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Attendance Trend (Weekly)</h5>
+                            <div class="flex-grow-1" style="min-height: 220px;">
+                                <canvas id="attendanceTrendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Lead Conversion Funnel</h5>
+                            <div class="flex-grow-1" style="min-height: 220px;">
+                                <canvas id="leadConversionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 2 -->
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Task Completion Velocity</h5>
+                            <div class="flex-grow-1" style="min-height: 220px;">
+                                <canvas id="taskCompletionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Monthly Revenue growth</h5>
+                            <div class="flex-grow-1" style="min-height: 220px;">
+                                <canvas id="revenueGrowthChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Tables & Panels -->
+            <div class="row g-4">
+                <!-- Recent Activities Table -->
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Recent System Activities</h5>
+                            <div class="data-table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>User</th>
+                                            <th>Module</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentActivitiesBody">
+                                        <!-- Will populate dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Approvals & Notifications -->
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Pending Action approvals</h5>
+                            <div class="d-flex flex-column gap-3" id="pendingApprovalsList">
+                                <!-- Leaves pending approval -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate System Audit Logs limit to 5
+            const auditBody = document.getElementById('recentActivitiesBody');
+            auditBody.innerHTML = mockDB.audit_logs.slice(0, 5).map(log => `
+                <tr>
+                    <td class="text-nowrap">${log.timestamp}</td>
+                    <td class="font-weight-500">${log.user}</td>
+                    <td>${log.module}</td>
+                    <td><span class="status-badge ${log.action === 'Create' ? 'badge-active' : 'badge-pending'}">${log.action}</span></td>
+                </tr>
+            `).join('');
+
+            // Populate Pending Action Approvals
+            const approvalsList = document.getElementById('pendingApprovalsList');
+            const pendingLeaves = mockDB.leaves.filter(l => l.status === 'Pending');
+            if (pendingLeaves.length === 0) {
+                approvalsList.innerHTML = `<div class="text-center text-muted py-3">No pending approvals.</div>`;
+            } else {
+                approvalsList.innerHTML = pendingLeaves.map(leave => `
+                    <div class="p-3 bg-light rounded d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1 font-weight-600">${leave.employee} - ${leave.type}</h6>
+                            <p class="mb-0 text-muted font-12">${leave.start} to ${leave.end} (${leave.reason})</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary btn-sm" onclick="approveLeave('${leave.id}')">Approve</button>
+                            <button class="btn btn-danger btn-sm" onclick="rejectLeave('${leave.id}')">Reject</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            window.approveLeave = (id) => {
+                const leave = mockDB.leaves.find(l => l.id === id);
+                if (leave) {
+                    leave.status = 'Approved';
+                    saveMockDB();
+                    logAudit("Super Admin", "Leaves", "Approve", `Approved leave request ${id} for ${leave.employee}`);
+                    showToast("Leave Request Approved Successfully!", "success");
+                    location.reload();
+                }
+            };
+
+            window.rejectLeave = (id) => {
+                const leave = mockDB.leaves.find(l => l.id === id);
+                if (leave) {
+                    leave.status = 'Rejected';
+                    saveMockDB();
+                    logAudit("Super Admin", "Leaves", "Reject", `Rejected leave request ${id} for ${leave.employee}`);
+                    showToast("Leave Request Rejected Successfully!", "error");
+                    location.reload();
+                }
+            };
+
+            // Chartjs definitions
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const colors = {
+                text: isDark ? '#94a3b8' : '#475569',
+                grid: isDark ? '#223049' : '#e2e8f0',
+                blue: '#3b82f6',
+                purple: '#8b5cf6',
+                orange: '#f97316',
+                pink: '#ec4899',
+                green: '#10b981',
+                gray: '#64748b'
+            };
+
+            // 1. Department Productivity (Bar)
+            new Chart(document.getElementById('deptProductivityChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['IT', 'Engineering', 'Marketing', 'HR'],
+                    datasets: [{
+                        data: [88, 92, 75, 80],
+                        backgroundColor: [colors.blue, colors.purple, colors.orange, colors.pink],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: colors.grid }, ticks: { color: colors.text } },
+                        x: { grid: { display: false }, ticks: { color: colors.text } }
+                    }
+                }
+            });
+
+            // 2. Attendance Trend (Line)
+            new Chart(document.getElementById('attendanceTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                    datasets: [{
+                        label: 'Attendance %',
+                        data: [94, 91, 95, 92, 89],
+                        borderColor: colors.green,
+                        tension: 0.3,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: colors.grid }, ticks: { color: colors.text }, min: 80, max: 100 },
+                        x: { grid: { display: false }, ticks: { color: colors.text } }
+                    }
+                }
+            });
+
+            // 3. Lead Funnel (Doughnut)
+            new Chart(document.getElementById('leadConversionChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fresh', 'Interested', 'Follow-up', 'Converted'],
+                    datasets: [{
+                        data: [40, 25, 20, 15],
+                        backgroundColor: [colors.blue, colors.orange, colors.purple, colors.green]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: colors.text, boxWidth: 10, font: { size: 10 } } }
+                    }
+                }
+            });
+
+            // 4. Task Completion (Pie)
+            new Chart(document.getElementById('taskCompletionChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Completed', 'Working', 'Pending', 'Overdue'],
+                    datasets: [{
+                        data: [65, 20, 10, 5],
+                        backgroundColor: [colors.green, colors.blue, colors.orange, '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { color: colors.text, font: { size: 11 } } }
+                    }
+                }
+            });
+
+            // 5. Revenue growth (Stacked Area)
+            new Chart(document.getElementById('revenueGrowthChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'Revenue Growth (Lakhs)',
+                        data: [28, 32, 30, 38, 35, 42],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: colors.blue,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: colors.grid }, ticks: { color: colors.text } },
+                        x: { grid: { display: false }, ticks: { color: colors.text } }
+                    }
+                }
+            });
+
+            // Theme update events sync
+            document.addEventListener('themechange', () => {
+                // Simply refresh dashboard to redraw with correct color tokens
+                location.reload();
+            });
+        });
+    </script>
+</body>
+</html>

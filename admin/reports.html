@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Export - XtrazCon ERP Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Chart.js UMD -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+        </div>
+        <div class="header-search d-none d-md-block">
+            <i class="bi bi-search header-search-icon"></i>
+            <input type="text" placeholder="Search report parameters...">
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+            <a href="notifications.html" class="icon-btn" aria-label="Notifications">
+                <i class="bi bi-bell fs-5"></i>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                    <li><a class="dropdown-item" href="users.html">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <nav class="sidebar-menu">
+                <span class="sidebar-label">Core Modules</span>
+                <a href="index.html" class="sidebar-item">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="sidebar-item">
+                    <i class="bi bi-people"></i> <span>Users & Staff</span>
+                </a>
+                <a href="departments.html" class="sidebar-item">
+                    <i class="bi bi-building"></i> <span>Departments</span>
+                </a>
+                <a href="teams-groups.html" class="sidebar-item">
+                    <i class="bi bi-microsoft-teams"></i> <span>Teams & Groups</span>
+                </a>
+                <a href="roles-permissions.html" class="sidebar-item">
+                    <i class="bi bi-shield-lock"></i> <span>Roles & Permissions</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Operations</span>
+                <a href="crm-leads.html" class="sidebar-item">
+                    <i class="bi bi-funnel"></i> <span>CRM Leads</span>
+                </a>
+                <a href="tasks.html" class="sidebar-item">
+                    <i class="bi bi-kanban"></i> <span>Tasks Kanban</span>
+                </a>
+                <a href="attendance.html" class="sidebar-item">
+                    <i class="bi bi-clock-history"></i> <span>Attendance</span>
+                </a>
+                <a href="shifts.html" class="sidebar-item">
+                    <i class="bi bi-calendar-range"></i> <span>Shift Schedules</span>
+                </a>
+                <a href="leaves.html" class="sidebar-item">
+                    <i class="bi bi-calendar2-check"></i> <span>Leaves Management</span>
+                </a>
+                <a href="kpi.html" class="sidebar-item">
+                    <i class="bi bi-graph-up-arrow"></i> <span>KPI & Performance</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Partners & Interns</span>
+                <a href="clients.html" class="sidebar-item">
+                    <i class="bi bi-briefcase"></i> <span>Clients Portal</span>
+                </a>
+                <a href="freelancers-interns.html" class="sidebar-item">
+                    <i class="bi bi-person-workspace"></i> <span>Freelancers & Interns</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">System & Reports</span>
+                <a href="notifications.html" class="sidebar-item">
+                    <i class="bi bi-chat-left-dots"></i> <span>Notifications</span>
+                </a>
+                <a href="reports.html" class="sidebar-item active">
+                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports & Export</span>
+                </a>
+                <a href="audit-logs.html" class="sidebar-item">
+                    <i class="bi bi-receipt-cutoff"></i> <span>Audit Trail Logs</span>
+                </a>
+                <a href="settings.html" class="sidebar-item">
+                    <i class="bi bi-gear"></i> <span>Global Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold mb-0">System Reports Center</h1>
+                    <p class="text-muted font-13 mb-0">Run operational queries and download analytical output data structures.</p>
+                </div>
+            </div>
+
+            <!-- Filter Panel -->
+            <div class="filter-bar">
+                <select class="form-select" id="deptFilter" onchange="runReportFilter()">
+                    <option value="all">All Departments</option>
+                    <option value="ITS">IT & Systems</option>
+                    <option value="ENG">Engineering</option>
+                    <option value="MKT">Marketing</option>
+                </select>
+                <select class="form-select" id="periodFilter" onchange="runReportFilter()">
+                    <option value="Q3">Q3 2026</option>
+                    <option value="Q2">Q2 2026</option>
+                </select>
+                <button class="btn btn-primary" onclick="triggerMockExport('PDF')"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
+                <button class="btn btn-secondary" onclick="triggerMockExport('Excel')"><i class="bi bi-file-earmark-excel"></i> Export Excel</button>
+                <button class="btn btn-secondary" onclick="triggerPrint()"><i class="bi bi-printer"></i> Print Statement</button>
+            </div>
+
+            <!-- 4 Chart.js charts -->
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Resource Allocation Split</h5>
+                            <div class="flex-grow-1" style="min-height: 240px;">
+                                <canvas id="resourceAllocChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Sprint Burn down velocity</h5>
+                            <div class="flex-grow-1" style="min-height: 240px;">
+                                <canvas id="burndownChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Annual SLA Success Ratios</h5>
+                            <div class="flex-grow-1" style="min-height: 240px;">
+                                <canvas id="slaRatioChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3">Monthly Operational Overhead</h5>
+                            <div class="flex-grow-1" style="min-height: 240px;">
+                                <canvas id="overheadChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+    <script>
+        const chartInstances = {};
+
+        function renderReportCharts() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const colors = {
+                text: isDark ? '#94a3b8' : '#475569',
+                grid: isDark ? '#223049' : '#e2e8f0',
+                blue: '#3b82f6',
+                purple: '#8b5cf6',
+                orange: '#f97316',
+                pink: '#ec4899',
+                green: '#10b981'
+            };
+
+            // Chart 1: Resource allocation (Doughnut)
+            chartInstances.alloc = new Chart(document.getElementById('resourceAllocChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Dev Services', 'Support Desk', 'Marketing & Sales', 'R&D Lab'],
+                    datasets: [{
+                        data: [45, 20, 20, 15],
+                        backgroundColor: [colors.blue, colors.purple, colors.orange, colors.green]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right', labels: { color: colors.text } } }
+                }
+            });
+
+            // Chart 2: Burndown velocity (Line)
+            chartInstances.burndown = new Chart(document.getElementById('burndownChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Day 1', 'Day 3', 'Day 5', 'Day 7', 'Day 9', 'Day 10'],
+                    datasets: [
+                        {
+                            label: 'Ideal Line',
+                            data: [100, 80, 60, 40, 20, 0],
+                            borderColor: colors.purple,
+                            borderDash: [5, 5],
+                            fill: false
+                        },
+                        {
+                            label: 'Actual Burn',
+                            data: [100, 85, 70, 45, 18, 0],
+                            borderColor: colors.blue,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: colors.text } } },
+                    scales: {
+                        y: { grid: { color: colors.grid }, ticks: { color: colors.text } },
+                        x: { grid: { display: false }, ticks: { color: colors.text } }
+                    }
+                }
+            });
+
+            // Chart 3: SLA success (Bar)
+            chartInstances.sla = new Chart(document.getElementById('slaRatioChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'SLA Success %',
+                        data: [98.2, 99.1, 97.5, 99.4, 98.9, 99.7],
+                        backgroundColor: colors.green,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: colors.grid }, ticks: { color: colors.text }, min: 95, max: 100 },
+                        x: { grid: { display: false }, ticks: { color: colors.text } }
+                    }
+                }
+            });
+
+            // Chart 4: Operational overhead (Bar stacked or grouped)
+            chartInstances.overhead = new Chart(document.getElementById('overheadChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [
+                        {
+                            label: 'SaaS License Subs',
+                            data: [12, 14, 13, 15],
+                            backgroundColor: colors.blue
+                        },
+                        {
+                            label: 'Server Compute Infrastructure',
+                            data: [18, 22, 21, 25],
+                            backgroundColor: colors.pink
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: colors.text } } },
+                    scales: {
+                        y: { stacked: true, grid: { color: colors.grid }, ticks: { color: colors.text } },
+                        x: { stacked: true, grid: { display: false }, ticks: { color: colors.text } }
+                    }
+                }
+            });
+        }
+
+        window.runReportFilter = () => {
+            const dept = document.getElementById('deptFilter').value;
+            const period = document.getElementById('periodFilter').value;
+
+            // Simulate updating data
+            if (dept === 'ENG') {
+                chartInstances.alloc.data.datasets[0].data = [70, 10, 10, 10];
+            } else {
+                chartInstances.alloc.data.datasets[0].data = [45, 20, 20, 15];
+            }
+            chartInstances.alloc.update();
+            showToast(`Report updated for Department: ${dept}, Period: ${period}`, "success");
+        };
+
+        window.triggerMockExport = (format) => {
+            showToast(`Operational overhead report compiled and exported as ${format} ✓`, "success");
+        };
+
+        window.triggerPrint = () => {
+            window.print();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderReportCharts();
+        });
+    </script>
+</body>
+</html>

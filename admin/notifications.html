@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications Center - XtrazCon ERP Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+        </div>
+        <div class="header-search d-none d-md-block">
+            <i class="bi bi-search header-search-icon"></i>
+            <input type="text" placeholder="Search notifications...">
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+            <a href="notifications.html" class="icon-btn active" aria-label="Notifications">
+                <i class="bi bi-bell fs-5"></i>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                    <li><a class="dropdown-item" href="users.html">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <nav class="sidebar-menu">
+                <span class="sidebar-label">Core Modules</span>
+                <a href="index.html" class="sidebar-item">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="sidebar-item">
+                    <i class="bi bi-people"></i> <span>Users & Staff</span>
+                </a>
+                <a href="departments.html" class="sidebar-item">
+                    <i class="bi bi-building"></i> <span>Departments</span>
+                </a>
+                <a href="teams-groups.html" class="sidebar-item">
+                    <i class="bi bi-microsoft-teams"></i> <span>Teams & Groups</span>
+                </a>
+                <a href="roles-permissions.html" class="sidebar-item">
+                    <i class="bi bi-shield-lock"></i> <span>Roles & Permissions</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Operations</span>
+                <a href="crm-leads.html" class="sidebar-item">
+                    <i class="bi bi-funnel"></i> <span>CRM Leads</span>
+                </a>
+                <a href="tasks.html" class="sidebar-item">
+                    <i class="bi bi-kanban"></i> <span>Tasks Kanban</span>
+                </a>
+                <a href="attendance.html" class="sidebar-item">
+                    <i class="bi bi-clock-history"></i> <span>Attendance</span>
+                </a>
+                <a href="shifts.html" class="sidebar-item">
+                    <i class="bi bi-calendar-range"></i> <span>Shift Schedules</span>
+                </a>
+                <a href="leaves.html" class="sidebar-item">
+                    <i class="bi bi-calendar2-check"></i> <span>Leaves Management</span>
+                </a>
+                <a href="kpi.html" class="sidebar-item">
+                    <i class="bi bi-graph-up-arrow"></i> <span>KPI & Performance</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Partners & Interns</span>
+                <a href="clients.html" class="sidebar-item">
+                    <i class="bi bi-briefcase"></i> <span>Clients Portal</span>
+                </a>
+                <a href="freelancers-interns.html" class="sidebar-item">
+                    <i class="bi bi-person-workspace"></i> <span>Freelancers & Interns</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">System & Reports</span>
+                <a href="notifications.html" class="sidebar-item active">
+                    <i class="bi bi-chat-left-dots"></i> <span>Notifications</span>
+                </a>
+                <a href="reports.html" class="sidebar-item">
+                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports & Export</span>
+                </a>
+                <a href="audit-logs.html" class="sidebar-item">
+                    <i class="bi bi-receipt-cutoff"></i> <span>Audit Trail Logs</span>
+                </a>
+                <a href="settings.html" class="sidebar-item">
+                    <i class="bi bi-gear"></i> <span>Global Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold mb-0">System Notifications Center</h1>
+                    <p class="text-muted font-13 mb-0">Manage alert routing rules and trigger toast notification demos.</p>
+                </div>
+            </div>
+
+            <!-- Toast Simulator Grid -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Toast Notification Simulator Triggers</h5>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-primary" onclick="showToast('Sprint goals have been satisfied.', 'success')">Trigger Success Toast</button>
+                        <button class="btn btn-danger" onclick="showToast('Failed to deploy build on port 80.', 'error')">Trigger Error Toast</button>
+                        <button class="btn btn-warning" onclick="showToast('Database storage capacity is at 88%.', 'warning')">Trigger Warning Toast</button>
+                        <button class="btn btn-secondary text-primary" onclick="showToast('All Hands meeting begins in 13m.', 'reminder')">Trigger Reminder Toast</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabbed Alerts list -->
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Alert Logs</h5>
+                        <button class="btn btn-secondary btn-sm" onclick="clearAllNotifications()">Clear All Notifications</button>
+                    </div>
+                    
+                    <ul class="nav nav-tabs px-3 pt-3" id="notifTabs">
+                        <li class="nav-item">
+                            <button class="nav-link active" onclick="filterAlerts('all')">All Alerts</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" onclick="filterAlerts('tasks')">Tasks</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" onclick="filterAlerts('attendance')">Attendance</button>
+                        </li>
+                    </ul>
+
+                    <div class="list-group list-group-flush" id="alertsListGroup">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+    <script>
+        let currentFilter = 'all';
+
+        function renderAlerts() {
+            const list = document.getElementById('alertsListGroup');
+            
+            const filtered = currentFilter === 'all' 
+                ? mockDB.notifications 
+                : mockDB.notifications.filter(n => n.type === currentFilter);
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="text-center text-muted py-5">No notifications found in this category.</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map(n => {
+                let iconClass = "bi-bell-fill text-primary";
+                if (n.type === 'tasks') iconClass = "bi-kanban text-info";
+                if (n.type === 'attendance') iconClass = "bi-clock text-warning";
+
+                return `
+                    <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi ${iconClass} fs-5"></i>
+                            <div>
+                                <p class="mb-0 font-13 font-weight-500">${n.message}</p>
+                                <small class="text-muted font-11">${n.time}</small>
+                            </div>
+                        </div>
+                        <button class="btn btn-ghost btn-sm text-danger" onclick="deleteNotification('${n.id}')">&times;</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.filterAlerts = (type) => {
+            currentFilter = type;
+            // Highlight tabs
+            const tabs = document.querySelectorAll('#notifTabs button');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderAlerts();
+        };
+
+        window.deleteNotification = (id) => {
+            mockDB.notifications = mockDB.notifications.filter(n => n.id !== id);
+            saveMockDB();
+            renderAlerts();
+        };
+
+        window.clearAllNotifications = () => {
+            mockDB.notifications = [];
+            saveMockDB();
+            renderAlerts();
+            showToast("Alert inbox cleared.", "success");
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAlerts();
+        });
+    </script>
+</body>
+</html>

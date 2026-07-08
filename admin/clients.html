@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients Portal - XtrazCon ERP Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+        </div>
+        <div class="header-search d-none d-md-block">
+            <i class="bi bi-search header-search-icon"></i>
+            <input type="text" placeholder="Search clients...">
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+            <a href="notifications.html" class="icon-btn" aria-label="Notifications">
+                <i class="bi bi-bell fs-5"></i>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                    <li><a class="dropdown-item" href="users.html">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <nav class="sidebar-menu">
+                <span class="sidebar-label">Core Modules</span>
+                <a href="index.html" class="sidebar-item">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="sidebar-item">
+                    <i class="bi bi-people"></i> <span>Users & Staff</span>
+                </a>
+                <a href="departments.html" class="sidebar-item">
+                    <i class="bi bi-building"></i> <span>Departments</span>
+                </a>
+                <a href="teams-groups.html" class="sidebar-item">
+                    <i class="bi bi-microsoft-teams"></i> <span>Teams & Groups</span>
+                </a>
+                <a href="roles-permissions.html" class="sidebar-item">
+                    <i class="bi bi-shield-lock"></i> <span>Roles & Permissions</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Operations</span>
+                <a href="crm-leads.html" class="sidebar-item">
+                    <i class="bi bi-funnel"></i> <span>CRM Leads</span>
+                </a>
+                <a href="tasks.html" class="sidebar-item">
+                    <i class="bi bi-kanban"></i> <span>Tasks Kanban</span>
+                </a>
+                <a href="attendance.html" class="sidebar-item">
+                    <i class="bi bi-clock-history"></i> <span>Attendance</span>
+                </a>
+                <a href="shifts.html" class="sidebar-item">
+                    <i class="bi bi-calendar-range"></i> <span>Shift Schedules</span>
+                </a>
+                <a href="leaves.html" class="sidebar-item">
+                    <i class="bi bi-calendar2-check"></i> <span>Leaves Management</span>
+                </a>
+                <a href="kpi.html" class="sidebar-item">
+                    <i class="bi bi-graph-up-arrow"></i> <span>KPI & Performance</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Partners & Interns</span>
+                <a href="clients.html" class="sidebar-item active">
+                    <i class="bi bi-briefcase"></i> <span>Clients Portal</span>
+                </a>
+                <a href="freelancers-interns.html" class="sidebar-item">
+                    <i class="bi bi-person-workspace"></i> <span>Freelancers & Interns</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">System & Reports</span>
+                <a href="notifications.html" class="sidebar-item">
+                    <i class="bi bi-chat-left-dots"></i> <span>Notifications</span>
+                </a>
+                <a href="reports.html" class="sidebar-item">
+                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports & Export</span>
+                </a>
+                <a href="audit-logs.html" class="sidebar-item">
+                    <i class="bi bi-receipt-cutoff"></i> <span>Audit Trail Logs</span>
+                </a>
+                <a href="settings.html" class="sidebar-item">
+                    <i class="bi bi-gear"></i> <span>Global Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold mb-0">Clients Management</h1>
+                    <p class="text-muted font-13 mb-0">Oversee active client contracts and preview their dedicated portal dashboards.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openModal('createClientModal')">
+                    <i class="bi bi-plus-lg me-1"></i> Add Client
+                </button>
+            </div>
+
+            <div class="row g-4">
+                <!-- Clients Table List -->
+                <div class="col-lg-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Client Contracts Ledger</h5>
+                            <div class="data-table-container">
+                                <table class="data-table" id="clientsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Client Name</th>
+                                            <th>Account Manager</th>
+                                            <th>Annual Value</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clientsListBody">
+                                        <!-- Will populate dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Portal Preview (Read-only simulator) -->
+                <div class="col-lg-5">
+                    <div class="card bg-dark text-white border-0" id="clientPortalPreviewCard" style="background-color: #0f172a !important;">
+                        <div class="card-header border-bottom border-secondary d-flex justify-content-between align-items-center p-3">
+                            <span class="font-weight-600 font-13 text-info"><i class="bi bi-eye"></i> CLIENT PORTAL SIMULATION</span>
+                            <span class="badge bg-secondary font-9" id="simClientLabel">Vapor Technologies</span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column gap-4">
+                            <!-- Stats widget -->
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="p-3 bg-secondary bg-opacity-10 rounded border border-secondary border-opacity-30">
+                                        <div class="text-muted font-10 uppercase">Active Projects</div>
+                                        <h4 class="mb-0 mt-1 font-weight-bold" id="simClientProj">3</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 bg-secondary bg-opacity-10 rounded border border-secondary border-opacity-30">
+                                        <div class="text-muted font-10 uppercase">Pending Tickets</div>
+                                        <h4 class="mb-0 mt-1 font-weight-bold text-warning" id="simClientTickets">2</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Invoices list -->
+                            <div>
+                                <h6 class="font-12 font-weight-600 mb-2 text-info">Latest Invoice statements</h6>
+                                <div class="d-flex justify-content-between align-items-center bg-secondary bg-opacity-10 p-2 rounded mb-2 border border-secondary border-opacity-30 font-12">
+                                    <span>INV-2026-004 (Development Retainer)</span>
+                                    <span class="badge bg-success">Paid</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center bg-secondary bg-opacity-10 p-2 rounded border border-secondary border-opacity-30 font-12">
+                                    <span>INV-2026-005 (Cloud Migration Milestones)</span>
+                                    <span class="badge bg-warning text-dark">Overdue</span>
+                                </div>
+                            </div>
+
+                            <!-- Subscription type -->
+                            <div class="bg-secondary bg-opacity-10 p-3 rounded border border-secondary border-opacity-30 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1 font-12 font-weight-600 text-info">Enterprise SLA support plan</h6>
+                                    <p class="mb-0 text-muted font-10">Premium Cloud Architecture Agreement</p>
+                                </div>
+                                <span class="badge bg-primary">Gold SLA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Client Modal -->
+    <div class="modal fade" id="createClientModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold">Register Client Account</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="createClientForm" onsubmit="createNewClient(event)">
+                    <div class="modal-body d-flex flex-column gap-3">
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Client Organization Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="e.g. Helix Networks">
+                        </div>
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Assigned Account Manager</label>
+                            <input type="text" name="manager" class="form-control" placeholder="e.g. Sarah Chen">
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label font-12 font-weight-600">Contract Value (Annual)</label>
+                                <input type="text" name="revenue" class="form-control" placeholder="₹15,00,000">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label font-12 font-weight-600">Active Projects Count</label>
+                                <input type="number" name="projects" class="form-control" placeholder="e.g. 2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Client</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+    <script>
+        let selectedClientId = "CLI001";
+
+        function renderClients() {
+            const body = document.getElementById('clientsListBody');
+            body.innerHTML = mockDB.clients.map(c => `
+                <tr class="${c.id === selectedClientId ? 'table-primary' : ''}" style="cursor:pointer;" onclick="selectClient('${c.id}')">
+                    <td class="font-weight-600">${c.name}</td>
+                    <td>${c.manager}</td>
+                    <td>${c.revenue}</td>
+                    <td><span class="status-badge ${c.status === 'active' ? 'badge-active' : 'badge-pending'}">${c.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function selectClient(id) {
+            selectedClientId = id;
+            renderClients();
+
+            const client = mockDB.clients.find(c => c.id === id);
+            if (!client) return;
+
+            document.getElementById('simClientLabel').innerText = client.name;
+            document.getElementById('simClientProj').innerText = client.projects || 1;
+            document.getElementById('simClientTickets').innerText = client.tickets !== undefined ? client.tickets : 1;
+        }
+
+        function createNewClient(e) {
+            e.preventDefault();
+            const rules = {
+                name: { required: true },
+                manager: { required: true }
+            };
+
+            if (!validateForm('#createClientForm', rules)) return;
+
+            const form = document.getElementById('createClientForm');
+            const formData = new FormData(form);
+
+            const newId = `CLI0${mockDB.clients.length + 1}`;
+            const newClient = {
+                id: newId,
+                name: formData.get('name'),
+                manager: formData.get('manager'),
+                revenue: formData.get('revenue') || '₹0',
+                projects: parseInt(formData.get('projects')) || 1,
+                tickets: 1,
+                status: 'active'
+            };
+
+            mockDB.clients.push(newClient);
+            saveMockDB();
+            logAudit("Super Admin", "Clients", "Create", `Created client account ${newId} - ${newClient.name}`);
+            showToast("New Client Registered Successfully!", "success");
+
+            closeModal('createClientModal');
+            form.reset();
+            renderClients();
+            selectClient(newId);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderClients();
+            selectClient(selectedClientId);
+            initDataTable('#clientsTable');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments - XtrazCon ERP Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+        </div>
+        <div class="header-search d-none d-md-block">
+            <i class="bi bi-search header-search-icon"></i>
+            <input type="text" placeholder="Search departments...">
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+            <a href="notifications.html" class="icon-btn" aria-label="Notifications">
+                <i class="bi bi-bell fs-5"></i>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                    <li><a class="dropdown-item" href="users.html">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <nav class="sidebar-menu">
+                <span class="sidebar-label">Core Modules</span>
+                <a href="index.html" class="sidebar-item">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="sidebar-item">
+                    <i class="bi bi-people"></i> <span>Users & Staff</span>
+                </a>
+                <a href="departments.html" class="sidebar-item active">
+                    <i class="bi bi-building"></i> <span>Departments</span>
+                </a>
+                <a href="teams-groups.html" class="sidebar-item">
+                    <i class="bi bi-microsoft-teams"></i> <span>Teams & Groups</span>
+                </a>
+                <a href="roles-permissions.html" class="sidebar-item">
+                    <i class="bi bi-shield-lock"></i> <span>Roles & Permissions</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Operations</span>
+                <a href="crm-leads.html" class="sidebar-item">
+                    <i class="bi bi-funnel"></i> <span>CRM Leads</span>
+                </a>
+                <a href="tasks.html" class="sidebar-item">
+                    <i class="bi bi-kanban"></i> <span>Tasks Kanban</span>
+                </a>
+                <a href="attendance.html" class="sidebar-item">
+                    <i class="bi bi-clock-history"></i> <span>Attendance</span>
+                </a>
+                <a href="shifts.html" class="sidebar-item">
+                    <i class="bi bi-calendar-range"></i> <span>Shift Schedules</span>
+                </a>
+                <a href="leaves.html" class="sidebar-item">
+                    <i class="bi bi-calendar2-check"></i> <span>Leaves Management</span>
+                </a>
+                <a href="kpi.html" class="sidebar-item">
+                    <i class="bi bi-graph-up-arrow"></i> <span>KPI & Performance</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">Partners & Interns</span>
+                <a href="clients.html" class="sidebar-item">
+                    <i class="bi bi-briefcase"></i> <span>Clients Portal</span>
+                </a>
+                <a href="freelancers-interns.html" class="sidebar-item">
+                    <i class="bi bi-person-workspace"></i> <span>Freelancers & Interns</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <span class="sidebar-label">System & Reports</span>
+                <a href="notifications.html" class="sidebar-item">
+                    <i class="bi bi-chat-left-dots"></i> <span>Notifications</span>
+                </a>
+                <a href="reports.html" class="sidebar-item">
+                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports & Export</span>
+                </a>
+                <a href="audit-logs.html" class="sidebar-item">
+                    <i class="bi bi-receipt-cutoff"></i> <span>Audit Trail Logs</span>
+                </a>
+                <a href="settings.html" class="sidebar-item">
+                    <i class="bi bi-gear"></i> <span>Global Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold mb-0">Department Management</h1>
+                    <p class="text-muted font-13 mb-0">Oversee organization business units, structures, and heads.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openModal('createDeptModal')">
+                    <i class="bi bi-plus-lg me-1"></i> Add Department
+                </button>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" class="form-control" placeholder="Search departments...">
+                <select class="form-select" data-column-index="4">
+                    <option value="">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+                <button class="btn btn-secondary" onclick="showToast('Data exported!', 'success')"><i class="bi bi-box-arrow-up"></i> Export</button>
+            </div>
+
+            <div class="row g-4">
+                <!-- Departments List Table -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="data-table-container">
+                                <table class="data-table" id="deptsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Dept Name</th>
+                                            <th>Code</th>
+                                            <th>Dept Head</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="deptsListBody">
+                                        <!-- Will populate dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Department Detail Sidebar Panel -->
+                <div class="col-lg-4">
+                    <div class="card" id="deptDetailCard">
+                        <div class="card-body py-4">
+                            <h4 id="detailDeptName" class="font-weight-bold mb-1">IT & Systems</h4>
+                            <p id="detailDeptCode" class="text-muted font-12 mb-3">ITS (Information Tech Unit)</p>
+                            
+                            <hr class="my-3">
+                            
+                            <div class="d-flex flex-column gap-3 mb-4">
+                                <div>
+                                    <strong class="font-12 d-block">Department Head:</strong>
+                                    <span id="detailDeptHead" class="font-12 text-secondary">Sarah Chen</span>
+                                </div>
+                                <div>
+                                    <strong class="font-12 d-block">Quarterly Budget:</strong>
+                                    <span id="detailDeptBudget" class="font-12 text-secondary">₹45,00,000</span>
+                                </div>
+                                <div>
+                                    <strong class="font-12 d-block">Total Employees:</strong>
+                                    <span id="detailDeptStaff" class="font-12 text-secondary">15 members</span>
+                                </div>
+                            </div>
+                            
+                            <hr class="my-3">
+                            <button class="btn btn-danger btn-sm w-100" onclick="deleteCurrentDept()"><i class="bi bi-trash"></i> Delete Department</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Department Modal -->
+    <div class="modal fade" id="createDeptModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold">Create New Department</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="createDeptForm" onsubmit="createNewDept(event)">
+                    <div class="modal-body d-flex flex-column gap-3">
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Department Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="e.g. Quality Assurance">
+                        </div>
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Department Code</label>
+                            <input type="text" name="code" class="form-control" placeholder="e.g. QAA">
+                        </div>
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Department Head</label>
+                            <input type="text" name="head" class="form-control" placeholder="e.g. Alex Rivera">
+                        </div>
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Quarterly Budget allocation</label>
+                            <input type="text" name="budget" class="form-control" placeholder="e.g. ₹20L">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Department</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+    <script>
+        let selectedDeptId = "DEP001";
+
+        function renderDepts() {
+            const body = document.getElementById('deptsListBody');
+            body.innerHTML = mockDB.departments.map(d => `
+                <tr class="${d.id === selectedDeptId ? 'table-primary' : ''}" style="cursor:pointer;" onclick="selectDept('${d.id}')">
+                    <td>${d.id}</td>
+                    <td class="font-weight-600">${d.name}</td>
+                    <td>${d.code}</td>
+                    <td>${d.head}</td>
+                    <td><span class="status-badge ${d.status === 'active' ? 'badge-active' : 'badge-pending'}">${d.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function selectDept(id) {
+            selectedDeptId = id;
+            renderDepts();
+            
+            const dept = mockDB.departments.find(d => d.id === id);
+            if (!dept) return;
+
+            document.getElementById('detailDeptName').innerText = dept.name;
+            document.getElementById('detailDeptCode').innerText = `${dept.code} (Enterprise Business Unit)`;
+            document.getElementById('detailDeptHead').innerText = dept.head;
+            document.getElementById('detailDeptBudget').innerText = dept.budget;
+            document.getElementById('detailDeptStaff').innerText = `${dept.employeesCount || 10} members`;
+        }
+
+        function createNewDept(e) {
+            e.preventDefault();
+            const rules = {
+                name: { required: true },
+                code: { required: true },
+                head: { required: true }
+            };
+
+            if (!validateForm('#createDeptForm', rules)) return;
+
+            const form = document.getElementById('createDeptForm');
+            const formData = new FormData(form);
+
+            const newId = `DEP0${mockDB.departments.length + 1}`;
+            const newDept = {
+                id: newId,
+                name: formData.get('name'),
+                code: formData.get('code'),
+                head: formData.get('head'),
+                budget: formData.get('budget') || '₹20L',
+                status: 'active',
+                employeesCount: 0
+            };
+
+            mockDB.departments.push(newDept);
+            saveMockDB();
+            logAudit("Super Admin", "Departments", "Create", `Created department ${newId} - ${newDept.name}`);
+            showToast("Department Created Successfully!", "success");
+
+            closeModal('createDeptModal');
+            form.reset();
+            renderDepts();
+            selectDept(newId);
+        }
+
+        function deleteCurrentDept() {
+            if (selectedDeptId === 'DEP001' || selectedDeptId === 'DEP002') {
+                showToast("Cannot delete core ERP departments!", "error");
+                return;
+            }
+            if (confirm("Are you sure you want to delete this department?")) {
+                const dept = mockDB.departments.find(d => d.id === selectedDeptId);
+                mockDB.departments = mockDB.departments.filter(d => d.id !== selectedDeptId);
+                saveMockDB();
+                logAudit("Super Admin", "Departments", "Delete", `Removed department ${selectedDeptId} ${dept.name}`);
+                showToast("Department deleted successfully.", "success");
+
+                selectedDeptId = "DEP001";
+                renderDepts();
+                selectDept("DEP001");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDepts();
+            selectDept(selectedDeptId);
+
+            initDataTable('#deptsTable');
+            initFilterBar('.filter-bar', '#deptsTable');
+        });
+    </script>
+</body>
+</html>
