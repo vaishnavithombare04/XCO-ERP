@@ -1,0 +1,226 @@
+# XtrazCon IT ERP — All Diagrams in Text/Tree Format
+
+---
+
+## 1. USER ROLE HIERARCHY (who reports to whom, top → bottom)
+
+```
+Super Admin (SADMIN)
+│   Full system control — sees everything, creates roles/teams
+│
+└── Admin (ADMIN)
+    │   Manages departments, templates, teams, reports
+    │
+    └── Manager (MANAGER)
+        │   Oversees one department
+        │
+        └── Team Leader (TL)
+            │   Leads a team, manages groups under it
+            │
+            └── Coordinator (COORD)
+                │   Oversees one group, assigns work
+                │
+                └── Member / Employee (MEMBER)
+                    │   Handles own tasks and leads
+                    │
+                    └── Intern (INTERN)
+                            Task-only, no financial/HR access
+
+
+      ── EXTERNAL USERS (outside the chain, scoped access only) ──
+
+Client (CLIENT)              Vendor / Freelancer (VENDOR)
+  → sees own projects,         → sees only assigned
+    invoices, tickets            projects/tasks/files
+```
+
+**Rule:** each level can see its own level + everything below it. Client and Vendor never inherit anything — they only see what's explicitly assigned to them.
+
+---
+
+## 2. ORGANIZATIONAL CONTAINMENT (Department → Team → Group → User)
+
+```
+Department (e.g. SEO)
+│
+├── Team A                          (owned by: Rahul, role: Manager/TL)
+│   │
+│   ├── Group A1
+│   │   ├── Amit      — Coordinator — Follow-up monitoring
+│   │   ├── Karan      — Member      — SEO submissions
+│   │   └── Priya      — Member      — Link building
+│   │
+│   ├── Group A2
+│   │   └── (members...)
+│   │
+│   └── Group A3
+│       └── (members...)
+│
+└── Team B
+    └── (groups, members...)
+```
+
+Other departments follow the same pattern:
+```
+Sales | SEO | Development | Testing | Support | HR | Accounts | Management
+   each → Team(s) → Group(s) → User(s)
+```
+
+---
+
+## 3. MULTI-DEPARTMENT / MULTI-TEAM MEMBERSHIP (one user, many hats)
+
+```
+Rahul
+ ├── Department: SEO         (role: Manager/TL, Team A)
+ ├── Department: Sales       (role: Member)
+ └── Department: Support     (role: Coordinator)
+```
+
+```
+Rahul's Daily Shift Split
+ 09:00–13:00  → SEO Department shift
+ 14:00–18:00  → Development Department shift
+```
+
+---
+
+## 4. ACCESS / VISIBILITY FLOW (what each role can see)
+
+```
+Own tasks/leads
+   ▲
+   │  (Member sees only this)
+   │
+Group tasks/leads
+   ▲
+   │  (Coordinator adds this)
+   │
+Team tasks/leads
+   ▲
+   │  (TL adds this)
+   │
+Department data
+   ▲
+   │  (Manager adds this)
+   │
+Everything (all departments, all data)
+   ▲
+   │  (Super Admin — full access)
+```
+
+Text form of the escalation:
+```
+Member      → own tasks, own leads
+Coordinator → + group leads, group tasks
+TL          → + team leads, team tasks
+Manager     → + department data
+Admin       → + assigned departments, template/team management
+Super Admin → + everything, company-wide
+```
+
+---
+
+## 5. PERMISSION MATRIX (role vs action, ✔ = allowed)
+
+```
+Action                     Member  Coord   TL   Manager  Admin  SAdmin
+──────────────────────────────────────────────────────────────────────
+Add Lead                     ✔       ✔      ✔      ✔       ✔       ✔
+View Own Leads                ✔       ✔      ✔      ✔       ✔       ✔
+View Group Leads              ✘       ✔      ✔      ✔       ✔       ✔
+View Team Leads               ✘       ✘      ✔      ✔       ✔       ✔
+View Department Leads         ✘       ✘      ✘      ✔       ✔       ✔
+View All Leads                ✘       ✘      ✘      ✘       ✘       ✔
+Send Email Templates          ✔       ✔      ✔      ✔       ✔       ✔
+Schedule Meeting              ✔       ✔      ✔      ✔       ✔       ✔
+Create Template               ✘       ✘      ✘      ✘       ✔       ✔
+Create Role/Team              ✘       ✘      ✘      ✘       ✘       ✔
+Assign Teams                  ✘       ✘      ✘      ✘       ✔       ✔
+Export Reports                ✘       ✘      ✔      ✔       ✔       ✔
+Delete Leads                  ✘       ✘      ✘      ✘       ✔       ✔
+Approve Attendance            ✘       ✘      ✘      ✔       ✔       ✔
+Approve Payroll               ✘       ✘      ✘      ✘       ✔       ✔
+Create Subscription Plans     ✘       ✘      ✘      ✘       ✔       ✔
+```
+
+---
+
+## 6. LOGIN & USER TYPE FLOW
+
+```
+User opens app
+   │
+   ▼
+Firebase Auth (Google login / Email+Password / OTP — future)
+   │
+   ▼
+User Type assigned
+   ├── Internal Employee
+   ├── Freelancer
+   ├── Intern
+   ├── Vendor
+   ├── Client
+   └── Consultant
+   │
+   ▼
+"Login ≠ Permission"
+   │
+   ▼
+Access resolved from: Role + Department + Team + Group + Assigned Permissions
+   │
+   ▼
+Correct Dashboard rendered
+```
+
+---
+
+## 7. DASHBOARD HIERARCHY (what renders per role)
+
+```
+Super Admin Dashboard
+   → entire company, all departments, finance, KPIs, sales, HR
+
+   Department Admin Dashboard
+      → own department stats, team performance, attendance, tasks
+
+      TL Dashboard
+         → own groups, own team performance, pending work
+
+         Member Dashboard
+            → assigned work, attendance, meetings, KPIs
+```
+
+External:
+```
+Client Dashboard   → own projects, invoices, tickets, subscription only
+Vendor Dashboard   → assigned projects, tasks, uploaded files only
+```
+
+---
+
+## 8. DATABASE COLLECTION RELATIONSHIP (how it's stored)
+
+```
+users
+ ├── user_roles ──── permissions
+ │                     └── role_permissions
+ ├── departments
+ │     └── teams
+ │           └── groups
+ ├── shifts ──── attendance
+ ├── kpi
+ ├── leads
+ └── tasks
+```
+
+---
+
+## 9. FIREBASE SECURITY RULE LOGIC (text form)
+
+```
+IF role == "TL"        → allow read/write ONLY where team_id == user.team_id
+IF role == "MANAGER"   → allow read/write ONLY where dept_id == user.dept_id
+IF role == "SADMIN"    → allow read/write on everything
+Never trust frontend-only permission checks — enforce in Firestore rules.
+`

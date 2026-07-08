@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - XtrazCon ERP Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-app);
+            padding: 20px;
+        }
+        .auth-card {
+            max-width: 460px;
+            width: 100%;
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Floating Theme Toggle -->
+        <div class="position-absolute top-0 end-0 m-3">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+        </div>
+
+        <div class="auth-card text-start">
+            <div class="text-center mb-4">
+                <h2 class="h4 font-weight-bold mb-1"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</h2>
+                <p class="text-muted font-12">Register a new administrative member account</p>
+            </div>
+
+            <form id="signupForm">
+                <div class="mb-3">
+                    <label class="form-label font-12 font-weight-600">Full Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="e.g. Liam Vance" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label font-12 font-weight-600">Work Email Address</label>
+                    <input type="email" name="email" class="form-control" placeholder="liam.v@xtrazcon.com" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label font-12 font-weight-600">Mobile Phone</label>
+                    <input type="text" name="phone" class="form-control" placeholder="+91 99999 88888" required>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <label class="form-label font-12 font-weight-600">User Type</label>
+                        <select name="user_type" class="form-select">
+                            <option value="Internal Employee">Internal Employee</option>
+                            <option value="Freelancer">Freelancer</option>
+                            <option value="Intern">Intern</option>
+                            <option value="Vendor">Vendor</option>
+                            <option value="Client">Client</option>
+                            <option value="Consultant">Consultant</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label font-12 font-weight-600">Role</label>
+                        <select name="role" class="form-select">
+                            <option value="Super Admin">Super Admin</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Department Manager">Department Manager</option>
+                            <option value="Team Leader">Team Leader</option>
+                            <option value="Coordinator">Coordinator</option>
+                            <option value="Employee/Member">Employee/Member</option>
+                            <option value="Intern">Intern</option>
+                            <option value="Client">Client</option>
+                            <option value="Vendor">Vendor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label font-12 font-weight-600">Department</label>
+                    <select name="department" class="form-select">
+                        <option value="IT & Systems">IT & Systems</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Human Resources">Human Resources</option>
+                        <option value="Sales">Sales</option>
+                        <option value="Support">Support</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label font-12 font-weight-600">Account Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mb-3 py-2">Create Account</button>
+            </form>
+
+
+            <div class="text-center font-12 text-secondary">
+                Already have an account? <a href="login.html" class="text-primary text-decoration-none font-weight-600">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+
+    <script>
+        function handleSignup(event) {
+            if (event) event.preventDefault();
+
+            const form = document.getElementById('signupForm');
+            const rules = {
+                name: { required: true },
+                email: { required: true, email: true },
+                phone: { required: true },
+                password: { required: true }
+            };
+
+            if (!validateForm('#signupForm', rules)) return;
+
+            const formData = new FormData(form);
+            const email = formData.get('email');
+
+            // Verify if email is duplicate
+            const exist = mockDB.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+            if (exist) {
+                showToast("Account with this email already exists!", "error");
+                return;
+            }
+
+            const newId = `EMP0${mockDB.users.length + 1}`;
+            const newUser = {
+                id: newId,
+                name: formData.get('name'),
+                email: email,
+                phone: formData.get('phone'),
+                department: formData.get('department'),
+                role: formData.get('role'),
+                user_type: formData.get('user_type'),
+                shift: "Morning Shift (9AM - 6PM)",
+                manager: "Sarah Chen",
+                status: "pending" // Admin accounts need verification status
+            };
+
+
+            mockDB.users.push(newUser);
+            saveMockDB();
+            logAudit(newUser.name, "Authentication", "Register", `Signed up new administrative account ${newId} (Pending Verification)`);
+            showToast("Registration completed! Awaiting activation.", "success");
+
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 1500);
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', handleSignup);
+    </script>
+</body>
+</html>
