@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem('theme');
+        var preferredTheme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (preferredTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (error) {}
+    })();
+  </script>
+  <style>
+    html { background-color: #f4f6f8; }
+    html[data-theme="dark"] { background-color: #090c15; color: #f8fafc; }
+    html[data-theme="dark"] body { background-color: #090c15; color: #f8fafc; }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XtrazCon IT ERP — Performance KPIs</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom design systems -->
+  <link rel="stylesheet" href="../shared/global.css">
+  <style>
+    .rating-star-fill {
+      color: #f59e0b;
+      font-size: 20px;
+    }
+    .kpi-row-item {
+      padding: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-card);
+    }
+    .kpi-progress-bar {
+      height: 10px;
+      background-color: var(--bg-app);
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    .kpi-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-orange), var(--accent-pink));
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      padding: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    .icon-btn:hover {
+      background-color: var(--bg-sidebar-hover);
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+      <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+    </div>
+    
+    <div class="header-search d-none d-md-block">
+      <i class="bi bi-search header-search-icon"></i>
+      <input type="text" placeholder="Search files, tasks, or settings..." id="dashboardSearch">
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+        <i class="bi bi-sun sun-icon fs-5"></i>
+        <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+      </button>
+      
+      <a href="reports.html" class="icon-btn position-relative" id="btnNotifications" aria-label="Notifications">
+        <i class="bi bi-bell fs-5"></i>
+        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" id="notifBadge"></span>
+      </a>
+
+      <div class="dropdown">
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border" id="headerUserAvatarImg">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li><a class="dropdown-item" href="profile.html">Profile Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- App Container -->
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-menu">
+        <span class="sidebar-label">WORKSPACE</span>
+        <a href="index.html" class="sidebar-item">
+          <i class="bi bi-speedometer2"></i> <span>Dashboard Overview</span>
+        </a>
+        <a href="tasks.html" class="sidebar-item">
+          <i class="bi bi-check-square-fill"></i> <span>Task Management</span>
+        </a>
+        <a href="learning.html" class="sidebar-item">
+          <i class="bi bi-mortarboard-fill"></i> <span>Learning & Training</span>
+        </a>
+        <a href="attendance.html" class="sidebar-item">
+          <i class="bi bi-clock-fill"></i> <span>Attendance & Worklogs</span>
+        </a>
+        <a href="leaves.html" class="sidebar-item">
+          <i class="bi bi-calendar2-x-fill"></i> <span>Leaves & Vacation</span>
+        </a>
+        
+        <div class="sidebar-divider"></div>
+        <span class="sidebar-label">ANALYTICS & REPORTS</span>
+        <a href="performance.html" class="sidebar-item active">
+          <i class="bi bi-bar-chart-fill"></i> <span>Performance Tracker</span>
+        </a>
+        <a href="chat.html" class="sidebar-item">
+          <i class="bi bi-chat-dots-fill"></i> <span>Mentor Chat</span>
+        </a>
+        <a href="reports.html" class="sidebar-item">
+          <i class="bi bi-cloud-arrow-up-fill"></i> <span>Submissions Room</span>
+        </a>
+        <a href="meetings.html" class="sidebar-item">
+          <i class="bi bi-calendar-event-fill"></i> <span>Meetings & Schedule</span>
+        </a>
+        <a href="profile.html" class="sidebar-item">
+          <i class="bi bi-person-fill"></i> <span>My Profile</span>
+        </a>
+      </nav>
+
+      <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.05); font-size:11px; color:#4b5563; text-align:center;">
+        Logged as: <strong style="color:#f97316;" id="sidebarRoleLabel">Intern (SEO)</strong>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h2 style="font-size:22px; font-weight:800; margin:0;">Intern Performance & Ratings</h2>
+          <p style="font-size:13px; color:var(--text-secondary); margin:4px 0 0 0;">Inspect your weekly targets delivery performance and comments logged by your mentor.</p>
+        </div>
+        <div class="date-badge bg-white border rounded px-3 py-2 text-secondary font-12 font-weight-500" id="serverDateLabel">
+          <i class="bi bi-calendar3 me-2"></i> July 8, 2026
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Left: Metrics progress curves -->
+        <div class="col-12 col-md-7 d-flex flex-column gap-3">
+          <div class="card p-4">
+            <h3 class="card-title mb-3">Performance Trends (Weekly Resolved Sprints)</h3>
+            <!-- SVG curve graph -->
+            <div style="position:relative; width:100%; height:180px;">
+              <svg viewBox="0 0 400 150" width="100%" height="100%" style="overflow:visible;">
+                <defs>
+                  <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--accent-orange)" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="var(--accent-orange)" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <!-- Grid helper lines -->
+                <line x1="10" y1="30" x2="380" y2="30" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4"/>
+                <line x1="10" y1="80" x2="380" y2="80" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4"/>
+                <line x1="10" y1="130" x2="380" y2="130" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4"/>
+
+                <!-- Area under the curve -->
+                <path d="M 10 130 Q 100 80, 190 60 T 380 30 L 380 130 Z" fill="url(#curveGradient)"/>
+
+                <!-- Curve line -->
+                <path d="M 10 130 Q 100 80, 190 60 T 380 30" fill="none" stroke="var(--accent-orange)" stroke-width="3"/>
+                
+                <!-- Data dots -->
+                <circle cx="10" cy="130" r="4" fill="var(--accent-orange)"/>
+                <circle cx="100" cy="88" r="4" fill="var(--accent-orange)"/>
+                <circle cx="190" cy="60" r="4" fill="var(--accent-orange)"/>
+                <circle cx="380" cy="30" r="4" fill="var(--accent-orange)"/>
+                
+                <!-- X Axis Text -->
+                <text x="10" y="145" fill="var(--text-tertiary)" font-size="9">Week 1</text>
+                <text x="100" y="145" fill="var(--text-tertiary)" font-size="9">Week 2</text>
+                <text x="190" y="145" fill="var(--text-tertiary)" font-size="9">Week 3</text>
+                <text x="340" y="145" fill="var(--text-tertiary)" font-size="9">Week 4 (Active)</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="card p-3 d-flex flex-column gap-3" id="kpisLogsBody">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Right: Mentor rating feedback card -->
+        <div class="col-12 col-md-5">
+          <div class="card p-4">
+            <h3 class="card-title mb-3">Mentor Ratings & Feedback</h3>
+            
+            <div class="text-center py-3 border-bottom mb-3">
+              <div style="font-size:36px; font-weight:800; color:var(--text-primary);">4.5 / 5.0</div>
+              <div class="my-2">
+                <i class="bi bi-star-fill rating-star-fill"></i>
+                <i class="bi bi-star-fill rating-star-fill"></i>
+                <i class="bi bi-star-fill rating-star-fill"></i>
+                <i class="bi bi-star-fill rating-star-fill"></i>
+                <i class="bi bi-star-half rating-star-fill"></i>
+              </div>
+              <span class="text-secondary font-12">Supervisor SEO Performance Rating</span>
+            </div>
+
+            <h4 class="card-title mb-2" style="font-size:13px;">Mentor Comments Logs:</h4>
+            <div class="p-3 border rounded bg-app mb-3" style="font-style:italic; font-size:12.5px; color:var(--text-secondary);">
+              "Karan is showing good progress in backlinks execution. Submissions lists are clean. Need to focus on meta tags audits next week."
+              <div class="text-end fw-600 mt-2 font-11 text-primary">— Alex Rivera, SEO TL & Coordinator</div>
+            </div>
+
+            <div class="d-flex flex-column gap-2" style="font-size:12px;">
+              <div class="d-flex gap-2 align-items-center">
+                <i class="bi bi-check-circle-fill text-success"></i> On-time deliverables: <strong>85%</strong>
+              </div>
+              <div class="d-flex gap-2 align-items-center">
+                <i class="bi bi-check-circle-fill text-success"></i> Tasks completed on schedule: <strong>90%</strong>
+              </div>
+              <div class="d-flex gap-2 align-items-center">
+                <i class="bi bi-check-circle-fill text-success"></i> Learning curriculum progress: <strong>75%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../shared/global.js"></script>
+  <script src="performance.js"></script>
+  <script>
+    // Local theme icon toggle helper
+    document.addEventListener('DOMContentLoaded', () => {
+        const syncThemeIcons = () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark' || document.documentElement.getAttribute('data-theme') === 'dark';
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            if (isDark) {
+                sunIcon?.classList.add('d-none');
+                moonIcon?.classList.remove('d-none');
+            } else {
+                sunIcon?.classList.remove('d-none');
+                moonIcon?.classList.add('d-none');
+            }
+        };
+        syncThemeIcons();
+        document.getElementById('themeToggle')?.addEventListener('click', () => {
+            setTimeout(syncThemeIcons, 50);
+        });
+        document.addEventListener('themechange', syncThemeIcons);
+    });
+  </script>
+</body>
+</html>
+
+
+
