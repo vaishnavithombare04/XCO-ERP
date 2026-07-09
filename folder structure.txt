@@ -28,9 +28,39 @@ XCO-ERP/
 │   └── users.html             # User/employee management
 ├── img/                       # Image assets
 │   └── girl img.avif          # Profile/avatar image placeholder
+├── manager/                   # Manager / TL / Coordinator Portal
+│   ├── approvals.html         # Consolidated pending approvals inbox
+│   ├── attendance.html        # Scoped employee attendance logs
+│   ├── crm-leads.html         # Scoped CRM leads pipeline
+│   ├── index.html             # Scoped manager dashboard homepage
+│   ├── kpi.html               # Scoped member KPI metrics
+│   ├── leaves.html            # Scoped leave request management
+│   ├── notifications.html     # Scoped notifications hub
+│   ├── reports.html           # Scoped productivity and attendance reports
+│   ├── tasks.html             # Scoped task Kanban board
+│   └── team-overview.html     # Team roster and reporting hierarchy
+├── employee/                  # Employee / Member Portal
+│   ├── index.html             # Personal dashboard
+│   ├── tasks.html             # Scoped personal tasks Kanban board
+│   ├── attendance.html        # Personal check-in / check-out log
+│   ├── leaves.html            # Personal leaves application portal
+│   ├── kpi.html               # Read-only personal KPI progress
+│   ├── documents.html         # Personal payslips & documentation
+│   ├── profile.html           # Personal profile view & contact update
+│   └── notifications.html     # Scoped personal notifications
+├── client/                    # Client Portal
+│   ├── index.html             # Client dashboard
+│   ├── projects.html          # Scoped project list & milestones
+│   ├── tickets.html           # Scoped support ticket thread
+│   ├── invoices.html          # Scoped invoice lists & previews
+│   ├── subscription.html      # Plan details & billing records
+│   ├── documents.html         # Shared client deliverables
+│   ├── profile.html           # Client corporate profile editor
+│   └── notifications.html     # Scoped client notifications
 ├── pages/                     # Public and authentication pages
 │   ├── login.html             # Login page
-│   └── signup.html            # Registration page
+│   ├── signup.html            # Registration page
+│   └── forgot-password.html   # Password recovery page
 ├── shared/                    # Shared assets across portals
 │   ├── global.css             # Main styling stylesheet
 │   └── global.js              # Global script files

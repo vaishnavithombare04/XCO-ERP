@@ -33,15 +33,15 @@
     --transition-speed: 0.2s;
 }
 
-[data-theme="dark"] {
+html[data-theme="dark"] {
     --bg-app: #090c15;
     --bg-card: #121824;
     /* Sidebar remains dark (#17171B) in both themes */
     --border-color: #223049;
     
     --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-tertiary: #64748b;
+    --text-secondary: #a3b3c9;
+    --text-tertiary: #8a99ad;
 }
 
 /* ==========================================================================
@@ -267,6 +267,7 @@ body {
     border-radius: var(--radius-lg) !important;
     box-shadow: var(--shadow-sm);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    color: var(--text-primary) !important;
 }
 
 .card:hover {
@@ -681,4 +682,195 @@ body {
     height: 300px;
     min-height: 300px;
 }
+
+/* 12. Visual Bug Fixes (Dark Mode Contrast & Bell Icon) */
+.icon-btn {
+    background: transparent !important;
+    border: none;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: background-color var(--transition-speed);
+}
+
+.icon-btn:hover {
+    background-color: var(--bg-sidebar-hover) !important;
+    color: var(--text-primary);
+}
+
+.icon-btn i, .icon-btn svg {
+    color: var(--text-secondary) !important;
+    background: transparent !important;
+}
+
+.data-table th {
+    color: var(--text-primary) !important;
+}
+
+.status-badge {
+    color: #ffffff !important;
+}
+
+.badge-active, .badge-approved, .badge-completed {
+    background-color: var(--accent-green) !important;
+}
+
+.badge-pending, .badge-working {
+    background-color: var(--accent-blue) !important;
+}
+
+.badge-onhold, .badge-hold {
+    background-color: var(--accent-orange) !important;
+}
+
+.badge-overdue, .badge-rejected {
+    background-color: #ef4444 !important;
+}
+
+.kpi-trend {
+    color: var(--text-secondary) !important;
+}
+
+.kpi-trend.trend-up {
+    color: var(--accent-green) !important;
+}
+
+.kpi-trend.trend-down {
+    color: #ef4444 !important;
+}
+
+.filter-bar input::placeholder {
+    color: var(--text-tertiary) !important;
+}
+
+/* Sidebar label color in dark sidebar background */
+.sidebar-label {
+    color: #8a99ad !important;
+}
+
+/* KPI Card & Empty States Text Visibility */
+.kpi-label, .kpi-label.text-muted {
+    color: var(--text-tertiary) !important;
+}
+
+/* Ensure empty states and muted helper texts have clear contrast in dark theme */
+html[data-theme="dark"] .text-muted, 
+html[data-theme="dark"] .empty-state, 
+html[data-theme="dark"] .no-data {
+    color: var(--text-tertiary) !important;
+}
+
+/* Subtitle background removal */
+.page-subtitle, .dashboard-subtitle, #dashboardSubtitle {
+    background-color: transparent !important;
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Mid-gray styling for labels/captions/subtitles to bypass theme override conflicts */
+.kpi-label,
+.card-subtitle,
+.helper-text,
+.empty-state-text,
+.text-muted,
+.font-11.text-muted,
+.font-12.text-muted,
+.font-13.text-muted,
+.kpi-trend:not(.trend-up):not(.trend-down) {
+    color: #8A8A94 !important;
+}
+
+/* Exhaustive Dark Mode Text Visibility & Component Overrides */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6,
+html[data-theme="dark"] p,
+html[data-theme="dark"] li,
+html[data-theme="dark"] .modal-title,
+html[data-theme="dark"] .card-title,
+html[data-theme="dark"] .card-header,
+html[data-theme="dark"] .modal-header,
+html[data-theme="dark"] .modal-body {
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] strong,
+html[data-theme="dark"] b,
+html[data-theme="dark"] label,
+html[data-theme="dark"] .form-label,
+html[data-theme="dark"] .form-check-label {
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .text-dark,
+html[data-theme="dark"] .text-black,
+html[data-theme="dark"] .text-body {
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .text-muted,
+html[data-theme="dark"] .text-secondary,
+html[data-theme="dark"] .text-black-50 {
+    color: var(--text-secondary) !important;
+}
+
+html[data-theme="dark"] .kpi-label,
+html[data-theme="dark"] .card-subtitle,
+html[data-theme="dark"] .helper-text,
+html[data-theme="dark"] .empty-state-text,
+html[data-theme="dark"] .kpi-trend:not(.trend-up):not(.trend-down) {
+    color: var(--text-tertiary) !important;
+}
+
+/* Ensure secondary background utility elements are appropriately dark on dark theme */
+html[data-theme="dark"] .bg-light {
+    background-color: var(--bg-app) !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Override table headers */
+html[data-theme="dark"] .data-table th {
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Ensure inputs, select forms, and textarea text has correct colors */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Ensure dropdowns and list groups are styled properly in dark theme */
+html[data-theme="dark"] .list-group-item {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+html[data-theme="dark"] .dropdown-menu {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+html[data-theme="dark"] .dropdown-item {
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .dropdown-item:hover {
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+}
+
+
+
 

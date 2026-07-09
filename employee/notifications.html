@@ -10,7 +10,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications - XtrazCon ERP Manager</title>
+    <title>Notifications - XtrazCon ERP Employee</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -56,18 +56,12 @@
         <!-- Sidebar Navigation -->
         <aside class="app-sidebar">
             <nav class="sidebar-menu">
-                <span class="sidebar-label">Manager Workspace</span>
+                <span class="sidebar-label">My Workspace</span>
                 <a href="index.html" class="sidebar-item" id="nav-dashboard">
                     <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
                 </a>
-                <a href="team-overview.html" class="sidebar-item" id="nav-team-overview">
-                    <i class="bi bi-people"></i> <span>Team Overview</span>
-                </a>
                 <a href="tasks.html" class="sidebar-item" id="nav-tasks">
-                    <i class="bi bi-kanban"></i> <span>Tasks</span>
-                </a>
-                <a href="crm-leads.html" class="sidebar-item" id="nav-leads">
-                    <i class="bi bi-funnel"></i> <span>Leads</span>
+                    <i class="bi bi-kanban"></i> <span>My Tasks</span>
                 </a>
                 <a href="attendance.html" class="sidebar-item" id="nav-attendance">
                     <i class="bi bi-clock-history"></i> <span>Attendance</span>
@@ -75,14 +69,14 @@
                 <a href="leaves.html" class="sidebar-item" id="nav-leaves">
                     <i class="bi bi-calendar2-check"></i> <span>Leaves</span>
                 </a>
-                <a href="approvals.html" class="sidebar-item" id="nav-approvals">
-                    <i class="bi bi-check2-square"></i> <span>Approvals</span>
-                </a>
                 <a href="kpi.html" class="sidebar-item" id="nav-kpi">
                     <i class="bi bi-graph-up-arrow"></i> <span>KPI</span>
                 </a>
-                <a href="reports.html" class="sidebar-item" id="nav-reports">
-                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports</span>
+                <a href="documents.html" class="sidebar-item" id="nav-documents">
+                    <i class="bi bi-file-earmark-text"></i> <span>Documents</span>
+                </a>
+                <a href="profile.html" class="sidebar-item" id="nav-profile">
+                    <i class="bi bi-person"></i> <span>Profile</span>
                 </a>
                 <a href="notifications.html" class="sidebar-item active" id="nav-notifications">
                     <i class="bi bi-bell"></i> <span>Notifications</span>
@@ -94,8 +88,8 @@
         <main class="main-content">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h1 class="h3 font-weight-bold mb-0">Scoped Notification Center</h1>
-                    <p class="text-muted font-13 mb-0">Stay updated on your scoped team actions and tasks.</p>
+                    <h1 class="h3 font-weight-bold mb-0">My Notifications</h1>
+                    <p class="text-muted font-13 mb-0">Stay updated on task updates and leave requests status changes.</p>
                 </div>
             </div>
 
@@ -108,10 +102,7 @@
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tasks-notif" onclick="filterNotifs('tasks')">Tasks</button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#attendance-notif" onclick="filterNotifs('attendance')">Attendance</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#approvals-notif" onclick="filterNotifs('approvals')">Approvals</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#leaves-notif" onclick="filterNotifs('leaves')">Leaves</button>
                 </li>
             </ul>
 
@@ -131,8 +122,8 @@
     <!-- Shared Global Logic -->
     <script src="../shared/global.js"></script>
     <script>
-        const role = localStorage.getItem('currentRole') || 'Manager';
-        const userId = localStorage.getItem('currentUserId') || 'EMP002';
+        const role = 'Employee';
+        const userId = 'EMP006'; // Raj Patel
         let currentFilter = 'all';
 
         function renderNotifications() {
@@ -148,7 +139,7 @@
                 let iconClass = 'bi-bell-fill text-primary';
                 if (n.type === 'tasks') iconClass = 'bi-kanban text-info';
                 if (n.type === 'attendance') iconClass = 'bi-clock-history text-success';
-                if (n.type === 'approvals') iconClass = 'bi-check2-square text-warning';
+                if (n.type === 'leaves') iconClass = 'bi-calendar-check text-warning';
 
                 return `
                     <div class="d-flex align-items-center justify-content-between p-3 border-bottom hover-bg">
@@ -164,7 +155,7 @@
                         <button class="btn btn-ghost btn-xs text-muted" onclick="dismissNotification('${n.id}')">Dismiss</button>
                     </div>
                 `;
-            }).join('') || `<div class="text-center py-5 text-muted font-12"><i class="bi bi-bell-slash fs-2 d-block mb-2"></i>No scoped notifications found in this tab.</div>`;
+            }).join('') || `<div class="text-center py-5 text-muted font-12"><i class="bi bi-bell-slash fs-2 d-block mb-2"></i>No notifications.</div>`;
         }
 
         window.filterNotifs = (tab) => {
