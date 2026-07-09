@@ -224,3 +224,5 @@ IF role == "MANAGER"   → allow read/write ONLY where dept_id == user.dept_id
 IF role == "SADMIN"    → allow read/write on everything
 Never trust frontend-only permission checks — enforce in Firestore rules.
 `
+
+
