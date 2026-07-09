@@ -7,68 +7,76 @@
 // Global mockDB Initialization
 const defaultMockDB = {
     users: [
-        { id: "EMP001", name: "Sarah Chen", email: "sarah.c@xtrazcon.com", role: "Super Admin", department: "IT & Systems", team: "Cloud Architecture", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43210", manager: "N/A" },
-        { id: "EMP002", name: "Alex Rivera", email: "alex.r@xtrazcon.com", role: "Manager", department: "Marketing", team: "Dashboard Squad", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43211", manager: "Sarah Chen" },
-        { id: "EMP003", name: "Emma Watson", email: "emma.w@xtrazcon.com", role: "Developer", department: "Engineering", team: "Core ERP Squad", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43212", manager: "Alex Rivera" },
-        { id: "EMP004", name: "Marcus Lee", email: "marcus.l@xtrazcon.com", role: "Designer", department: "Design", team: "UI UX Design", shift: "Night Shift (9PM - 6AM)", status: "pending", phone: "+91 98765 43213", manager: "Sarah Chen" },
-        { id: "EMP005", name: "Sophia Martinez", email: "sophia.m@xtrazcon.com", role: "Intern", department: "Human Resources", team: "Talent Acquisition", shift: "Flexible Shift", status: "active", phone: "+91 98765 43214", manager: "Sarah Chen" }
+        { id: "EMP001", name: "Sarah Chen", email: "sarah.c@xtrazcon.com", role: "Super Admin", department: "Engineering", team: "Core ERP Squad", group: "Core Backend Group", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43210", manager: "N/A" },
+        { id: "EMP002", name: "Alex Rivera", email: "alex.r@xtrazcon.com", role: "Manager", department: "Engineering", team: "Core ERP Squad", group: "Core Backend Group", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43211", manager: "Sarah Chen" },
+        { id: "EMP003", name: "Emma Watson", email: "emma.w@xtrazcon.com", role: "Developer", department: "Engineering", team: "Core ERP Squad", group: "Core Backend Group", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43212", manager: "Alex Rivera" },
+        { id: "EMP004", name: "Marcus Lee", email: "marcus.l@xtrazcon.com", role: "Designer", department: "Engineering", team: "Core ERP Squad", group: "Design Frontend Group", shift: "Night Shift (9PM - 6AM)", status: "pending", phone: "+91 98765 43213", manager: "Sarah Chen" },
+        { id: "EMP005", name: "Sophia Martinez", email: "sophia.m@xtrazcon.com", role: "Intern", department: "Engineering", team: "Cloud Platform Squad", group: "Cloud Infra Group", shift: "Flexible Shift", status: "active", phone: "+91 98765 43214", manager: "Sarah Chen" },
+        { id: "EMP006", name: "Raj Patel", email: "raj.p@xtrazcon.com", role: "Developer", department: "Engineering", team: "Core ERP Squad", group: "Core Backend Group", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43215", manager: "Emma Watson" },
+        { id: "EMP007", name: "Nisha Rao", email: "nisha.r@xtrazcon.com", role: "Developer", department: "Engineering", team: "Core ERP Squad", group: "Design Frontend Group", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43216", manager: "Marcus Lee" },
+        { id: "EMP008", name: "Kabir Singh", email: "kabir.s@xtrazcon.com", role: "Developer", department: "Engineering", team: "Cloud Platform Squad", group: "Cloud Infra Group", shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98765 43217", manager: "Sophia Martinez" }
     ],
     departments: [
-        { id: "DEP001", name: "IT & Systems", code: "ITS", head: "Sarah Chen", status: "active", budget: "₹45L", employeesCount: 15 },
-        { id: "DEP002", name: "Engineering", code: "ENG", head: "Alex Rivera", status: "active", budget: "₹80L", employeesCount: 42 },
-        { id: "DEP003", name: "Marketing", code: "MKT", head: "Celia White", status: "active", budget: "₹25L", employeesCount: 12 },
-        { id: "DEP004", name: "Human Resources", code: "HRM", head: "Sophia Martinez", status: "active", budget: "₹15L", employeesCount: 8 }
+        { id: "DEP001", name: "Engineering", code: "ENG", head: "Alex Rivera", status: "active", budget: "₹80L", employeesCount: 42 },
+        { id: "DEP002", name: "Marketing", code: "MKT", head: "Celia White", status: "active", budget: "₹25L", employeesCount: 12 }
     ],
     teams: [
-        { id: "TEM001", name: "Cloud Architecture", leader: "Sarah Chen", department: "IT & Systems", members: 8 },
-        { id: "TEM002", name: "Dashboard Squad", leader: "Alex Rivera", department: "Marketing", members: 6 },
-        { id: "TEM003", name: "Core ERP Squad", leader: "Emma Watson", department: "Engineering", members: 14 }
+        { id: "TEM001", name: "Core ERP Squad", leader: "Emma Watson", department: "Engineering", members: 6 },
+        { id: "TEM002", name: "Cloud Platform Squad", leader: "Sophia Martinez", department: "Engineering", members: 2 }
     ],
     groups: [
-        { id: "GRP001", name: "All Hands Group", description: "Company-wide communication group", members: 245 },
-        { id: "GRP002", name: "Dev Board", description: "Technical discussion team board", members: 42 }
+        { id: "GRP001", name: "Core Backend Group", description: "Backend APIs and DB optimizations", members: 4 },
+        { id: "GRP002", name: "Design Frontend Group", description: "UI Components & Responsive Design", members: 2 },
+        { id: "GRP003", name: "Cloud Infra Group", description: "AWS/GCP Deployment automation", members: 2 }
     ],
     roles_permissions: [
         { role: "Super Admin", modules: { users: "View/Add/Edit/Delete/Export/Approve", tasks: "View/Add/Edit/Delete/Export/Approve", leads: "View/Add/Edit/Delete/Export/Approve" } },
         { role: "Admin", modules: { users: "View/Add/Edit/Export/Approve", tasks: "View/Add/Edit/Delete/Approve", leads: "View/Add/Edit/Export/Approve" } },
         { role: "Department Manager", modules: { users: "View/Export", tasks: "View/Add/Edit/Delete/Approve", leads: "View/Add/Edit/Export" } },
         { role: "Team Leader", modules: { users: "View", tasks: "View/Add/Edit/Approve", leads: "View/Edit" } },
-        { role: "Coordinator", modules: { users: "View", tasks: "View/Edit", leads: "View/Edit" } },
-        { role: "Employee/Member", modules: { users: "View", tasks: "View/Edit", leads: "View" } },
-        { role: "Intern", modules: { users: "View", tasks: "View", leads: "View" } },
-        { role: "Client", modules: { users: "View", tasks: "View", leads: "View" } },
-        { role: "Vendor", modules: { users: "View", tasks: "View", leads: "View" } }
+        { role: "Coordinator", modules: { users: "View", tasks: "View/Edit", leads: "View/Edit" } }
     ],
     leads: [
-        { id: "LED001", name: "Mango Tech", contact: "John Doe", email: "john@mangotech.com", status: "Fresh", value: "₹12,00,000", phone: "+1 555-0199", date: "2026-07-01", next_followup: "2026-07-10" },
-        { id: "LED002", name: "Acme Corp", contact: "Jane Smith", email: "jane@acmecorp.com", status: "Interested", value: "₹8,50,000", phone: "+1 555-0144", date: "2026-07-02", next_followup: "2026-07-12" },
-        { id: "LED003", name: "Zylker Ltd", contact: "Tom Wilson", email: "tom@zylker.com", status: "Follow-up", value: "₹15,00,000", phone: "+1 555-0177", date: "2026-07-03", next_followup: "2026-07-15" }
+        { id: "LED001", name: "Mango Tech", contact: "John Doe", email: "john@mangotech.com", status: "Fresh", value: "₹12,0,000", phone: "+1 555-0199", date: "2026-07-01", next_followup: "2026-07-10", assigned_to: "Raj Patel" },
+        { id: "LED002", name: "Acme Corp", contact: "Jane Smith", email: "jane@acmecorp.com", status: "Interested", value: "₹8,50,000", phone: "+1 555-0144", date: "2026-07-02", next_followup: "2026-07-12", assigned_to: "Nisha Rao" },
+        { id: "LED003", name: "Zylker Ltd", contact: "Tom Wilson", email: "tom@zylker.com", status: "Follow-up", value: "₹15,0,000", phone: "+1 555-0177", date: "2026-07-03", next_followup: "2026-07-15", assigned_to: "Emma Watson" },
+        { id: "LED004", name: "Nova Soft", contact: "Liam Neeson", email: "liam@novasoft.com", status: "Converted", value: "₹25,0,000", phone: "+1 555-0188", date: "2026-07-04", next_followup: "2026-07-18", assigned_to: "Kabir Singh" }
     ],
     tasks: [
         { id: "TSK001", title: "Complete Telemetry Pipeline Setup", desc: "Configure endpoints and logs storage architecture.", status: "Working", assignee: "Emma Watson", deadline: "2026-07-12", priority: "High" },
         { id: "TSK002", title: "Design Premium UI Animations", desc: "Build mockups and CSS animations for standard transitions.", status: "Pending", assignee: "Marcus Lee", deadline: "2026-07-18", priority: "Medium" },
         { id: "TSK003", title: "Review Leads Follow-up API", desc: "Analyze the lead status updates workflow endpoint.", status: "Completed", assignee: "Sarah Chen", deadline: "2026-07-05", priority: "Low" },
-        { id: "TSK004", title: "Refactor Dashboard Charts Component", desc: "Upgrade chart sizing and responsive canvas resizing.", status: "Hold", assignee: "Alex Rivera", deadline: "2026-07-22", priority: "High" }
+        { id: "TSK004", title: "Refactor Dashboard Charts Component", desc: "Upgrade chart sizing and responsive canvas resizing.", status: "Hold", assignee: "Alex Rivera", deadline: "2026-07-22", priority: "High" },
+        { id: "TSK005", title: "Write API Documentation", desc: "Document the backend REST endpoints.", status: "Working", assignee: "Raj Patel", deadline: "2026-07-14", priority: "Medium" },
+        { id: "TSK006", title: "Fix Button Accessibility", desc: "Improve screen reader compatibility.", status: "Pending", assignee: "Nisha Rao", deadline: "2026-07-19", priority: "Low" },
+        { id: "TSK007", title: "Deploy Kubernetes Pods", desc: "Scale the web containers using Helm.", status: "Working", assignee: "Kabir Singh", deadline: "2026-07-13", priority: "High" }
     ],
     attendance: [
         { id: "ATT001", employee: "Sarah Chen", check_in: "08:55 AM", check_out: "06:05 PM", date: "2026-07-08", shift: "Morning Shift (9AM - 6PM)", status: "Present", hours: "9.1h" },
         { id: "ATT002", employee: "Alex Rivera", check_in: "09:02 AM", check_out: "05:58 PM", date: "2026-07-08", shift: "Morning Shift (9AM - 6PM)", status: "Late", hours: "8.9h" },
         { id: "ATT003", employee: "Emma Watson", check_in: "09:15 AM", check_out: "06:12 PM", date: "2026-07-08", shift: "Morning Shift (9AM - 6PM)", status: "Late", hours: "9.0h" },
-        { id: "ATT004", employee: "Marcus Lee", check_in: "N/A", check_out: "N/A", date: "2026-07-08", shift: "Night Shift (9PM - 6AM)", status: "Absent", hours: "0h" }
+        { id: "ATT004", employee: "Marcus Lee", check_in: "N/A", check_out: "N/A", date: "2026-07-08", shift: "Night Shift (9PM - 6AM)", status: "Absent", hours: "0h" },
+        { id: "ATT005", employee: "Raj Patel", check_in: "08:58 AM", check_out: "06:01 PM", date: "2026-07-08", shift: "Morning Shift (9AM - 6PM)", status: "Present", hours: "9.0h" },
+        { id: "ATT006", employee: "Nisha Rao", check_in: "09:30 AM", check_out: "06:00 PM", date: "2026-07-08", shift: "Morning Shift (9AM - 6PM)", status: "Late", hours: "8.5h" },
+        { id: "ATT007", employee: "Kabir Singh", check_in: "08:50 AM", check_out: "05:55 PM", date: "2026-07-08", shift: "Morning Shift (9AM - 6PM)", status: "Present", hours: "9.1h" },
+        { id: "ATT008", employee: "Sophia Martinez", check_in: "N/A", check_out: "N/A", date: "2026-07-08", shift: "Flexible Shift", status: "Absent", hours: "0h" }
     ],
     shifts: [
-        { id: "SHF001", name: "Morning Shift", start: "09:00 AM", end: "06:00 PM", flexible: "No", departments: "Engineering, Marketing, HR" },
-        { id: "SHF002", name: "Night Shift", start: "09:00 PM", end: "06:00 AM", flexible: "No", departments: "IT & Systems, Support" },
-        { id: "SHF003", name: "Flexible Shift", start: "Flexible", end: "Flexible", flexible: "Yes", departments: "All Departments" }
+        { id: "SHF001", name: "Morning Shift", start: "09:00 AM", end: "06:00 PM", flexible: "No", departments: "Engineering" },
+        { id: "SHF002", name: "Night Shift", start: "09:00 PM", end: "06:00 AM", flexible: "No", departments: "Engineering" },
+        { id: "SHF003", name: "Flexible Shift", start: "Flexible", end: "Flexible", flexible: "Yes", departments: "Engineering" }
     ],
     leaves: [
         { id: "LEV001", employee: "Emma Watson", type: "Sick Leave", start: "2026-07-15", end: "2026-07-16", reason: "Medical checkup", status: "Pending" },
-        { id: "LEV002", employee: "Marcus Lee", type: "Casual Leave", start: "2026-07-20", end: "2026-07-22", reason: "Family event", status: "Approved" }
+        { id: "LEV002", employee: "Marcus Lee", type: "Casual Leave", start: "2026-07-20", end: "2026-07-22", reason: "Family event", status: "Approved" },
+        { id: "LEV003", employee: "Raj Patel", type: "Sick Leave", start: "2026-07-18", end: "2026-07-19", reason: "Fever", status: "Pending" },
+        { id: "LEV004", employee: "Nisha Rao", type: "Casual Leave", start: "2026-07-25", end: "2026-07-26", reason: "Personal work", status: "Pending" }
     ],
     kpi: [
-        { id: "KPI001", name: "Code Coverage", department: "Engineering", target: "85%", weightage: "30%", progress: 80 },
-        { id: "KPI002", name: "SLA Resolution Rate", department: "IT & Systems", target: "99%", weightage: "40%", progress: 97 },
-        { id: "KPI003", name: "Lead Response Time", department: "Marketing", target: "< 4h", weightage: "25%", progress: 65 }
+        { id: "KPI001", name: "Code Coverage", department: "Engineering", target: "85%", weightage: "30%", progress: 80, employee: "Emma Watson" },
+        { id: "KPI002", name: "SLA Resolution Rate", department: "Engineering", target: "99%", weightage: "40%", progress: 97, employee: "Raj Patel" },
+        { id: "KPI003", name: "Lead Response Time", department: "Engineering", target: "< 4h", weightage: "25%", progress: 65, employee: "Marcus Lee" },
+        { id: "KPI004", name: "Deployment Success Rate", department: "Engineering", target: "100%", weightage: "20%", progress: 95, employee: "Kabir Singh" }
     ],
     clients: [
         { id: "CLI001", name: "Vapor Technologies", manager: "Alex Rivera", status: "active", revenue: "₹18,00,000", projects: 3, tickets: 2 },
@@ -77,7 +85,8 @@ const defaultMockDB = {
     notifications: [
         { id: "NTF001", type: "tasks", message: "New task assigned to you: Complete Telemetry Pipeline Setup", time: "10m ago" },
         { id: "NTF002", type: "attendance", message: "Employee Alex Rivera checked in late today", time: "1h ago" },
-        { id: "NTF003", type: "leaves", message: "Emma Watson submitted a new Sick Leave request", time: "2h ago" }
+        { id: "NTF003", type: "leaves", message: "Emma Watson submitted a new Sick Leave request", time: "2h ago" },
+        { id: "NTF004", type: "approvals", message: "Raj Patel requested a task hold approval", time: "5m ago" }
     ],
     audit_logs: [
         { timestamp: "2026-07-08 14:32:10", user: "Sarah Chen", module: "Users", action: "Create", details: "Added employee EMP005 Sophia Martinez" },
@@ -86,18 +95,82 @@ const defaultMockDB = {
 };
 
 // Initialize Mock Database
-window.mockDB = JSON.parse(localStorage.getItem('erp_mock_db')) || defaultMockDB;
-
-// Upgrade Database if roles list is stale
-if (!window.mockDB.roles_permissions || window.mockDB.roles_permissions.length < 9) {
+// For this demo, let's force reinitialization if users count is not matching the expanded structure
+const storedDB = localStorage.getItem('erp_mock_db');
+if (!storedDB || JSON.parse(storedDB).users.length < 8) {
     window.mockDB = defaultMockDB;
-    localStorage.setItem('erp_mock_db', JSON.stringify(window.mockDB));
+    localStorage.setItem('erp_mock_db', JSON.stringify(defaultMockDB));
+} else {
+    window.mockDB = JSON.parse(storedDB);
 }
 
 // Save Database Helper
 window.saveMockDB = () => {
     localStorage.setItem('erp_mock_db', JSON.stringify(window.mockDB));
 };
+
+// Scoped Data Retriever
+window.getScopedData = (collectionName, currentRole, currentUserId) => {
+    const user = window.mockDB.users.find(u => u.id === currentUserId || u.name === currentUserId) || window.mockDB.users.find(u => u.id === "EMP002");
+    const dept = user.department;
+    const team = user.team;
+    const group = user.group;
+
+    const filteredUsers = window.mockDB.users.filter(u => {
+        if (currentRole === "Manager") {
+            return u.department === dept;
+        } else if (currentRole === "TL") {
+            return u.department === dept && u.team === team;
+        } else if (currentRole === "Coordinator") {
+            return u.department === dept && u.team === team && u.group === group;
+        }
+        return false;
+    });
+
+    const userNames = filteredUsers.map(u => u.name);
+
+    if (collectionName === "users") {
+        return filteredUsers;
+    }
+
+    const rawData = window.mockDB[collectionName] || [];
+
+    if (collectionName === "tasks") {
+        return rawData.filter(t => userNames.includes(t.assignee));
+    }
+    if (collectionName === "leads") {
+        return rawData.filter(l => userNames.includes(l.assigned_to));
+    }
+    if (collectionName === "attendance") {
+        return rawData.filter(a => userNames.includes(a.employee));
+    }
+    if (collectionName === "leaves") {
+        return rawData.filter(l => userNames.includes(l.employee));
+    }
+    if (collectionName === "kpi") {
+        return rawData.filter(k => userNames.includes(k.employee));
+    }
+    if (collectionName === "notifications") {
+        // Scoped by notification types or content relevance
+        return rawData.filter(n => {
+            if (currentRole === "Coordinator") return n.type === "tasks";
+            if (currentRole === "TL") return n.type === "tasks" || n.type === "approvals";
+            return true;
+        });
+    }
+
+    return rawData;
+};
+
+// Permissions checks
+window.canApprove = (action, role) => {
+    return role === "Manager";
+};
+
+window.canExport = (role) => {
+    return role === "Manager" || role === "TL";
+};
+
 
 // Shared Audit Logger Helper
 window.logAudit = (user, module, action, details) => {
@@ -440,8 +513,47 @@ function validateForm(formSelector, rules) {
     return isValid;
 }
 
+function initManagerHeader() {
+    if (!window.location.pathname.includes('/manager/')) return;
+    
+    if (!localStorage.getItem('currentRole')) {
+        localStorage.setItem('currentRole', 'Manager');
+        localStorage.setItem('currentUserId', 'EMP002');
+    }
+    
+    const currentRole = localStorage.getItem('currentRole');
+    const headerActions = document.querySelector('.header-actions');
+    if (headerActions) {
+        const switcherDiv = document.createElement('div');
+        switcherDiv.className = 'd-flex align-items-center gap-2 me-3';
+        switcherDiv.innerHTML = `
+            <span class="text-muted font-12 font-weight-600 text-nowrap d-none d-sm-inline">Viewing as:</span>
+            <select id="managerRoleSwitcher" class="form-select form-select-sm" style="width: auto;">
+                <option value="Manager" ${currentRole === 'Manager' ? 'selected' : ''}>Manager (Alex)</option>
+                <option value="TL" ${currentRole === 'TL' ? 'selected' : ''}>Team Leader (Emma)</option>
+                <option value="Coordinator" ${currentRole === 'Coordinator' ? 'selected' : ''}>Coordinator (Marcus)</option>
+            </select>
+        `;
+        headerActions.insertBefore(switcherDiv, headerActions.firstChild);
+        
+        document.getElementById('managerRoleSwitcher').addEventListener('change', (e) => {
+            const val = e.target.value;
+            localStorage.setItem('currentRole', val);
+            if (val === 'Manager') {
+                localStorage.setItem('currentUserId', 'EMP002');
+            } else if (val === 'TL') {
+                localStorage.setItem('currentUserId', 'EMP003');
+            } else if (val === 'Coordinator') {
+                localStorage.setItem('currentUserId', 'EMP004');
+            }
+            window.location.reload();
+        });
+    }
+}
+
 // Global script running
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initSidebar();
+    initManagerHeader();
 });

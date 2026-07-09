@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Leads - XtrazCon ERP Manager</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Global CSS -->
+    <link rel="stylesheet" href="../shared/global.css">
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+        </div>
+        <div class="header-search d-none d-md-block">
+            <i class="bi bi-search header-search-icon"></i>
+            <input type="text" placeholder="Search leads...">
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i class="bi bi-sun sun-icon fs-5"></i>
+                <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+            </button>
+            <a href="notifications.html" class="icon-btn position-relative" aria-label="Notifications">
+                <i class="bi bi-bell fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item text-small fw-semibold" id="currentUserDisplay">Loading...</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../pages/login.html">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <nav class="sidebar-menu">
+                <span class="sidebar-label">Manager Workspace</span>
+                <a href="index.html" class="sidebar-item" id="nav-dashboard">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+                <a href="team-overview.html" class="sidebar-item" id="nav-team-overview">
+                    <i class="bi bi-people"></i> <span>Team Overview</span>
+                </a>
+                <a href="tasks.html" class="sidebar-item" id="nav-tasks">
+                    <i class="bi bi-kanban"></i> <span>Tasks</span>
+                </a>
+                <a href="crm-leads.html" class="sidebar-item active" id="nav-leads">
+                    <i class="bi bi-funnel"></i> <span>Leads</span>
+                </a>
+                <a href="attendance.html" class="sidebar-item" id="nav-attendance">
+                    <i class="bi bi-clock-history"></i> <span>Attendance</span>
+                </a>
+                <a href="leaves.html" class="sidebar-item" id="nav-leaves">
+                    <i class="bi bi-calendar2-check"></i> <span>Leaves</span>
+                </a>
+                <a href="approvals.html" class="sidebar-item" id="nav-approvals">
+                    <i class="bi bi-check2-square"></i> <span>Approvals</span>
+                </a>
+                <a href="kpi.html" class="sidebar-item" id="nav-kpi">
+                    <i class="bi bi-graph-up-arrow"></i> <span>KPI</span>
+                </a>
+                <a href="reports.html" class="sidebar-item" id="nav-reports">
+                    <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports</span>
+                </a>
+                <a href="notifications.html" class="sidebar-item" id="nav-notifications">
+                    <i class="bi bi-bell"></i> <span>Notifications</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold mb-0">CRM Leads Pipeline</h1>
+                    <p class="text-muted font-13 mb-0">Track and assign prospective business leads.</p>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="openModal('createLeadModal')">
+                    <i class="bi bi-plus-lg me-1"></i> Add Lead
+                </button>
+            </div>
+
+            <!-- Leads Funnel KPIs -->
+            <div class="row g-3">
+                <div class="col">
+                    <div class="card kpi-card shadow-sm border-0">
+                        <div class="card-body">
+                            <span class="kpi-label text-muted font-11">Fresh Leads</span>
+                            <h4 class="kpi-value" id="countFresh">0</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card kpi-card shadow-sm border-0">
+                        <div class="card-body">
+                            <span class="kpi-label text-muted font-11">Interested</span>
+                            <h4 class="kpi-value" id="countInterested">0</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card kpi-card shadow-sm border-0">
+                        <div class="card-body">
+                            <span class="kpi-label text-muted font-11">Follow-up</span>
+                            <h4 class="kpi-value" id="countFollowup">0</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card kpi-card shadow-sm border-0">
+                        <div class="card-body">
+                            <span class="kpi-label text-muted font-11">Converted</span>
+                            <h4 class="kpi-value" id="countConverted">0</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card kpi-card shadow-sm border-0">
+                        <div class="card-body">
+                            <span class="kpi-label text-muted font-11">Lost</span>
+                            <h4 class="kpi-value" id="countLost">0</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="data-table-container">
+                                <table class="data-table" id="leadsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Company</th>
+                                            <th>Contact Person</th>
+                                            <th>Est. Value</th>
+                                            <th>Assigned To</th>
+                                            <th>Status</th>
+                                            <th>Next Follow-up</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="leadsListBody">
+                                        <!-- Dynamic list rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lead Details card -->
+                <div class="col-lg-4">
+                    <div class="card" id="leadDetailCard" style="display:none;">
+                        <div class="card-body d-flex flex-column gap-3">
+                            <h5 class="card-title font-weight-bold" id="detLeadName">-</h5>
+                            <div class="font-12 text-muted"><i class="bi bi-person"></i> <span id="detLeadContact">-</span></div>
+                            <div class="font-12 text-muted"><i class="bi bi-telephone"></i> <span id="detLeadPhone">-</span></div>
+                            <div class="font-12 text-muted"><i class="bi bi-wallet2"></i> Value: <strong id="detLeadValue">-</strong></div>
+                            
+                            <hr class="my-0">
+                            
+                            <div>
+                                <label class="form-label font-12 font-weight-600">Assignee</label>
+                                <select class="form-select form-select-sm" id="detLeadAssigneeSelect" onchange="updateLeadAssignee()">
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label font-12 font-weight-600">Pipeline Status</label>
+                                <select class="form-select form-select-sm" id="detLeadStatusSelect" onchange="updateLeadStatus()">
+                                    <option value="Fresh">Fresh</option>
+                                    <option value="Interested">Interested</option>
+                                    <option value="Follow-up">Follow-up</option>
+                                    <option value="Converted">Converted</option>
+                                    <option value="Lost">Lost</option>
+                                </select>
+                            </div>
+
+                            <hr class="my-0">
+
+                            <div>
+                                <strong class="font-12 d-block mb-1">Follow-up Notes & Log:</strong>
+                                <textarea class="form-control form-control-sm mb-2" id="leadFollowupNote" rows="2" placeholder="Write logs..."></textarea>
+                                <button class="btn btn-secondary btn-sm" onclick="addLeadNote()">Add Note</button>
+                            </div>
+
+                            <div class="d-flex flex-column gap-2" id="leadNotesContainer" style="max-height:120px; overflow-y:auto;">
+                                <!-- Notes list -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card text-center py-5" id="noLeadSelectedCard">
+                        <div class="card-body">
+                            <i class="bi bi-funnel text-muted fs-1 mb-2"></i>
+                            <p class="text-muted font-12 mb-0">Select a lead from the database to configure pipeline properties.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Lead Modal -->
+    <div class="modal fade" id="createLeadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold">Register CRM Lead</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="createLeadForm" onsubmit="createNewLead(event)">
+                    <div class="modal-body d-flex flex-column gap-3">
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Company Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="e.g. Zylker Labs">
+                        </div>
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Contact Person</label>
+                            <input type="text" name="contact" class="form-control" placeholder="John Doe">
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label font-12 font-weight-600">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="john@company.com">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label font-12 font-weight-600">Phone</label>
+                                <input type="text" name="phone" class="form-control" placeholder="+1 555-1234">
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label font-12 font-weight-600">Est. Value (₹)</label>
+                                <input type="text" name="value" class="form-control" placeholder="₹10,00,000">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label font-12 font-weight-600">Assigned Member</label>
+                                <select name="assigned_to" class="form-select" id="newLeadAssigneeSelect">
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label font-12 font-weight-600">Next Follow-up Date</label>
+                            <input type="date" name="next_followup" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Add Lead</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Global Logic -->
+    <script src="../shared/global.js"></script>
+    <script>
+        const role = localStorage.getItem('currentRole') || 'Manager';
+        const userId = localStorage.getItem('currentUserId') || 'EMP002';
+        let selectedLeadId = null;
+
+        const scopedUsers = getScopedData('users', role, userId);
+
+        function populateAssignees() {
+            const list = scopedUsers.map(u => `<option value="${u.name}">${u.name}</option>`).join('');
+            document.getElementById('newLeadAssigneeSelect').innerHTML = list;
+            document.getElementById('detLeadAssigneeSelect').innerHTML = `<option value="">Unassigned</option>` + list;
+        }
+
+        function renderLeads() {
+            const scopedLeads = getScopedData('leads', role, userId);
+            
+            // Recompute counts
+            const counts = { Fresh: 0, Interested: 0, 'Follow-up': 0, Converted: 0, Lost: 0 };
+            scopedLeads.forEach(l => {
+                if (counts[l.status] !== undefined) counts[l.status]++;
+            });
+
+            document.getElementById('countFresh').innerText = counts.Fresh;
+            document.getElementById('countInterested').innerText = counts.Interested;
+            document.getElementById('countFollowup').innerText = counts['Follow-up'];
+            document.getElementById('countConverted').innerText = counts.Converted;
+            document.getElementById('countLost').innerText = counts.Lost;
+
+            const tbody = document.getElementById('leadsListBody');
+            tbody.innerHTML = scopedLeads.map(l => `
+                <tr style="cursor:pointer;" class="${selectedLeadId === l.id ? 'table-primary' : ''}" onclick="selectLead('${l.id}')">
+                    <td><strong>${l.name}</strong></td>
+                    <td>${l.contact}</td>
+                    <td>${l.value}</td>
+                    <td>${l.assigned_to || 'Unassigned'}</td>
+                    <td><span class="status-badge badge-${l.status.toLowerCase().replace(' ', '')}">${l.status}</span></td>
+                    <td>${l.next_followup}</td>
+                </tr>
+            `).join('') || `<tr><td colspan="6" class="text-center text-muted">No scoped leads found.</td></tr>`;
+        }
+
+        window.selectLead = (id) => {
+            selectedLeadId = id;
+            renderLeads();
+
+            const lead = mockDB.leads.find(l => l.id === id);
+            if (!lead) return;
+
+            document.getElementById('leadDetailCard').style.display = 'block';
+            document.getElementById('noLeadSelectedCard').style.display = 'none';
+
+            document.getElementById('detLeadName').innerText = lead.name;
+            document.getElementById('detLeadContact').innerText = `${lead.contact} (${lead.email})`;
+            document.getElementById('detLeadPhone').innerText = lead.phone;
+            document.getElementById('detLeadValue').innerText = lead.value;
+            document.getElementById('detLeadAssigneeSelect').value = lead.assigned_to || "";
+            document.getElementById('detLeadStatusSelect').value = lead.status;
+
+            // Render Notes
+            const notesContainer = document.getElementById('leadNotesContainer');
+            const notes = lead.notes || [];
+            notesContainer.innerHTML = notes.map(n => `
+                <div class="bg-light p-2 rounded">
+                    <p class="mb-0 font-11 text-secondary">${n.text}</p>
+                    <span class="font-9 text-muted d-block text-end">${n.time}</span>
+                </div>
+            `).join('') || `<span class="text-muted font-11">No follow-up notes.</span>`;
+        };
+
+        window.updateLeadStatus = () => {
+            const select = document.getElementById('detLeadStatusSelect');
+            const lead = mockDB.leads.find(l => l.id === selectedLeadId);
+            if (lead) {
+                const old = lead.status;
+                lead.status = select.value;
+                saveMockDB();
+                logAudit(mockDB.users.find(u => u.id === userId).name, "Leads", "Update", `Changed status of lead ${selectedLeadId} from ${old} to ${lead.status}`);
+                showToast(`Lead status updated to ${lead.status}`, "success");
+                renderLeads();
+            }
+        };
+
+        window.updateLeadAssignee = () => {
+            const select = document.getElementById('detLeadAssigneeSelect');
+            const lead = mockDB.leads.find(l => l.id === selectedLeadId);
+            if (lead) {
+                const old = lead.assigned_to || 'None';
+                lead.assigned_to = select.value;
+                saveMockDB();
+                logAudit(mockDB.users.find(u => u.id === userId).name, "Leads", "Update", `Reassigned lead ${selectedLeadId} from ${old} to ${lead.assigned_to}`);
+                showToast(`Lead reassigned to ${lead.assigned_to}`, "success");
+                renderLeads();
+            }
+        };
+
+        window.addLeadNote = () => {
+            const noteInput = document.getElementById('leadFollowupNote');
+            const noteText = noteInput.value.trim();
+            if (!noteText) return;
+
+            const lead = mockDB.leads.find(l => l.id === selectedLeadId);
+            if (lead) {
+                if (!lead.notes) lead.notes = [];
+                lead.notes.unshift({
+                    text: noteText,
+                    time: new Date().toLocaleTimeString()
+                });
+                saveMockDB();
+                noteInput.value = "";
+                selectLead(selectedLeadId);
+                showToast("Note added successfully", "success");
+            }
+        };
+
+        window.createNewLead = (e) => {
+            e.preventDefault();
+            const rules = {
+                name: { required: true },
+                contact: { required: true }
+            };
+
+            if (!validateForm('#createLeadForm', rules)) return;
+
+            const form = document.getElementById('createLeadForm');
+            const formData = new FormData(form);
+
+            const newId = `LED0${mockDB.leads.length + 1}`;
+            const newLead = {
+                id: newId,
+                name: formData.get('name'),
+                contact: formData.get('contact'),
+                email: formData.get('email') || 'N/A',
+                phone: formData.get('phone') || 'N/A',
+                value: formData.get('value') || '₹0',
+                status: 'Fresh',
+                date: new Date().toISOString().substring(0, 10),
+                next_followup: formData.get('next_followup') || 'N/A',
+                assigned_to: formData.get('assigned_to') || '',
+                notes: []
+            };
+
+            mockDB.leads.push(newLead);
+            saveMockDB();
+            logAudit(mockDB.users.find(u => u.id === userId).name, "Leads", "Create", `Created lead ${newId} - ${newLead.name}`);
+            showToast("Lead registered successfully!", "success");
+
+            closeModal('createLeadModal');
+            form.reset();
+            renderLeads();
+            selectLead(newId);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = mockDB.users.find(u => u.id === userId);
+            if (user) {
+                document.getElementById('currentUserDisplay').innerText = `${user.name} (${role})`;
+            }
+            populateAssignees();
+            renderLeads();
+            initDataTable('#leadsTable');
+        });
+    </script>
+</body>
+</html>

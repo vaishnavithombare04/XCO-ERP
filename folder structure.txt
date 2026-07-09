@@ -1,0 +1,39 @@
+# XCO-ERP
+
+An Enterprise Resource Planning (ERP) and Customer Relationship Management (CRM) system.
+
+## Folder Structure
+
+Below is the directory layout of the project:
+
+```text
+XCO-ERP/
+├── admin/                     # Admin Dashboard and management portals
+│   ├── attendance.html        # Employee attendance tracking
+│   ├── audit-logs.html        # System activity and audit logs
+│   ├── clients.html           # Client management page
+│   ├── crm-leads.html         # CRM lead tracking and pipeline
+│   ├── departments.html       # Department management
+│   ├── freelancers-interns.html # Freelancer and intern directory
+│   ├── index.html             # Admin dashboard homepage
+│   ├── kpi.html               # Key Performance Indicators / analytics
+│   ├── leaves.html            # Leave and time-off request management
+│   ├── notifications.html     # Notifications panel
+│   ├── reports.html           # Reports and analytics generation
+│   ├── roles-permissions.html # User role-based access control configurations
+│   ├── settings.html          # Portal settings
+│   ├── shifts.html            # Employee shift schedule management
+│   ├── tasks.html             # Task delegation and tracking
+│   ├── teams-groups.html      # Team/group setups
+│   └── users.html             # User/employee management
+├── img/                       # Image assets
+│   └── girl img.avif          # Profile/avatar image placeholder
+├── pages/                     # Public and authentication pages
+│   ├── login.html             # Login page
+│   └── signup.html            # Registration page
+├── shared/                    # Shared assets across portals
+│   ├── global.css             # Main styling stylesheet
+│   └── global.js              # Global script files
+├── README.md                  # Project documentation
+└── plan.txt                   # Project plan and specifications
+```
