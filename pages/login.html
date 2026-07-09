@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - XtrazCon ERP Admin</title>
@@ -30,7 +37,7 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
     <div class="auth-container">
         <!-- Floating Theme Toggle -->
         <div class="position-absolute top-0 end-0 m-3">
@@ -54,7 +61,7 @@
                 <div class="mb-3">
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <label class="form-label font-12 font-weight-600 mb-0">Password</label>
-                        <a href="#" class="font-11 text-primary text-decoration-none">Forgot password?</a>
+                        <a href="forgot-password.html" class="font-11 text-primary text-decoration-none">Forgot password?</a>
                     </div>
                     <input type="password" name="password" class="form-control" placeholder="••••••••" required value="admin123">
                 </div>

@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master Dashboard - XtrazCon ERP Admin</title>
@@ -13,7 +20,7 @@
     <!-- Shared Global CSS -->
     <link rel="stylesheet" href="../shared/global.css">
 </head>
-<body>
+<body data-theme="light">
     <!-- App Header -->
     <header class="app-header">
         <div class="header-brand">
@@ -347,7 +354,7 @@
             };
 
             // Chartjs definitions
-            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             const colors = {
                 text: isDark ? '#94a3b8' : '#475569',
                 grid: isDark ? '#223049' : '#e2e8f0',

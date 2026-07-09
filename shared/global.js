@@ -88,6 +88,24 @@ const defaultMockDB = {
         { id: "NTF003", type: "leaves", message: "Emma Watson submitted a new Sick Leave request", time: "2h ago" },
         { id: "NTF004", type: "approvals", message: "Raj Patel requested a task hold approval", time: "5m ago" }
     ],
+    projects: [
+        { id: "PRJ001", client_id: "CLI001", name: "Cloud Infrastructure Deployment", status: "On Track", progress: 85, start: "2026-05-01", delivery: "2026-08-15", desc: "Deploy AWS infrastructure with auto-scaling Kubernetes cluster.", manager: "Alex Rivera", milestones: ["Requirements Analysis (Done)", "Infrastructure Setup (Done)", "API Deployment (In Progress)", "Client Handover (Pending)"] },
+        { id: "PRJ002", client_id: "CLI001", name: "Portal Re-design", status: "At Risk", progress: 45, start: "2026-06-10", delivery: "2026-09-01", desc: "Redesign the UI dashboard with responsive premium themes.", manager: "Marcus Lee", milestones: ["Design Mockups (Done)", "Front-end Integration (In Progress)", "User testing (Pending)"] }
+    ],
+    tickets: [
+        { id: "TCK001", client_id: "CLI001", project: "Cloud Infrastructure Deployment", subject: "S3 Bucket Access Control configuration issue", priority: "High", status: "In Progress", created: "2026-07-05", updated: "2026-07-07", desc: "We are getting 403 Access Denied on uploading assets.", replies: [{ user: "Project Manager", text: "We are reviewing the IAM policy for the S3 bucket to verify permissions.", time: "July 7, 10:30 AM" }] }
+    ],
+    invoices: [
+        { id: "INV001", client_id: "CLI001", project: "Cloud Infrastructure Deployment", amount: 450000, due: "2026-07-15", status: "Pending", line_items: [{ desc: "Initial AWS Setup & VPC Config", price: 200000 }, { desc: "Terraform Module & Helm deployment", price: 250000 }] },
+        { id: "INV002", client_id: "CLI001", project: "Portal Re-design", amount: 300000, due: "2026-06-30", status: "Paid", line_items: [{ desc: "Design specs & wireframe completion", price: 300000 }] }
+    ],
+    subscriptions: [
+        { client_id: "CLI001", plan: "Enterprise Cloud Support", price: "₹1,50,000/mo", renewal: "2026-08-01", features: ["24/7 Phone support", "SLA: 2 Hours response", "Dedicated Technical Manager", "Weekly status calls"], billing_history: [{ date: "2026-07-01", desc: "Enterprise support monthly renewal", amount: "₹1,50,000", status: "Paid" }] }
+    ],
+    client_documents: [
+        { id: "CDOC001", client_id: "CLI001", project: "Cloud Infrastructure Deployment", title: "Architecture Blueprint Spec V2", type: "Design Spec", date: "2026-06-15", filename: "architecture_spec_v2.pdf" },
+        { id: "CDOC002", client_id: "CLI001", project: "Portal Re-design", title: "Brand Identity Guide Book", type: "Asset", date: "2026-06-22", filename: "brand_identity_guide.pdf" }
+    ],
     audit_logs: [
         { timestamp: "2026-07-08 14:32:10", user: "Sarah Chen", module: "Users", action: "Create", details: "Added employee EMP005 Sophia Martinez" },
         { timestamp: "2026-07-08 14:40:15", user: "Alex Rivera", module: "Tasks", action: "Update", details: "Changed status of TSK003 to Completed" }
@@ -95,9 +113,9 @@ const defaultMockDB = {
 };
 
 // Initialize Mock Database
-// For this demo, let's force reinitialization if users count is not matching the expanded structure
+// For this demo, let's force reinitialization if users count is not matching or client data is missing
 const storedDB = localStorage.getItem('erp_mock_db');
-if (!storedDB || JSON.parse(storedDB).users.length < 8) {
+if (!storedDB || JSON.parse(storedDB).users.length < 8 || !JSON.parse(storedDB).projects) {
     window.mockDB = defaultMockDB;
     localStorage.setItem('erp_mock_db', JSON.stringify(defaultMockDB));
 } else {
@@ -111,6 +129,18 @@ window.saveMockDB = () => {
 
 // Scoped Data Retriever
 window.getScopedData = (collectionName, currentRole, currentUserId) => {
+    if (currentRole === "client" || currentRole === "Client") {
+        const clientId = currentUserId || "CLI001";
+        const rawData = window.mockDB[collectionName] || [];
+        if (collectionName === "projects" || collectionName === "tickets" || collectionName === "invoices" || collectionName === "subscriptions" || collectionName === "client_documents") {
+            return rawData.filter(item => item.client_id === clientId);
+        }
+        if (collectionName === "notifications") {
+            return rawData.filter(n => n.type === "tickets" || n.type === "invoices" || n.type === "projects");
+        }
+        return [];
+    }
+
     const user = window.mockDB.users.find(u => u.id === currentUserId || u.name === currentUserId) || window.mockDB.users.find(u => u.id === "EMP002");
     const dept = user.department;
     const team = user.team;
@@ -123,6 +153,8 @@ window.getScopedData = (collectionName, currentRole, currentUserId) => {
             return u.department === dept && u.team === team;
         } else if (currentRole === "Coordinator") {
             return u.department === dept && u.team === team && u.group === group;
+        } else if (currentRole === "member" || currentRole === "Employee") {
+            return u.id === currentUserId || u.name === currentUserId;
         }
         return false;
     });
@@ -198,11 +230,41 @@ function initTheme() {
         if (theme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
             document.body.setAttribute('data-theme', 'dark');
+            if (themeToggle) {
+                const sun = themeToggle.querySelector('.sun-icon');
+                const moon = themeToggle.querySelector('.moon-icon');
+                if (sun && moon) {
+                    sun.classList.add('d-none');
+                    moon.classList.remove('d-none');
+                }
+            }
         } else {
             document.documentElement.removeAttribute('data-theme');
             document.body.removeAttribute('data-theme');
+            if (themeToggle) {
+                const sun = themeToggle.querySelector('.sun-icon');
+                const moon = themeToggle.querySelector('.moon-icon');
+                if (sun && moon) {
+                    sun.classList.remove('d-none');
+                    moon.classList.add('d-none');
+                }
+            }
         }
         setStoredTheme(theme);
+
+        // Dynamically style Chart.js default labels and grid lines
+        if (window.Chart) {
+            const isDark = theme === 'dark';
+            Chart.defaults.color = isDark ? '#a3b3c9' : '#475569';
+            Chart.defaults.borderColor = isDark ? '#223049' : '#e2e8f0';
+            if (Chart.defaults.scales) {
+                Object.keys(Chart.defaults.scales).forEach(scaleType => {
+                    if (Chart.defaults.scales[scaleType].grid) {
+                        Chart.defaults.scales[scaleType].grid.color = isDark ? '#223049' : '#e2e8f0';
+                    }
+                });
+            }
+        }
         
         // Dispatch Custom Event for Chart styling updates
         const event = new CustomEvent('themechange', { detail: { theme } });
@@ -213,7 +275,7 @@ function initTheme() {
 
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             applyTheme(isDark ? 'light' : 'dark');
         });
     }
@@ -551,9 +613,27 @@ function initManagerHeader() {
     }
 }
 
+function initEmployeeSession() {
+    if (!window.location.pathname.includes('/employee/')) return;
+    
+    // Always force current role to Employee and ID to EMP006 for this portal
+    localStorage.setItem('currentRole', 'Employee');
+    localStorage.setItem('currentUserId', 'EMP006');
+}
+
+function initClientSession() {
+    if (!window.location.pathname.includes('/client/')) return;
+    
+    // Always force current role to Client and ID to CLI001 for this portal
+    localStorage.setItem('currentRole', 'Client');
+    localStorage.setItem('currentUserId', 'CLI001');
+}
+
 // Global script running
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initSidebar();
     initManagerHeader();
+    initEmployeeSession();
+    initClientSession();
 });
