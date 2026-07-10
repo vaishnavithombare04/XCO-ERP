@@ -17,8 +17,8 @@
     --border-color: #e2e8f0;
     
     --text-primary: #0f172a;
-    --text-secondary: #334155; /* Slate-700 for better contrast */
-    --text-tertiary: #576b82;   /* Slate-500/600 for better contrast */
+    --text-secondary: #475569;
+    --text-tertiary: #94a3b8;
     
     --accent-blue: #3b82f6;
     --accent-purple: #8b5cf6;
@@ -43,8 +43,8 @@
     --border-color: #223049;
     
     --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1; /* Slate-300 for better contrast */
-    --text-tertiary: #94a3b8;  /* Slate-400 for better contrast */
+    --text-secondary: #a3b3c9;
+    --text-tertiary: #8a99ad;
 }
 
 /* Force dark mode styles on Bootstrap utility overrides */
