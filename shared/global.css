@@ -1,0 +1,1111 @@
+/* ==========================================================================
+   XtrazCon IT ERP - Shared Global Design System (global.css)
+   ========================================================================== */
+
+/* Design Tokens & CSS Custom Properties */
+:root {
+    --bg-app: #f4f6f8;
+    --bg-card: #ffffff;
+    --bg-sidebar: #17171b;
+    --bg-sidebar-hover: rgba(255, 255, 255, 0.08);
+    --bg-sidebar-active: rgba(59, 130, 246, 0.15);
+    --border-color: #e2e8f0;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #334155; /* Slate-700 for better contrast */
+    --text-tertiary: #576b82;   /* Slate-500/600 for better contrast */
+    
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-orange: #f97316;
+    --accent-pink: #ec4899;
+    --accent-green: #10b981;
+    --accent-gray: #64748b;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    
+    --radius-lg: 14px;
+    --radius-md: 8px;
+    --transition-speed: 0.2s;
+}
+
+[data-theme="dark"] {
+    --bg-app: #090c15;
+    --bg-card: #121824;
+    /* Sidebar remains dark (#17171B) in both themes */
+    --border-color: #223049;
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1; /* Slate-300 for better contrast */
+    --text-tertiary: #94a3b8;  /* Slate-400 for better contrast */
+}
+
+/* Force dark mode styles on Bootstrap utility overrides */
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-light,
+[data-theme="dark"] .date-badge {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+[data-theme="dark"] .text-dark {
+    color: var(--text-primary) !important;
+}
+
+/* ==========================================================================
+   Base Layout Styling
+   ========================================================================== */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    overflow-x: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Override Bootstrap & native elements for high contrast, theme-aware readability */
+.text-body {
+    color: var(--text-primary) !important;
+}
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+.text-muted, .text-tertiary, .text-secondary-muted {
+    color: var(--text-tertiary) !important;
+}
+label, .form-label {
+    color: var(--text-primary) !important; /* Force form labels to match theme text color */
+}
+::placeholder, .form-control::placeholder, input::placeholder, textarea::placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 0.85 !important;
+}
+/* Vendor specific rules for reliability */
+.form-control::-webkit-input-placeholder, input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 0.85 !important;
+}
+.form-control::-moz-placeholder, input::-moz-placeholder, textarea::-moz-placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 0.85 !important;
+}
+.form-control:-ms-input-placeholder, input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 0.85 !important;
+}
+select option {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+.app-container {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 56px);
+    overflow: hidden;
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ==========================================================================
+   Reusable UI Component Classes
+   ========================================================================== */
+
+/* 1. App Header
+   Usage:
+   <header class="app-header">
+       <div class="header-brand">...</div>
+       <div class="header-search">...</div>
+       <div class="header-actions">...</div>
+   </header>
+*/
+.app-header {
+    height: 56px;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-brand img {
+    height: 28px;
+}
+
+.header-brand .brand-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.header-search {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+}
+
+.header-search input {
+    width: 100%;
+    padding: 6px 12px 6px 36px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-size: 13px;
+    outline: none;
+}
+
+.header-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--text-tertiary);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 2. App Sidebar
+   Usage:
+   <aside class="app-sidebar">
+       <nav class="sidebar-menu">
+           <a href="index.html" class="sidebar-item active"><i class="bi bi-grid"></i><span>Dashboard</span></a>
+           ...
+       </nav>
+   </aside>
+*/
+.app-sidebar {
+    width: 240px;
+    background-color: var(--bg-sidebar);
+    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    transition: width var(--transition-speed), transform var(--transition-speed);
+    z-index: 999;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 8px;
+    gap: 4px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+    white-space: nowrap;
+}
+
+.sidebar-item:hover {
+    color: #ffffff;
+    background-color: var(--bg-sidebar-hover);
+}
+
+.sidebar-item.active {
+    color: #3b82f6;
+    background-color: var(--bg-sidebar-active);
+    font-weight: 600;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.08);
+    margin: 12px 14px;
+}
+
+.sidebar-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 14px;
+    color: #4b5563;
+    font-weight: 600;
+}
+
+/* Sidebar Responsive states */
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        width: 64px;
+    }
+    .sidebar-item span, .sidebar-label, .sidebar-divider {
+        display: none;
+    }
+    .sidebar-item {
+        justify-content: center;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .app-sidebar {
+        transform: translateX(-100%);
+        position: absolute;
+        height: calc(100vh - 56px);
+    }
+    .app-sidebar.show {
+        transform: translateX(0);
+        width: 240px;
+    }
+    .app-sidebar.show .sidebar-item span, 
+    .app-sidebar.show .sidebar-label, 
+    .app-sidebar.show .sidebar-divider {
+        display: flex;
+    }
+}
+
+/* 3. Cards & KPI Cards
+   Usage:
+   <div class="card kpi-card">
+       <div class="card-body">
+           <span class="kpi-label">Total Staff</span>
+           <h3 class="kpi-value">245</h3>
+           <span class="kpi-trend trend-up"><i class="bi-arrow-up"></i> 12%</span>
+       </div>
+   </div>
+*/
+.card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-sm);
+    color: var(--text-primary) !important;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.kpi-card .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.kpi-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.kpi-trend {
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.trend-up { color: var(--accent-green); }
+.trend-down { color: #ef4444; }
+
+/* 4. Data Table
+   Usage:
+   <table class="data-table">
+       <thead>
+           <tr>
+               <th>Name <i class="bi bi-arrow-down-up"></i></th>
+           </tr>
+       </thead>
+       <tbody>...</tbody>
+   </table>
+*/
+.data-table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background-color: var(--bg-card);
+}
+
+.data-table th {
+    background-color: var(--bg-app);
+    color: var(--text-secondary);
+    padding: 12px 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+}
+
+.data-table th i {
+    font-size: 10px;
+    margin-left: 4px;
+    color: var(--text-tertiary);
+}
+
+.data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.04);
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 5. Status Badge
+   Usage:
+   <span class="status-badge badge-active">Active</span>
+*/
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: capitalize;
+}
+
+.badge-active, .badge-approved, .badge-completed {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--accent-green);
+}
+
+.badge-pending, .badge-working {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: var(--accent-blue);
+}
+
+.badge-onhold, .badge-hold {
+    background-color: rgba(249, 115, 22, 0.15);
+    color: var(--accent-orange);
+}
+
+.badge-overdue, .badge-rejected {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* 6. Buttons */
+.btn-primary {
+    background-color: var(--accent-blue) !important;
+    border-color: var(--accent-blue) !important;
+    color: #ffffff !important;
+}
+.btn-primary:hover {
+    background-color: #2563eb !important;
+}
+
+.btn-secondary {
+    background-color: var(--bg-app) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+.btn-secondary:hover {
+    background-color: var(--border-color) !important;
+}
+
+.btn-danger {
+    background-color: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: #ffffff !important;
+}
+.btn-danger:hover {
+    background-color: #dc2626 !important;
+}
+
+.btn-ghost {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: var(--text-secondary) !important;
+}
+.btn-ghost:hover {
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+}
+
+.btn-icon-only {
+    width: 32px;
+    height: 32px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md) !important;
+}
+
+/* 7. Modal Form Styling */
+.modal-content {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    color: var(--text-primary) !important;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color) !important;
+}
+
+.form-control, .form-select {
+    background-color: var(--bg-app) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    font-size: 13px !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* 8. Kanban Column & Cards
+   Usage:
+   <div class="kanban-column" data-status="pending">
+       <h4 class="kanban-column-title">Pending</h4>
+       <div class="kanban-cards-wrapper">
+           <div class="kanban-card" draggable="true" data-id="1">...</div>
+       </div>
+   </div>
+*/
+.kanban-board {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    flex: 1;
+}
+
+.kanban-column {
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    background-color: var(--bg-app);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.kanban-column-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanban-cards-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 400px;
+    overflow-y: auto;
+}
+
+.kanban-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    box-shadow: var(--shadow-sm);
+    cursor: grab;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.kanban-card:active {
+    cursor: grabbing;
+}
+
+.kanban-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.kanban-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.kanban-card-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.kanban-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+/* Drag over highlight class */
+.kanban-column.drag-over {
+    background-color: rgba(59, 130, 246, 0.08);
+    border: 2px dashed var(--accent-blue);
+}
+
+/* 9. Toast Notification Container */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.custom-toast {
+    background-color: var(--bg-card);
+    border-left: 4px solid var(--accent-blue);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 280px;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.toast-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.toast-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.toast-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.toast-close {
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.toast-success { border-left-color: var(--accent-green); }
+.toast-error { border-left-color: #ef4444; }
+.toast-warning { border-left-color: var(--accent-orange); }
+.toast-reminder { border-left-color: var(--accent-purple); }
+
+/* 10. Filter Bar
+   Usage:
+   <div class="filter-bar">
+       <input type="text" class="form-control" placeholder="Search...">
+       <select class="form-select">...</select>
+       <button class="btn btn-primary">Export</button>
+   </div>
+*/
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background-color: var(--bg-card);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.filter-bar input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-bar select {
+    width: auto;
+    min-width: 150px;
+}
+
+/* ==========================================================================
+   11. Custom Interactive Calendar & Custom Dropdowns
+   ========================================================================== */
+
+/* Calendar Badge trigger */
+.date-badge {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), transform var(--transition-speed);
+}
+.date-badge:hover {
+    background-color: var(--bg-card) !important;
+    border-color: var(--accent-orange) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+.date-badge:active {
+    transform: translateY(0);
+}
+
+/* Calendar Dropdown Popover */
+.calendar-popover {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    width: 320px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 1200;
+    padding: 16px;
+    display: none;
+    animation: dropdownFadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.calendar-popover.show {
+    display: block;
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.calendar-header h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+}
+.calendar-nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.calendar-nav-btn:hover {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+.calendar-day-header {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: 4px 0;
+    text-transform: uppercase;
+}
+.calendar-day {
+    font-size: 12px;
+    text-align: center;
+    padding: 6px 0;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px auto;
+    color: var(--text-secondary);
+    transition: all 0.15s;
+    user-select: none;
+}
+.calendar-day:hover {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+}
+.calendar-day.empty {
+    cursor: default;
+    color: var(--text-tertiary);
+    opacity: 0.25;
+}
+.calendar-day.empty:hover {
+    background: none;
+}
+.calendar-day.selected {
+    background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink)) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 4px 8px rgba(249, 115, 22, 0.3);
+}
+.calendar-day.today {
+    border: 2px solid var(--accent-orange);
+    color: var(--accent-orange);
+    font-weight: 600;
+}
+
+/* Custom Select Dropdowns */
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--bg-app);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-speed);
+}
+.custom-select-trigger:focus, .custom-select-trigger.active {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+.custom-select-trigger i.chevron {
+    font-size: 10px;
+    color: var(--text-secondary);
+    transition: transform var(--transition-speed);
+}
+.custom-select-trigger.active i.chevron {
+    transform: rotate(180deg);
+}
+
+.custom-select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 6px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 1050;
+    max-height: 220px;
+    overflow-y: auto;
+    display: none;
+    animation: dropdownFadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.custom-select-options.show {
+    display: block;
+}
+
+.custom-select-option {
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+.custom-select-option:hover {
+    background-color: rgba(59, 130, 246, 0.08);
+    color: var(--text-primary);
+}
+.custom-select-option.selected {
+    background-color: var(--bg-sidebar-active);
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+/* Custom Scrollbar for dropdown options */
+.custom-select-options::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-select-options::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-select-options::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
+}
+
+/* Mobile dropdown adjustments */
+@media (max-width: 767.98px) {
+    .custom-select-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        width: 100%;
+        margin-top: 6px;
+        border-radius: var(--radius-md);
+        max-height: 240px;
+        z-index: 2200;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
+        transform: none;
+        transition: none;
+        display: none;
+        visibility: visible;
+    }
+    .custom-select-options.show {
+        display: block !important;
+        transform: none;
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .custom-select-options::before {
+        content: none;
+    }
+    
+    .custom-select-option {
+        padding: 12px 14px;
+        font-size: 14px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .custom-select-overlay {
+        display: none !important;
+    }
+    
+    /* Calendar Mobile styling overrides */
+    .calendar-popover {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin-top: 0;
+        border-radius: 20px 20px 0 0;
+        z-index: 2100;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: block !important;
+        visibility: hidden;
+        border: none;
+        border-top: 1px solid var(--border-color);
+    }
+    .calendar-popover.show {
+        transform: translateY(0);
+        visibility: visible;
+    }
+    .calendar-popover::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background-color: var(--border-color);
+        border-radius: 2px;
+        margin: 0 auto 16px auto;
+    }
+    .calendar-grid {
+        gap: 6px;
+    }
+    .calendar-day {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+/* Interactive Security Test Panel Styles */
+.security-tester-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+.security-tester-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent-orange), var(--accent-pink));
+}
+.security-test-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+.security-test-row {
+    background-color: var(--bg-app);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.security-test-row:hover {
+    transform: translateX(3px);
+    border-color: rgba(249, 115, 22, 0.15);
+}
+.security-test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+.security-test-badge {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+.security-test-badge.pass {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: var(--accent-green);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.security-test-badge.fail {
+    background-color: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.security-test-badge.idle {
+    background-color: var(--bg-sidebar-hover);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+.security-test-desc {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+    line-height: 1.5;
+}
+
+/* Internship duration progress bar */
+.duration-progress-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+.duration-progress-bar {
+    height: 10px;
+    background-color: var(--bg-app);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+.duration-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange));
+    border-radius: 5px;
+    transition: width 0.5s ease-out;
+}
+
+/* Dropdown alignment correction */
+.dropdown {
+    position: relative !important;
+}
+.dropdown-menu-end {
+    right: 0 !important;
+    left: auto !important;
+}
+.dropdown-menu.show {
+    display: block !important;
+    position: absolute !important;
+    top: 100% !important;
+    z-index: 2200 !important;
+}
+
+

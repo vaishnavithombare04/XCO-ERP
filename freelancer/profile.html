@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem('theme');
+        var preferredTheme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (preferredTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (error) {}
+    })();
+  </script>
+  <style>
+    html { background-color: #f4f6f8; }
+    html[data-theme="dark"] { background-color: #090c15; color: #f8fafc; }
+    html[data-theme="dark"] body { background-color: #090c15; color: #f8fafc; }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XtrazCon IT ERP — Freelancer Workspace Settings</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom design systems -->
+  <link rel="stylesheet" href="../shared/global.css">
+  <style>
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      padding: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    .icon-btn:hover {
+      background-color: var(--bg-sidebar-hover);
+      color: var(--text-primary);
+    }
+    .skill-tag {
+      background: var(--bg-app);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .skill-tag .btn-close-skill {
+      cursor: pointer;
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    .skill-tag .btn-close-skill:hover {
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+      <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+    </div>
+    
+    <div class="header-search d-none d-md-block">
+      <i class="bi bi-search header-search-icon"></i>
+      <input type="text" placeholder="Search files, tasks, or settings..." id="dashboardSearch">
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+        <i class="bi bi-sun sun-icon fs-5"></i>
+        <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+      </button>
+      
+      <div class="dropdown">
+        <button class="icon-btn position-relative" id="btnNotifications" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications" style="background: none; border: none; padding: 6px;">
+          <i class="bi bi-bell fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" id="notifBadge" style="display: none;"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end p-2 shadow-lg" style="width: 320px; max-height: 380px; overflow-y: auto; border: 1px solid var(--border-color); background: var(--bg-card); z-index: 1050;" id="headerNotificationsQueue">
+          <!-- Rendered dynamically -->
+        </ul>
+      </div>
+
+      <div class="dropdown">
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border" id="headerUserAvatarImg">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li><a class="dropdown-item" href="profile.html">Profile Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- App Container -->
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-menu">
+        <span class="sidebar-label">WORKSPACE</span>
+        <a href="index.html" class="sidebar-item">
+          <i class="bi bi-speedometer2"></i> <span>Dashboard Overview</span>
+        </a>
+        <a href="tasks.html" class="sidebar-item">
+          <i class="bi bi-check-square-fill"></i> <span>Task Management</span>
+        </a>
+        <a href="projects.html" class="sidebar-item">
+          <i class="bi bi-folder-fill"></i> <span>Assigned Projects</span>
+        </a>
+        <a href="contracts.html" class="sidebar-item">
+          <i class="bi bi-file-earmark-text-fill"></i> <span>Contracts & Milestones</span>
+        </a>
+        <a href="invoices.html" class="sidebar-item">
+          <i class="bi bi-receipt-cutoff"></i> <span>Invoices & Payouts</span>
+        </a>
+        <a href="attendance.html" class="sidebar-item">
+          <i class="bi bi-clock-fill"></i> <span>Worklogs & Shifts</span>
+        </a>
+        
+        <div class="sidebar-divider"></div>
+        <span class="sidebar-label">COMMUNICATION & SYSTEM</span>
+        <a href="reports.html" class="sidebar-item">
+          <i class="bi bi-cloud-arrow-up-fill"></i> <span>Submissions Room</span>
+        </a>
+        <a href="chat.html" class="sidebar-item">
+          <i class="bi bi-chat-dots-fill"></i> <span>Team Chat</span>
+        </a>
+        <a href="meetings.html" class="sidebar-item">
+          <i class="bi bi-calendar-event-fill"></i> <span>Meetings & Syncs</span>
+        </a>
+        <a href="profile.html" class="sidebar-item active">
+          <i class="bi bi-person-fill"></i> <span>My Profile</span>
+        </a>
+      </nav>
+
+      <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.05); font-size:11px; color:#4b5563; text-align:center;">
+        Logged as: <strong style="color:var(--accent-blue);" id="sidebarRoleLabel">Freelancer (Dev)</strong>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h2 style="font-size:22px; font-weight:800; margin:0;">Freelancer Profile Settings</h2>
+          <p style="font-size:13px; color:var(--text-secondary); margin:4px 0 0 0;">Manage your freelancer contact information, expert skills list, tax settings, and payout bank details.</p>
+        </div>
+        <div class="date-badge bg-white border rounded px-3 py-2 text-secondary font-12 font-weight-500" id="serverDateLabel">
+          <i class="bi bi-calendar3 me-2"></i> July 10, 2026
+        </div>
+      </div>
+
+      <!-- Main forms box -->
+      <form id="frmProfileSettings">
+        <div class="row g-4">
+          <!-- Left Panel: Basic, Skills, Billing -->
+          <div class="col-12 col-lg-7 d-flex flex-column gap-4 order-2 order-lg-1">
+            
+            <!-- Basic info card -->
+            <div class="card p-4">
+              <h3 class="card-title mb-3" style="font-size:15px; font-weight:700;"><i class="bi bi-person-bounding-box text-primary me-2"></i> Basic Profile Details</h3>
+              
+              <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                  <label class="form-label font-12 fw-600">Full Name</label>
+                  <input type="text" class="form-control font-13" id="profName" value="Rohan Sharma" required>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label class="form-label font-12 fw-600">Email Address (Gmail / Personal)</label>
+                  <input type="email" class="form-control font-13" id="profEmail" value="rohan@gmail.com" required>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label class="form-label font-12 fw-600">Phone Number</label>
+                  <input type="text" class="form-control font-13" id="profPhone" value="+91 99999 88888" required>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label class="form-label font-12 fw-600">Shift Type</label>
+                  <input type="text" class="form-control font-13 bg-light" value="Flexible Freelancer Shift" disabled>
+                </div>
+                <div class="col-12">
+                  <label class="form-label font-12 fw-600">Reporting Manager / PM</label>
+                  <input type="text" class="form-control font-13 bg-light" value="Sarah Chen (Super Admin)" disabled>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills Card -->
+            <div class="card p-4">
+              <h3 class="card-title mb-2" style="font-size:15px; font-weight:700;"><i class="bi bi-tags-fill text-primary me-2"></i> Expert Technical Skills</h3>
+              <p class="font-12 text-tertiary mb-3">Add tags representing your core engineering expertise to display in your company profile card.</p>
+              
+              <div class="d-flex flex-wrap gap-2 mb-3" id="skillsTagContainer">
+                <!-- Skill tags populated dynamically -->
+              </div>
+              
+              <div class="input-group">
+                <input type="text" class="form-control font-13" id="txtAddSkill" placeholder="Enter skill (e.g. Redux, Webpack)">
+                <button type="button" class="btn btn-outline-primary font-12 fw-600" id="btnAddSkill">Add Skill</button>
+              </div>
+            </div>
+
+            <!-- Billing and Tax settings -->
+            <div class="card p-4">
+              <h3 class="card-title mb-3" style="font-size:15px; font-weight:700;"><i class="bi bi-wallet2 text-primary me-2"></i> Tax & Billing Settings</h3>
+              
+              <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                  <label class="form-label font-12 fw-600">PAN Card Number</label>
+                  <input type="text" class="form-control font-13" id="profPan" value="ABCDE1234F" placeholder="ABCDE1234F" required>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label class="form-label font-12 fw-600">GSTIN (Optional)</label>
+                  <input type="text" class="form-control font-13" id="profGst" value="27ABCDE1234F1Z5" placeholder="GST Number">
+                </div>
+                <div class="col-12">
+                  <label class="form-label font-12 fw-600">Hourly Contracting Rate (INR)</label>
+                  <input type="text" class="form-control font-13 bg-light" value="₹2,200 / hour (Locked by contract agreement)" disabled>
+                </div>
+              </div>
+            <!-- Session Management Card -->
+            <div class="card p-4">
+              <h3 class="card-title mb-3" style="font-size:15px; font-weight:700;"><i class="bi bi-laptop-fill text-primary me-2"></i> Session Management & Security</h3>
+              <p class="font-12 text-tertiary mb-3">Monitor active browser logins and devices authorized for your freelancer credentials.</p>
+              
+              <div class="data-table-container">
+                <table class="data-table" style="font-size:11px;">
+                  <thead>
+                    <tr>
+                      <th>Device</th>
+                      <th>Browser</th>
+                      <th>IP Address</th>
+                      <th>Last Login</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Windows Laptop (Self)</td>
+                      <td>Chrome 126.0</td>
+                      <td>192.168.1.45</td>
+                      <td>Active Session</td>
+                      <td><span class="status-badge badge-completed">Active</span></td>
+                    </tr>
+                    <tr>
+                      <td>Android Phone</td>
+                      <td>Chrome Mobile</td>
+                      <td>103.88.22.14</td>
+                      <td>July 09, 06:12 PM</td>
+                      <td><span class="status-badge badge-working">Verified</span></td>
+                    </tr>
+                    <tr>
+                      <td>Apple iPad</td>
+                      <td>Safari 17.4</td>
+                      <td>103.88.22.19</td>
+                      <td>July 08, 02:40 PM</td>
+                      <td><span class="status-badge badge-onhold">Inactive</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Panel: Bank Details & Action -->
+          <div class="col-12 col-lg-5 d-flex flex-column gap-4 order-1 order-lg-2">
+            
+            <!-- Bank payout details -->
+            <div class="card p-4">
+              <h3 class="card-title mb-3" style="font-size:15px; font-weight:700;"><i class="bi bi-bank text-primary me-2"></i> Payout Bank Details</h3>
+              <p class="font-12 text-tertiary mb-3">Ensure bank routing numbers are correct to prevent payout delays in bi-weekly invoicing cycles.</p>
+              
+              <div class="d-flex flex-column gap-3 mb-3">
+                <div>
+                  <label class="form-label font-12 fw-600">Account Holder Name</label>
+                  <input type="text" class="form-control font-13" id="bankHolder" value="Rohan Sharma" required>
+                </div>
+                <div>
+                  <label class="form-label font-12 fw-600">IFSC Routing Code</label>
+                  <input type="text" class="form-control font-13" id="bankIfsc" value="HDFC0000123" placeholder="HDFC0000123" required>
+                </div>
+                <div>
+                  <label class="form-label font-12 fw-600">Bank Account Number</label>
+                  <input type="text" class="form-control font-13" id="bankAccount" value="50100234567890" placeholder="Account Number" required>
+                </div>
+                <div>
+                  <label class="form-label font-12 fw-600">Bank Name & Branch</label>
+                  <input type="text" class="form-control font-13" id="bankName" value="HDFC Bank Ltd, Mumbai Branch" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 py-2 font-13 fw-600"><i class="bi bi-save-fill me-1"></i> Save Profile Settings</button>
+            </div>
+
+          </div>
+        </div>
+      </form>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../shared/global.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>

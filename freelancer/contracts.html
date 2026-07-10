@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem('theme');
+        var preferredTheme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (preferredTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (error) {}
+    })();
+  </script>
+  <style>
+    html { background-color: #f4f6f8; }
+    html[data-theme="dark"] { background-color: #090c15; color: #f8fafc; }
+    html[data-theme="dark"] body { background-color: #090c15; color: #f8fafc; }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XtrazCon IT ERP — Contracts & Milestones</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom design systems -->
+  <link rel="stylesheet" href="../shared/global.css">
+  <style>
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      padding: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    .icon-btn:hover {
+      background-color: var(--bg-sidebar-hover);
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+      <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+    </div>
+    
+    <div class="header-search d-none d-md-block">
+      <i class="bi bi-search header-search-icon"></i>
+      <input type="text" placeholder="Search files, tasks, or settings..." id="dashboardSearch">
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+        <i class="bi bi-sun sun-icon fs-5"></i>
+        <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+      </button>
+      
+      <div class="dropdown">
+        <button class="icon-btn position-relative" id="btnNotifications" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications" style="background: none; border: none; padding: 6px;">
+          <i class="bi bi-bell fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" id="notifBadge" style="display: none;"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end p-2 shadow-lg" style="width: 320px; max-height: 380px; overflow-y: auto; border: 1px solid var(--border-color); background: var(--bg-card); z-index: 1050;" id="headerNotificationsQueue">
+          <!-- Rendered dynamically -->
+        </ul>
+      </div>
+
+      <div class="dropdown">
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border" id="headerUserAvatarImg">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li><a class="dropdown-item" href="profile.html">Profile Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- App Container -->
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-menu">
+        <span class="sidebar-label">WORKSPACE</span>
+        <a href="index.html" class="sidebar-item">
+          <i class="bi bi-speedometer2"></i> <span>Dashboard Overview</span>
+        </a>
+        <a href="tasks.html" class="sidebar-item">
+          <i class="bi bi-check-square-fill"></i> <span>Task Management</span>
+        </a>
+        <a href="projects.html" class="sidebar-item">
+          <i class="bi bi-folder-fill"></i> <span>Assigned Projects</span>
+        </a>
+        <a href="contracts.html" class="sidebar-item active">
+          <i class="bi bi-file-earmark-text-fill"></i> <span>Contracts & Milestones</span>
+        </a>
+        <a href="invoices.html" class="sidebar-item">
+          <i class="bi bi-receipt-cutoff"></i> <span>Invoices & Payouts</span>
+        </a>
+        <a href="attendance.html" class="sidebar-item">
+          <i class="bi bi-clock-fill"></i> <span>Worklogs & Shifts</span>
+        </a>
+        
+        <div class="sidebar-divider"></div>
+        <span class="sidebar-label">COMMUNICATION & SYSTEM</span>
+        <a href="reports.html" class="sidebar-item">
+          <i class="bi bi-cloud-arrow-up-fill"></i> <span>Submissions Room</span>
+        </a>
+        <a href="chat.html" class="sidebar-item">
+          <i class="bi bi-chat-dots-fill"></i> <span>Team Chat</span>
+        </a>
+        <a href="meetings.html" class="sidebar-item">
+          <i class="bi bi-calendar-event-fill"></i> <span>Meetings & Syncs</span>
+        </a>
+        <a href="profile.html" class="sidebar-item">
+          <i class="bi bi-person-fill"></i> <span>My Profile</span>
+        </a>
+      </nav>
+
+      <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.05); font-size:11px; color:#4b5563; text-align:center;">
+        Logged as: <strong style="color:var(--accent-blue);" id="sidebarRoleLabel">Freelancer (Dev)</strong>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h2 style="font-size:22px; font-weight:800; margin:0;">Contracts & Milestones Workspace</h2>
+          <p style="font-size:13px; color:var(--text-secondary); margin:4px 0 0 0;">Review your active contracts, hourly rates, escrow budgets, and delivery milestone logs.</p>
+        </div>
+        <div class="date-badge bg-white border rounded px-3 py-2 text-secondary font-12 font-weight-500" id="serverDateLabel">
+          <i class="bi bi-calendar3 me-2"></i> July 10, 2026
+        </div>
+      </div>
+
+      <!-- Contract Agreement details card -->
+      <div class="card p-4 mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3 border-bottom pb-3">
+          <div>
+            <span class="status-badge badge-completed font-11 mb-2 d-inline-block" id="cntStatusBadge">Active</span>
+            <h3 class="fw-800 text-primary mb-1" style="font-size: 18px;" id="cntTitle">Senior React Developer - XtrazCon ERP Prototype</h3>
+            <p class="font-12 text-tertiary mb-0">ID: <strong id="cntId">CON-2026-08A</strong> · Signed Date: <strong>June 28, 2026</strong></p>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm font-12 fw-600" onclick="showToast('Downloading Agreement PDF document...', 'success')"><i class="bi bi-file-earmark-pdf me-1"></i> Agreement PDF</button>
+          </div>
+        </div>
+
+        <div class="row g-3 font-13 text-secondary">
+          <div class="col-6 col-sm-3">
+            <span class="d-block text-tertiary font-11 fw-600 text-uppercase mb-1">Freelancer Name</span>
+            <span class="fw-bold text-primary">Rohan Sharma</span>
+          </div>
+          <div class="col-6 col-sm-3">
+            <span class="d-block text-tertiary font-11 fw-600 text-uppercase mb-1">Hourly Rate</span>
+            <span class="fw-bold" style="color: var(--accent-blue);">₹2,200 / hr</span>
+          </div>
+          <div class="col-6 col-sm-3">
+            <span class="d-block text-tertiary font-11 fw-600 text-uppercase mb-1">Billing Cycle</span>
+            <span class="fw-bold">Bi-weekly Payouts</span>
+          </div>
+          <div class="col-6 col-sm-3">
+            <span class="d-block text-tertiary font-11 fw-600 text-uppercase mb-1">Contract Duration</span>
+            <span>July 1, 2026 - Dec 31, 2026</span>
+          </div>
+          
+          <div class="col-6 col-sm-3 border-top pt-2">
+            <span class="d-block text-tertiary font-11 fw-600 text-uppercase mb-1">Total Contract Value</span>
+            <strong class="text-dark fs-6" id="cntTotalBudget">₹5,00,000</strong>
+          </div>
+          <div class="col-6 col-sm-3 border-top pt-2">
+            <span class="d-block text-tertiary font-11 fw-600 text-uppercase mb-1">Escrow Balance Locked</span>
+            <strong class="text-success fs-6" id="cntEscrow">₹3,50,000</strong>
+          </div>
+          <div class="col-6 col-sm-3 border-top pt-2">
+            <span class="d-block text-tertiary font-11 fw-600 text-uppercase mb-1">Milestones Completed</span>
+            <strong class="text-primary fs-6" id="cntMilestonesRatio">2 / 4</strong>
+          </div>
+          <div class="col-6 col-sm-3 border-top pt-2">
+            <span class="d-block text-tertiary font-11 fw-600 text-uppercase mb-1">Assigned PM</span>
+            <strong>Sarah Chen</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Milestones list card -->
+      <div class="card p-3">
+        <h3 class="card-title mb-3" style="font-size:15px; font-weight:700;">Delivery Milestones & Escrow Payments</h3>
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Milestone Details</th>
+                <th>Due Date</th>
+                <th style="text-align:right;">Amount</th>
+                <th>Milestone Status</th>
+                <th>Payment Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="milestonesTableBody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../shared/global.js"></script>
+  <script src="contracts.js"></script>
+</body>
+</html>
