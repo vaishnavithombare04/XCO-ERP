@@ -8,7 +8,7 @@ function renderProjectsGrid() {
 
     container.innerHTML = '';
     const db = window.mockDB || { projects: [] };
-    const myProjects = db.projects; // Rohan Sharma is assigned to all projects in the schema
+    const myProjects = db.projects.filter(p => p.team_members && p.team_members.includes("Rohan Sharma"));
 
     if (myProjects.length === 0) {
         container.innerHTML = `<div class="col-12 text-center text-muted py-5">No assigned projects found.</div>`;

@@ -1,12 +1,8 @@
-/* ==========================================================================
-   XtrazCon IT ERP - Shared Global Design System (global.css)
+/* ===================================================================   XtrazCon IT ERP - Shared Global Design System (global.css)
    ========================================================================== */
 
-<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-=======
->>>>>>> origin/freelancer-portal
 /* Design Tokens & CSS Custom Properties */
 :root {
     --bg-app: #f4f6f8;
@@ -27,6 +23,9 @@
     --accent-green: #10b981;
     --accent-gray: #64748b;
     
+    --accent-blue-light: #e0f2fe;
+    --accent-blue-text: #0369a1;
+    
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
@@ -45,6 +44,9 @@
     --text-primary: #f8fafc;
     --text-secondary: #cbd5e1; /* Slate-300 for better contrast */
     --text-tertiary: #94a3b8;  /* Slate-400 for better contrast */
+    
+    --accent-blue-light: #075985;
+    --accent-blue-text: #f0f9ff;
 }
 
 /* Force dark mode styles on Bootstrap utility overrides */
@@ -59,8 +61,7 @@
     color: var(--text-primary) !important;
 }
 
-/* ==========================================================================
-   Base Layout Styling
+/* ===================================================================   Base Layout Styling
    ========================================================================== */
 html {
     overflow-y: scroll;
@@ -126,8 +127,7 @@ select option {
     gap: 24px;
 }
 
-/* ==========================================================================
-   Reusable UI Component Classes
+/* ===================================================================   Reusable UI Component Classes
    ========================================================================== */
 
 /* 1. App Header
@@ -211,12 +211,12 @@ select option {
 */
 .app-sidebar {
     width: 240px;
-    background-color: var(--bg-sidebar);
-    color: #94a3b8;
+    background-color: #17171b !important;
+    color: #94a3b8 !important;
     display: flex;
     flex-direction: column;
     transition: width var(--transition-speed), transform var(--transition-speed);
-    z-index: 999;
+    z-index: 9999 !important;
 }
 
 .sidebar-menu {
@@ -234,7 +234,7 @@ select option {
     gap: 12px;
     padding: 10px 14px;
     border-radius: var(--radius-md);
-    color: #94a3b8;
+    color: #94a3b8 !important;
     text-decoration: none;
     font-size: 13px;
     font-weight: 500;
@@ -242,15 +242,30 @@ select option {
     white-space: nowrap;
 }
 
+.sidebar-item i,
+.sidebar-item span {
+    color: #94a3b8 !important;
+}
+
 .sidebar-item:hover {
-    color: #ffffff;
-    background-color: var(--bg-sidebar-hover);
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.sidebar-item:hover i,
+.sidebar-item:hover span {
+    color: #ffffff !important;
 }
 
 .sidebar-item.active {
-    color: #3b82f6;
-    background-color: var(--bg-sidebar-active);
+    color: #ffffff !important;
+    background-color: var(--accent-blue) !important;
     font-weight: 600;
+}
+
+.sidebar-item.active i,
+.sidebar-item.active span {
+    color: #ffffff !important;
 }
 
 .sidebar-divider {
@@ -264,7 +279,7 @@ select option {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 4px 14px;
-    color: #4b5563;
+    color: #64748b !important;
     font-weight: 600;
 }
 
@@ -286,7 +301,12 @@ select option {
     .app-sidebar {
         transform: translateX(-100%);
         position: absolute;
+        top: 56px;
+        left: 0;
+        bottom: 0;
         height: calc(100vh - 56px);
+        background-color: #17171b !important;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
     }
     .app-sidebar.show {
         transform: translateX(0);
@@ -450,6 +470,27 @@ select option {
 .badge-overdue, .badge-rejected {
     background-color: rgba(239, 68, 68, 0.15);
     color: #ef4444;
+}
+
+.badge-fresh {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    color: var(--accent-blue) !important;
+}
+.badge-interested {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+    color: var(--accent-purple) !important;
+}
+.badge-follow-up, .badge-followup {
+    background-color: rgba(249, 115, 22, 0.15) !important;
+    color: var(--accent-orange) !important;
+}
+.badge-converted {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    color: var(--accent-green) !important;
+}
+.badge-lost {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    color: #ef4444 !important;
 }
 
 /* 6. Buttons */
@@ -709,7 +750,6 @@ select option {
     min-width: 150px;
 }
 
-<<<<<<< HEAD
 /* 11. Chart Containers to prevent layout shift */
 .chart-container-220 {
     position: relative;
@@ -760,24 +800,46 @@ select option {
     color: var(--text-primary) !important;
 }
 
-.status-badge {
-    color: #ffffff !important;
-}
-
 .badge-active, .badge-approved, .badge-completed {
     background-color: var(--accent-green) !important;
+    color: #ffffff !important;
 }
 
 .badge-pending, .badge-working {
     background-color: var(--accent-blue) !important;
+    color: #ffffff !important;
 }
 
 .badge-onhold, .badge-hold {
     background-color: var(--accent-orange) !important;
+    color: #ffffff !important;
 }
 
 .badge-overdue, .badge-rejected {
     background-color: #ef4444 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .badge-fresh {
+    background-color: rgba(59, 130, 246, 0.25) !important;
+    color: #60a5fa !important;
+}
+html[data-theme="dark"] .badge-interested {
+    background-color: rgba(139, 92, 246, 0.25) !important;
+    color: #a78bfa !important;
+}
+html[data-theme="dark"] .badge-follow-up, 
+html[data-theme="dark"] .badge-followup {
+    background-color: rgba(249, 115, 22, 0.25) !important;
+    color: #fb923c !important;
+}
+html[data-theme="dark"] .badge-converted {
+    background-color: rgba(16, 185, 129, 0.25) !important;
+    color: #34d399 !important;
+}
+html[data-theme="dark"] .badge-lost {
+    background-color: rgba(239, 68, 68, 0.25) !important;
+    color: #f87171 !important;
 }
 
 .kpi-trend {
@@ -923,9 +985,7 @@ html[data-theme="dark"] .dropdown-item:hover {
 
 
 
-=======
-/* ==========================================================================
-   11. Custom Interactive Calendar & Custom Dropdowns
+/* ===================================================================   11. Custom Interactive Calendar & Custom Dropdowns
    ========================================================================== */
 
 /* Calendar Badge trigger */
@@ -1176,7 +1236,7 @@ html[data-theme="dark"] .dropdown-item:hover {
     }
     
     .custom-select-overlay {
-        display: none !important;
+        z-index: 2000;
     }
     
     /* Calendar Mobile styling overrides */
@@ -1330,5 +1390,99 @@ html[data-theme="dark"] .dropdown-item:hover {
     z-index: 2200 !important;
 }
 
+/* Reusable Dropdowns Theme Overrides (Ensures high contrast in Light & Dark modes) */
+.dropdown-menu {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-lg);
+}
 
->>>>>>> origin/freelancer-portal
+.dropdown-item {
+    color: var(--text-primary) !important;
+    transition: background-color var(--transition-speed);
+}
+
+.dropdown-item:hover {
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Hover background for header icon buttons */
+.icon-btn:hover {
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Stacking layout overrides for Calendar Date Badge and Popover */
+.date-badge {
+    z-index: 1050 !important;
+}
+.calendar-popover {
+    z-index: 99999 !important;
+}
+
+/* Global Backdrop Overlay styling (Ensures closing is responsive on clicking outside) */
+.custom-select-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1040;
+    display: none;
+}
+.custom-select-overlay.show {
+    display: block !important;
+}
+
+/* Selected active row styling for perfect contrast in both themes */
+tr.table-primary,
+tr.table-primary td,
+tr.table-primary th {
+    background-color: var(--accent-blue-light) !important;
+    color: var(--accent-blue-text) !important;
+}
+
+/* Premium Alert box overrides for dark theme */
+html[data-theme="dark"] .alert-info {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    border-color: rgba(59, 130, 246, 0.25) !important;
+    color: #93c5fd !important;
+}
+html[data-theme="dark"] .alert-info strong {
+    color: #60a5fa !important;
+}
+html[data-theme="dark"] .alert-info .text-primary {
+    color: #3b82f6 !important;
+}
+
+html[data-theme="dark"] .alert-success {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    border-color: rgba(16, 185, 129, 0.25) !important;
+    color: #a7f3d0 !important;
+}
+html[data-theme="dark"] .alert-success strong {
+    color: #34d399 !important;
+}
+
+html[data-theme="dark"] .alert-warning {
+    background-color: rgba(249, 115, 22, 0.15) !important;
+    border-color: rgba(249, 115, 22, 0.25) !important;
+    color: #fde68a !important;
+}
+html[data-theme="dark"] .alert-warning strong {
+    color: #fb923c !important;
+}
+
+html[data-theme="dark"] .alert-danger {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.25) !important;
+    color: #fca5a5 !important;
+}
+html[data-theme="dark"] .alert-danger strong {
+    color: #f87171 !important;
+}
+
+

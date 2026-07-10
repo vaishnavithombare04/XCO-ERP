@@ -100,11 +100,15 @@ function updateProfileHeaders() {
         welcomeSubtitle.innerHTML = `${activeUser.role} · ${activeUser.department} (Senior React Developer) | Project Owner: <strong>${activeUser.pm} (Super Admin)</strong>`;
     }
 
-    // Server date label sync
+    // Server date label sync (preserving popover child element)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const dateLabel = document.getElementById('serverDateLabel');
     if (dateLabel) {
+        const popover = dateLabel.querySelector('.calendar-popover');
         dateLabel.innerHTML = `<i class="bi bi-calendar3 me-2"></i> ` + curDate.toLocaleDateString('en-US', options);
+        if (popover) {
+            dateLabel.appendChild(popover);
+        }
     }
 
     // Calculate contract timeline progress (July 1, 2026 - Dec 31, 2026)

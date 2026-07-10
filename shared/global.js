@@ -1791,7 +1791,27 @@ function initGlobalCalendar() {
         overlay.classList.remove('show');
     };
 
-    dateBadge.addEventListener('click', toggleCalendar);
+    dateBadge.addEventListener('click', (e) => {
+        toggleCalendar();
+    });
+
+    dateBadge.addEventListener('mouseenter', () => {
+        if (window.innerWidth >= 768) {
+            const isShown = popover.classList.contains('show');
+            if (!isShown) {
+                displayMonth = activeDate.getMonth();
+                displayYear = activeDate.getFullYear();
+                renderCalendar();
+                popover.classList.add('show');
+            }
+        }
+    });
+
+    dateBadge.addEventListener('mouseleave', () => {
+        if (window.innerWidth >= 768) {
+            closeCalendar();
+        }
+    });
 
     // Stop propagation inside popover so it doesn't close on clicking calendar controls
     popover.addEventListener('click', (e) => {
@@ -1977,7 +1997,6 @@ function initHeaderDropdowns() {
 function initGlobalNotifications() {
     const queue = document.getElementById('headerNotificationsQueue');
     const badge = document.getElementById('notifBadge');
-    if (!queue) return;
 
     const db = window.mockDB || { notifications: [] };
     const myNotifications = db.notifications;
@@ -1985,6 +2004,8 @@ function initGlobalNotifications() {
     if (badge) {
         badge.style.display = myNotifications.length > 0 ? 'inline-block' : 'none';
     }
+
+    if (!queue) return;
 
     queue.innerHTML = '';
     
