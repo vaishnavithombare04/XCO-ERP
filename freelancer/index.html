@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem('theme');
+        var preferredTheme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (preferredTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (error) {}
+    })();
+  </script>
+  <style>
+    html { background-color: #f4f6f8; }
+    html[data-theme="dark"] { background-color: #090c15; color: #f8fafc; }
+    html[data-theme="dark"] body { background-color: #090c15; color: #f8fafc; }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XtrazCon IT ERP — Freelancer Dashboard</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom design systems -->
+  <link rel="stylesheet" href="../shared/global.css">
+  <style>
+    /* Premium visual overrides */
+    .welcome-banner {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .welcome-banner::after {
+      content: '';
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0) 70%);
+      top: -30px;
+      right: -30px;
+      border-radius: 50%;
+    }
+    .welcome-avatar-badge {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: #fff;
+      font-weight: 700;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    }
+    
+    /* Interactive Stats Cards */
+    .stat-card-premium {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card-premium:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+    .stat-icon-wrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .icon-orange {
+      background-color: rgba(249, 115, 22, 0.1);
+      color: var(--accent-orange);
+    }
+    .icon-pink {
+      background-color: rgba(236, 72, 153, 0.1);
+      color: var(--accent-pink);
+    }
+    .icon-blue {
+      background-color: rgba(59, 130, 246, 0.1);
+      color: var(--accent-blue);
+    }
+    .icon-purple {
+      background-color: rgba(139, 92, 246, 0.1);
+      color: var(--accent-purple);
+    }
+    .icon-green {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--accent-green);
+    }
+
+    .kpi-progress-bar {
+      height: 8px;
+      background-color: var(--bg-app);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .kpi-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+    }
+    
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      padding: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    .icon-btn:hover {
+      background-color: var(--bg-sidebar-hover);
+      color: var(--text-primary);
+    }
+
+    /* Modern scrollbar */
+    #notificationsQueueBody::-webkit-scrollbar {
+      width: 4px;
+    }
+    #notificationsQueueBody::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+      border-radius: 2px;
+    }
+    
+    .duration-progress-bar {
+      height: 10px;
+      background-color: var(--border-color);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .duration-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <button class="btn btn-ghost btn-icon-only d-md-none" id="sidebarToggle">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+      <span class="brand-title"><i class="bi bi-rocket-takeoff-fill text-primary"></i> XtrazCon IT ERP</span>
+    </div>
+    
+    <div class="header-search d-none d-md-block">
+      <i class="bi bi-search header-search-icon"></i>
+      <input type="text" placeholder="Search files, tasks, or settings..." id="dashboardSearch">
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+        <i class="bi bi-sun sun-icon fs-5"></i>
+        <i class="bi bi-moon moon-icon fs-5 d-none"></i>
+      </button>
+      
+      <div class="dropdown">
+        <button class="icon-btn position-relative" id="btnNotifications" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications" style="background: none; border: none; padding: 6px;">
+          <i class="bi bi-bell fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" id="notifBadge" style="display: none;"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end p-2 shadow-lg" style="width: 320px; max-height: 380px; overflow-y: auto; border: 1px solid var(--border-color); background: var(--bg-card); z-index: 1050;" id="headerNotificationsQueue">
+          <!-- Rendered dynamically -->
+        </ul>
+      </div>
+
+      <div class="dropdown">
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="mdo" width="32" height="32" class="rounded-circle border" id="headerUserAvatarImg">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li><a class="dropdown-item" href="profile.html">Profile Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- App Container -->
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-menu">
+        <span class="sidebar-label">WORKSPACE</span>
+        <a href="index.html" class="sidebar-item active">
+          <i class="bi bi-speedometer2"></i> <span>Dashboard Overview</span>
+        </a>
+        <a href="tasks.html" class="sidebar-item">
+          <i class="bi bi-check-square-fill"></i> <span>Task Management</span>
+        </a>
+        <a href="projects.html" class="sidebar-item">
+          <i class="bi bi-folder-fill"></i> <span>Assigned Projects</span>
+        </a>
+        <a href="contracts.html" class="sidebar-item">
+          <i class="bi bi-file-earmark-text-fill"></i> <span>Contracts & Milestones</span>
+        </a>
+        <a href="invoices.html" class="sidebar-item">
+          <i class="bi bi-receipt-cutoff"></i> <span>Invoices & Payouts</span>
+        </a>
+        <a href="attendance.html" class="sidebar-item">
+          <i class="bi bi-clock-fill"></i> <span>Worklogs & Shifts</span>
+        </a>
+        
+        <div class="sidebar-divider"></div>
+        <span class="sidebar-label">COMMUNICATION & SYSTEM</span>
+        <a href="reports.html" class="sidebar-item">
+          <i class="bi bi-cloud-arrow-up-fill"></i> <span>Submissions Room</span>
+        </a>
+        <a href="chat.html" class="sidebar-item">
+          <i class="bi bi-chat-dots-fill"></i> <span>Team Chat</span>
+        </a>
+        <a href="meetings.html" class="sidebar-item">
+          <i class="bi bi-calendar-event-fill"></i> <span>Meetings & Syncs</span>
+        </a>
+        <a href="profile.html" class="sidebar-item">
+          <i class="bi bi-person-fill"></i> <span>My Profile</span>
+        </a>
+      </nav>
+
+      <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.05); font-size:11px; color:#4b5563; text-align:center;">
+        Logged as: <strong style="color:var(--accent-blue);" id="sidebarRoleLabel">Freelancer (Dev)</strong>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h2 style="font-size:22px; font-weight:800; margin:0;" id="headerUserNameTitle">Freelancer Dashboard Overview</h2>
+          <p style="font-size:13px; color:var(--text-secondary); margin:4px 0 0 0;" id="userWelcomeSubtitle">Freelancer · Development (Senior React Developer) | Project Owner: <strong>Sarah Chen (Super Admin)</strong></p>
+        </div>
+        <div class="date-badge bg-white border rounded px-3 py-2 text-secondary font-12 font-weight-500" id="serverDateLabel">
+          <i class="bi bi-calendar3 me-2"></i> July 10, 2026
+        </div>
+      </div>
+
+      <!-- Flexible Worklog status container -->
+      <div id="flexibleCheckinContainer" class="mb-3">
+        <div class="alert alert-info d-flex align-items-center justify-content-between py-2 px-3 mb-0 font-12" role="alert" style="border-radius:10px;">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-info-circle-fill me-2 fs-5 text-info"></i>
+            <div>
+              <strong>Current Shift State:</strong> Logged <span class="fw-bold text-primary" id="todayTrackedHours">8.0 hrs</span> today. Worklogs are set to Flexible Freelancer hours.
+            </div>
+          </div>
+          <a href="attendance.html" class="btn btn-sm btn-primary py-1 font-11" style="border-radius:6px; font-weight:600;">Log Time</a>
+        </div>
+      </div>
+
+      <div class="duration-progress-wrapper mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1 font-12 fw-600">
+          <span class="text-primary"><i class="bi bi-file-earmark-text-fill text-purple me-1"></i> Contract Timeline Duration Progress</span>
+          <span class="text-purple" id="durationPercentLabel">5.4% (Day 10 of 184)</span>
+        </div>
+        <div class="duration-progress-bar">
+          <div class="duration-progress-fill" style="width: 5.4%;" id="durationPercentFill"></div>
+        </div>
+      </div>
+
+      <!-- Stats Cards Row -->
+      <div class="row g-3">
+        <div class="col-6 col-md-3">
+          <div class="stat-card-premium">
+            <div class="stat-icon-wrapper icon-blue">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <span class="kpi-label d-block text-tertiary font-12 mb-1">Hours Worked (Week)</span>
+            <h3 class="kpi-value mb-0 fw-800" style="font-size: 20px;" id="kpiTotalHours">14.0 hrs</h3>
+            <small class="text-secondary font-10">Rate: ₹2,200/hr</small>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card-premium">
+            <div class="stat-icon-wrapper icon-purple">
+              <i class="bi bi-file-earmark-code"></i>
+            </div>
+            <span class="kpi-label d-block text-tertiary font-12 mb-1">Active Contracts</span>
+            <h3 class="kpi-value mb-0 fw-800" style="font-size: 20px;" id="kpiActiveContracts">1 Contract</h3>
+            <small class="text-success font-10">CON-2026-08A</small>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card-premium">
+            <div class="stat-icon-wrapper icon-green">
+              <i class="bi bi-check2-circle"></i>
+            </div>
+            <span class="kpi-label d-block text-tertiary font-12 mb-1">Milestones Completed</span>
+            <h3 class="kpi-value mb-0 fw-800" style="font-size: 20px;" id="kpiMilestones">2 / 4 Milestones</h3>
+            <small class="text-success font-10">1 Approved · 1 Submitted</small>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card-premium">
+            <div class="stat-icon-wrapper icon-orange">
+              <i class="bi bi-cash-stack"></i>
+            </div>
+            <span class="kpi-label d-block text-tertiary font-12 mb-1">Pending Invoiced Payout</span>
+            <h3 class="kpi-value mb-0 fw-800" style="font-size: 20px;" id="kpiPendingInvoice">₹66,000</h3>
+            <small class="text-secondary font-10">Invoice INV-2026-002</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Left Pane: Tasks list & Milestones tracker -->
+        <div class="col-12 col-lg-8 d-flex flex-column gap-4">
+          
+          <!-- Sprints Summary -->
+          <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="card-title mb-0" style="font-size:15px; font-weight:700;">My Active Sprint Tasks</h3>
+              <a href="tasks.html" style="font-size:12px; color:var(--accent-blue); text-decoration:none; font-weight:600;">Open Workspace &rarr;</a>
+            </div>
+            
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Sprint Task Name</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="myTasksTableBody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Milestones tracker card -->
+          <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="card-title mb-0" style="font-size:15px; font-weight:700;">Contract Milestones Overview</h3>
+              <a href="contracts.html" style="font-size:12px; color:var(--accent-blue); text-decoration:none; font-weight:600;">View Milestone Details &rarr;</a>
+            </div>
+            <div class="row g-3" id="milestonesProgressBody">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Security Sandbox Panel -->
+          <div class="security-tester-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h3 class="card-title mb-0" style="font-size:15px; font-weight:700;"><i class="bi bi-shield-lock-fill text-primary me-2"></i>Security Sandbox & Compliance Verification</h3>
+              <button class="btn btn-sm btn-outline-primary" id="btnRunSecurityTests" style="font-size:11px; padding:4px 8px; border-color:var(--accent-blue); color:var(--accent-blue); background:none; font-weight:600;"><i class="bi bi-play-fill"></i> Run Verification</button>
+            </div>
+            <p style="font-size:11px; color:var(--text-secondary); margin-bottom:16px; margin-top:4px;">This tester audits the frontend session parameters against active role security models.</p>
+            
+            <div class="security-test-list">
+              <div class="security-test-row">
+                <div class="security-test-header">
+                  <span>1. View Assigned Tasks & Projects Only</span>
+                  <span class="security-test-badge idle" id="testBadgeTasks">Idle</span>
+                </div>
+                <div class="security-test-desc" id="testDescTasks">Verify that the freelancer cannot view tasks assigned to other employees. Click verification to run.</div>
+              </div>
+              <div class="security-test-row">
+                <div class="security-test-header">
+                  <span>2. Block Payroll / HR Confid. Data Access</span>
+                  <span class="security-test-badge idle" id="testBadgePayroll">Idle</span>
+                </div>
+                <div class="security-test-desc" id="testDescPayroll">Verify that the freelancer is blocked from accessing corporate employee payroll data.</div>
+              </div>
+              <div class="security-test-row">
+                <div class="security-test-header">
+                  <span>3. Disable Record Deletion</span>
+                  <span class="security-test-badge idle" id="testBadgeDelete">Idle</span>
+                </div>
+                <div class="security-test-desc" id="testDescDelete">Verify that delete operations are restricted for the freelancer role.</div>
+              </div>
+              <div class="security-test-row">
+                <div class="security-test-header">
+                  <span>4. Allow Payout Invoicing Authorization</span>
+                  <span class="security-test-badge idle" id="testBadgeReports">Idle</span>
+                </div>
+                <div class="security-test-desc" id="testDescReports">Verify that invoice creation and work reporting are authorized for this account.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Pane: Supervisor details, Notifications -->
+        <div class="col-12 col-lg-4 d-flex flex-column gap-4">
+          <!-- Manager Card -->
+          <div class="card p-4 text-center" style="background: linear-gradient(135deg, rgba(59,130,246,0.02), rgba(139,92,246,0.02)); border:1px solid rgba(59,130,246,0.1);">
+            <div class="user-avatar mx-auto mb-2" style="width:48px; height:48px; border-radius:50%; background:var(--accent-blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px;">SC</div>
+            <h4 class="card-title mb-1" style="font-size:14px; font-weight:700;">PM: Sarah Chen</h4>
+            <span class="text-secondary font-11">Super Admin / Project Owner</span>
+            <div class="mt-2 text-warning" style="font-size:14px;">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <span class="text-secondary font-11 ms-1">(5.0/5 Rating)</span>
+            </div>
+            <div class="mt-3">
+              <a href="chat.html" class="btn btn-sm btn-outline-primary w-100" style="font-size:12px; font-weight:600;"><i class="bi bi-chat-left-text me-1"></i> Send Direct Message</a>
+            </div>
+          </div>
+
+          <!-- Notifications/Alerts -->
+          <div class="card p-3">
+            <h3 class="card-title mb-3" style="font-size:15px; font-weight:700;">Announcements & Notifications</h3>
+            <div class="d-flex flex-column gap-3" id="notificationsQueueBody" style="max-height: 250px; overflow-y:auto; padding-right:6px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../shared/global.js"></script>
+  <script src="dashboard.js"></script>
+  <script>
+    // Local theme icon toggle helper
+    document.addEventListener('DOMContentLoaded', () => {
+        const syncThemeIcons = () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark' || document.documentElement.getAttribute('data-theme') === 'dark';
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            if (isDark) {
+                sunIcon?.classList.add('d-none');
+                moonIcon?.classList.remove('d-none');
+            } else {
+                sunIcon?.classList.remove('d-none');
+                moonIcon?.classList.add('d-none');
+            }
+        };
+        syncThemeIcons();
+        document.getElementById('themeToggle')?.addEventListener('click', () => {
+            setTimeout(syncThemeIcons, 50);
+        });
+        document.addEventListener('themechange', syncThemeIcons);
+    });
+  </script>
+</body>
+</html>

@@ -2,8 +2,11 @@
    XtrazCon IT ERP - Shared Global Design System (global.css)
    ========================================================================== */
 
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+=======
+>>>>>>> origin/freelancer-portal
 /* Design Tokens & CSS Custom Properties */
 :root {
     --bg-app: #f4f6f8;
@@ -14,8 +17,8 @@
     --border-color: #e2e8f0;
     
     --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-tertiary: #94a3b8;
+    --text-secondary: #334155; /* Slate-700 for better contrast */
+    --text-tertiary: #576b82;   /* Slate-500/600 for better contrast */
     
     --accent-blue: #3b82f6;
     --accent-purple: #8b5cf6;
@@ -33,15 +36,27 @@
     --transition-speed: 0.2s;
 }
 
-html[data-theme="dark"] {
+[data-theme="dark"] {
     --bg-app: #090c15;
     --bg-card: #121824;
     /* Sidebar remains dark (#17171B) in both themes */
     --border-color: #223049;
     
     --text-primary: #f8fafc;
-    --text-secondary: #a3b3c9;
-    --text-tertiary: #8a99ad;
+    --text-secondary: #cbd5e1; /* Slate-300 for better contrast */
+    --text-tertiary: #94a3b8;  /* Slate-400 for better contrast */
+}
+
+/* Force dark mode styles on Bootstrap utility overrides */
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-light,
+[data-theme="dark"] .date-badge {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+[data-theme="dark"] .text-dark {
+    color: var(--text-primary) !important;
 }
 
 /* ==========================================================================
@@ -50,7 +65,6 @@ html[data-theme="dark"] {
 html {
     overflow-y: scroll;
 }
-
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--bg-app);
@@ -62,6 +76,40 @@ body {
     flex-direction: column;
 }
 
+/* Override Bootstrap & native elements for high contrast, theme-aware readability */
+.text-body {
+    color: var(--text-primary) !important;
+}
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+.text-muted, .text-tertiary, .text-secondary-muted {
+    color: var(--text-tertiary) !important;
+}
+label, .form-label {
+    color: var(--text-primary) !important; /* Force form labels to match theme text color */
+}
+::placeholder, .form-control::placeholder, input::placeholder, textarea::placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 0.85 !important;
+}
+/* Vendor specific rules for reliability */
+.form-control::-webkit-input-placeholder, input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 0.85 !important;
+}
+.form-control::-moz-placeholder, input::-moz-placeholder, textarea::-moz-placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 0.85 !important;
+}
+.form-control:-ms-input-placeholder, input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 0.85 !important;
+}
+select option {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
 .app-container {
     display: flex;
     flex: 1;
@@ -266,8 +314,8 @@ body {
     border: 1px solid var(--border-color) !important;
     border-radius: var(--radius-lg) !important;
     box-shadow: var(--shadow-sm);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
     color: var(--text-primary) !important;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
 .card:hover {
@@ -661,6 +709,7 @@ body {
     min-width: 150px;
 }
 
+<<<<<<< HEAD
 /* 11. Chart Containers to prevent layout shift */
 .chart-container-220 {
     position: relative;
@@ -874,3 +923,412 @@ html[data-theme="dark"] .dropdown-item:hover {
 
 
 
+=======
+/* ==========================================================================
+   11. Custom Interactive Calendar & Custom Dropdowns
+   ========================================================================== */
+
+/* Calendar Badge trigger */
+.date-badge {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), transform var(--transition-speed);
+}
+.date-badge:hover {
+    background-color: var(--bg-card) !important;
+    border-color: var(--accent-orange) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+.date-badge:active {
+    transform: translateY(0);
+}
+
+/* Calendar Dropdown Popover */
+.calendar-popover {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    width: 320px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 1200;
+    padding: 16px;
+    display: none;
+    animation: dropdownFadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.calendar-popover.show {
+    display: block;
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.calendar-header h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+}
+.calendar-nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.calendar-nav-btn:hover {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+.calendar-day-header {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: 4px 0;
+    text-transform: uppercase;
+}
+.calendar-day {
+    font-size: 12px;
+    text-align: center;
+    padding: 6px 0;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px auto;
+    color: var(--text-secondary);
+    transition: all 0.15s;
+    user-select: none;
+}
+.calendar-day:hover {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+}
+.calendar-day.empty {
+    cursor: default;
+    color: var(--text-tertiary);
+    opacity: 0.25;
+}
+.calendar-day.empty:hover {
+    background: none;
+}
+.calendar-day.selected {
+    background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink)) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 4px 8px rgba(249, 115, 22, 0.3);
+}
+.calendar-day.today {
+    border: 2px solid var(--accent-orange);
+    color: var(--accent-orange);
+    font-weight: 600;
+}
+
+/* Custom Select Dropdowns */
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--bg-app);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-speed);
+}
+.custom-select-trigger:focus, .custom-select-trigger.active {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+.custom-select-trigger i.chevron {
+    font-size: 10px;
+    color: var(--text-secondary);
+    transition: transform var(--transition-speed);
+}
+.custom-select-trigger.active i.chevron {
+    transform: rotate(180deg);
+}
+
+.custom-select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 6px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 1050;
+    max-height: 220px;
+    overflow-y: auto;
+    display: none;
+    animation: dropdownFadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.custom-select-options.show {
+    display: block;
+}
+
+.custom-select-option {
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+.custom-select-option:hover {
+    background-color: rgba(59, 130, 246, 0.08);
+    color: var(--text-primary);
+}
+.custom-select-option.selected {
+    background-color: var(--bg-sidebar-active);
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+/* Custom Scrollbar for dropdown options */
+.custom-select-options::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-select-options::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-select-options::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
+}
+
+/* Mobile dropdown adjustments */
+@media (max-width: 767.98px) {
+    .custom-select-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        width: 100%;
+        margin-top: 6px;
+        border-radius: var(--radius-md);
+        max-height: 240px;
+        z-index: 2200;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
+        transform: none;
+        transition: none;
+        display: none;
+        visibility: visible;
+    }
+    .custom-select-options.show {
+        display: block !important;
+        transform: none;
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .custom-select-options::before {
+        content: none;
+    }
+    
+    .custom-select-option {
+        padding: 12px 14px;
+        font-size: 14px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .custom-select-overlay {
+        display: none !important;
+    }
+    
+    /* Calendar Mobile styling overrides */
+    .calendar-popover {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin-top: 0;
+        border-radius: 20px 20px 0 0;
+        z-index: 2100;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: block !important;
+        visibility: hidden;
+        border: none;
+        border-top: 1px solid var(--border-color);
+    }
+    .calendar-popover.show {
+        transform: translateY(0);
+        visibility: visible;
+    }
+    .calendar-popover::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background-color: var(--border-color);
+        border-radius: 2px;
+        margin: 0 auto 16px auto;
+    }
+    .calendar-grid {
+        gap: 6px;
+    }
+    .calendar-day {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+/* Interactive Security Test Panel Styles */
+.security-tester-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+.security-tester-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent-orange), var(--accent-pink));
+}
+.security-test-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+.security-test-row {
+    background-color: var(--bg-app);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.security-test-row:hover {
+    transform: translateX(3px);
+    border-color: rgba(249, 115, 22, 0.15);
+}
+.security-test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+.security-test-badge {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+.security-test-badge.pass {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: var(--accent-green);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.security-test-badge.fail {
+    background-color: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.security-test-badge.idle {
+    background-color: var(--bg-sidebar-hover);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+.security-test-desc {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+    line-height: 1.5;
+}
+
+/* Internship duration progress bar */
+.duration-progress-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+.duration-progress-bar {
+    height: 10px;
+    background-color: var(--bg-app);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+.duration-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange));
+    border-radius: 5px;
+    transition: width 0.5s ease-out;
+}
+
+/* Dropdown alignment correction */
+.dropdown {
+    position: relative !important;
+}
+.dropdown-menu-end {
+    right: 0 !important;
+    left: auto !important;
+}
+.dropdown-menu.show {
+    display: block !important;
+    position: absolute !important;
+    top: 100% !important;
+    z-index: 2200 !important;
+}
+
+
+>>>>>>> origin/freelancer-portal
