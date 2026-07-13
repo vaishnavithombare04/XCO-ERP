@@ -134,10 +134,10 @@
     <script>
         const role = localStorage.getItem('currentRole') || 'Manager';
         const userId = localStorage.getItem('currentUserId') || 'EMP002';
-        const isApproveAllowed = canApprove('attendance', role);
+        const isApproveAllowed = window.canApprove('attendance', role);
 
         function renderAttendance() {
-            const data = getScopedData('attendance', role, userId);
+            const data = window.getScopedData('attendance', role, userId);
             const tbody = document.getElementById('attendanceListBody');
 
             tbody.innerHTML = data.map(a => {
@@ -183,31 +183,53 @@
         }
 
         window.approveAttendance = (id) => {
-            const record = mockDB.attendance.find(a => a.id === id);
-            if (record) {
-                const old = record.status;
-                record.status = 'Present';
-                saveMockDB();
-                logAudit(mockDB.users.find(u => u.id === userId).name, "Attendance", "Approve", `Approved attendance for ${record.employee} on ${record.date}`);
-                showToast(`Approved attendance status for ${record.employee}`, "success");
-                renderAttendance();
+            try {
+                const record = window.mockDB.attendance.find(a => a.id === id);
+                if (record) {
+                    const old = record.status;
+                    record.status = 'Present';
+                    window.saveMockDB();
+                    const activeUser = window.mockDB.users.find(u => u.id === userId);
+                    const userName = activeUser ? activeUser.name : "System Manager";
+                    window.logAudit(userName, "Attendance", "Approve", `Approved attendance for ${record.employee} on ${record.date}`);
+                    window.showToast(`Approved attendance status for ${record.employee}`, "success");
+                    renderAttendance();
+                    const table = document.querySelector('#attendanceTable');
+                    if (table && table.dataTableController) {
+                        table.dataTableController.refresh();
+                    }
+                }
+            } catch (err) {
+                console.error("Error in approveAttendance:", err);
+                window.showToast(err.message, "error");
             }
         };
 
         window.rejectAttendance = (id) => {
-            const record = mockDB.attendance.find(a => a.id === id);
-            if (record) {
-                const old = record.status;
-                record.status = 'Late';
-                saveMockDB();
-                logAudit(mockDB.users.find(u => u.id === userId).name, "Attendance", "Reject", `Rejected attendance correction for ${record.employee}`);
-                showToast(`Rejected attendance correction for ${record.employee}`, "error");
-                renderAttendance();
+            try {
+                const record = window.mockDB.attendance.find(a => a.id === id);
+                if (record) {
+                    const old = record.status;
+                    record.status = 'Late';
+                    window.saveMockDB();
+                    const activeUser = window.mockDB.users.find(u => u.id === userId);
+                    const userName = activeUser ? activeUser.name : "System Manager";
+                    window.logAudit(userName, "Attendance", "Reject", `Rejected attendance correction for ${record.employee}`);
+                    window.showToast(`Rejected attendance correction for ${record.employee}`, "error");
+                    renderAttendance();
+                    const table = document.querySelector('#attendanceTable');
+                    if (table && table.dataTableController) {
+                        table.dataTableController.refresh();
+                    }
+                }
+            } catch (err) {
+                console.error("Error in rejectAttendance:", err);
+                window.showToast(err.message, "error");
             }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            const user = mockDB.users.find(u => u.id === userId);
+            const user = window.mockDB.users.find(u => u.id === userId);
             if (user) {
                 document.getElementById('currentUserDisplay').innerText = `${user.name} (${role})`;
             }

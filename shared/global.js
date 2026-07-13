@@ -1056,11 +1056,21 @@ const defaultMockDB = {
 
 // Initialize Mock Database
 const storedDB = localStorage.getItem('erp_mock_db');
-if (!storedDB || !JSON.parse(storedDB).users || JSON.parse(storedDB).users.length < 9 || !JSON.parse(storedDB).contracts) {
+let parsedDB = null;
+try {
+    if (storedDB) {
+        parsedDB = JSON.parse(storedDB);
+    }
+} catch (e) {
+    console.error("Malformed erp_mock_db in localStorage, resetting to default:", e);
+    localStorage.removeItem('erp_mock_db');
+}
+
+if (!parsedDB || !parsedDB.users || parsedDB.users.length < 9 || !parsedDB.contracts) {
     window.mockDB = defaultMockDB;
     localStorage.setItem('erp_mock_db', JSON.stringify(defaultMockDB));
 } else {
-    window.mockDB = JSON.parse(storedDB);
+    window.mockDB = parsedDB;
     // Ensure all collections from defaultMockDB exist in window.mockDB (safeguard)
     Object.keys(defaultMockDB).forEach(key => {
         if (!window.mockDB[key] || !Array.isArray(window.mockDB[key])) {
@@ -1088,10 +1098,12 @@ window.getScopedData = (collectionName, currentRole, currentUserId) => {
         return [];
     }
 
-    const user = window.mockDB.users.find(u => u.id === currentUserId || u.name === currentUserId) || window.mockDB.users.find(u => u.id === "EMP002");
-    const dept = user.department;
-    const team = user.team;
-    const group = user.group;
+    const activeUser = window.mockDB.users.find(u => u.id === currentUserId || u.name === currentUserId);
+    const fallbackUser = window.mockDB.users.find(u => u.id === "EMP002") || window.mockDB.users[0] || { department: "Engineering", team: "Core ERP Squad", group: "Core Backend Group" };
+    const user = activeUser || fallbackUser;
+    const dept = user.department || "Engineering";
+    const team = user.team || "Core ERP Squad";
+    const group = user.group || "Core Backend Group";
 
     const filteredUsers = window.mockDB.users.filter(u => {
         if (currentRole === "Manager") {
@@ -1143,7 +1155,7 @@ window.getScopedData = (collectionName, currentRole, currentUserId) => {
 
 // Permissions checks
 window.canApprove = (action, role) => {
-    return role === "Manager";
+    return role === "Manager" || role === "TL" || role === "Coordinator";
 };
 
 window.canExport = (role) => {
@@ -1268,9 +1280,9 @@ function initSidebar() {
             sidebar.classList.toggle('show');
         });
 
-        // Close on clicking outside on mobile
+        // Close on clicking outside on mobile and tablet
         document.addEventListener('click', (e) => {
-            if (window.innerWidth < 768 && sidebar.classList.contains('show') && !sidebar.contains(e.target) && e.target !== toggleBtn) {
+            if (window.innerWidth < 992 && sidebar.classList.contains('show') && !sidebar.contains(e.target) && e.target !== toggleBtn) {
                 sidebar.classList.remove('show');
             }
         });
@@ -1336,6 +1348,16 @@ function initDataTable(tableSelector, options = {}) {
     const tbody = table.querySelector('tbody');
     let originalRows = Array.from(tbody.querySelectorAll('tr'));
     let filteredRows = [...originalRows];
+
+    // Expose controller for dynamic table row refreshing
+    table.dataTableController = {
+        refresh: () => {
+            originalRows = Array.from(tbody.querySelectorAll('tr'));
+            filteredRows = [...originalRows];
+            currentPage = 1;
+            renderTable();
+        }
+    };
 
     // Sorting functionality
     const headers = table.querySelectorAll('thead th');
@@ -1762,7 +1784,7 @@ function initGlobalCalendar() {
     };
 
     const toggleCalendar = (e) => {
-        e.stopPropagation();
+        if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
         const isShown = popover.classList.contains('show');
         
         // Close other dropdowns first
@@ -1780,7 +1802,9 @@ function initGlobalCalendar() {
             displayYear = activeDate.getFullYear();
             renderCalendar();
             popover.classList.add('show');
-            overlay.classList.add('show');
+            if (window.innerWidth < 992) {
+                overlay.classList.add('show');
+            }
         } else {
             closeCalendar();
         }
@@ -1792,11 +1816,11 @@ function initGlobalCalendar() {
     };
 
     dateBadge.addEventListener('click', (e) => {
-        toggleCalendar();
+        toggleCalendar(e);
     });
 
     dateBadge.addEventListener('mouseenter', () => {
-        if (window.innerWidth >= 768) {
+        if (window.innerWidth >= 992) {
             const isShown = popover.classList.contains('show');
             if (!isShown) {
                 displayMonth = activeDate.getMonth();
@@ -1808,7 +1832,7 @@ function initGlobalCalendar() {
     });
 
     dateBadge.addEventListener('mouseleave', () => {
-        if (window.innerWidth >= 768) {
+        if (window.innerWidth >= 992) {
             closeCalendar();
         }
     });
@@ -1930,7 +1954,9 @@ function initCustomDropdowns() {
                 buildOptions();
                 optionsList.classList.add('show');
                 trigger.classList.add('active');
-                overlay.classList.add('show');
+                if (window.innerWidth < 768) {
+                    overlay.classList.add('show');
+                }
             } else {
                 closeDropdown();
             }
@@ -2066,12 +2092,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Overwrite active date to today's local date on load to guarantee freshness
     localStorage.setItem('erp_active_date', formatLocalDate(new Date()));
     initTheme();
+    initManagerHeader();
+    initEmployeeSession();
+    initClientSession();
     initSidebar();
     initGlobalCalendar();
     initCustomDropdowns();
     initHeaderDropdowns();
     initGlobalNotifications();
-    initManagerHeader();
-    initEmployeeSession();
-    initClientSession();
 });

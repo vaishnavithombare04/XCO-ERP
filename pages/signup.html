@@ -35,6 +35,15 @@
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow-lg);
         }
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 12px;
+                padding-top: 60px;
+            }
+            .auth-card {
+                padding: 24px 20px;
+            }
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -67,7 +76,7 @@
                     <input type="text" name="phone" class="form-control" placeholder="+91 99999 88888" required>
                 </div>
                 <div class="row g-2 mb-3">
-                    <div class="col-6">
+                    <div class="col-12 col-sm-6">
                         <label class="form-label font-12 font-weight-600">User Type</label>
                         <select name="user_type" class="form-select">
                             <option value="Internal Employee">Internal Employee</option>
@@ -78,7 +87,7 @@
                             <option value="Consultant">Consultant</option>
                         </select>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-sm-6">
                         <label class="form-label font-12 font-weight-600">Role</label>
                         <select name="role" class="form-select">
                             <option value="Super Admin">Super Admin</option>

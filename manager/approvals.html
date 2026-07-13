@@ -133,14 +133,14 @@
     <script>
         const role = localStorage.getItem('currentRole') || 'Manager';
         const userId = localStorage.getItem('currentUserId') || 'EMP002';
-        const isApproveAllowed = canApprove('approvals', role);
+        const isApproveAllowed = window.canApprove('approvals', role);
 
         function renderApprovals() {
             const tbody = document.getElementById('approvalsListBody');
             
-            const leaves = getScopedData('leaves', role, userId).filter(l => l.status === 'Pending' || l.status === 'Forwarded to Manager');
-            const tasks = getScopedData('tasks', role, userId).filter(t => t.status === 'Hold');
-            const attendance = getScopedData('attendance', role, userId).filter(a => a.status === 'Late' || a.status === 'Pending Correction');
+            const leaves = window.getScopedData('leaves', role, userId).filter(l => l.status === 'Pending' || l.status === 'Forwarded to Manager');
+            const tasks = window.getScopedData('tasks', role, userId).filter(t => t.status === 'Hold');
+            const attendance = window.getScopedData('attendance', role, userId).filter(a => a.status === 'Late' || a.status === 'Pending Correction');
 
             let allItems = [];
 
@@ -225,76 +225,109 @@
         }
 
         window.approveInboxItem = (id, source) => {
-            if (source === 'leaves') {
-                const leave = mockDB.leaves.find(l => l.id === id);
-                if (leave) {
-                    leave.status = 'Approved';
-                    saveMockDB();
-                    logAudit(mockDB.users.find(u => u.id === userId).name, "Approvals", "Approve", `Approved leave request for ${leave.employee} via consolidated inbox`);
-                    showToast("Approved leave application", "success");
+            try {
+                const activeUser = window.mockDB.users.find(u => u.id === userId);
+                const userName = activeUser ? activeUser.name : "System Manager";
+                if (source === 'leaves') {
+                    const leave = window.mockDB.leaves.find(l => l.id === id);
+                    if (leave) {
+                        leave.status = 'Approved';
+                        window.saveMockDB();
+                        window.logAudit(userName, "Approvals", "Approve", `Approved leave request for ${leave.employee} via consolidated inbox`);
+                        window.showToast("Approved leave application", "success");
+                    }
+                } else if (source === 'tasks') {
+                    const task = window.mockDB.tasks.find(t => t.id === id);
+                    if (task) {
+                        task.status = 'Completed';
+                        window.saveMockDB();
+                        window.logAudit(userName, "Approvals", "Approve", `Approved task closure for ${task.assignee}`);
+                        window.showToast("Approved task completed", "success");
+                    }
+                } else if (source === 'attendance') {
+                    const att = window.mockDB.attendance.find(a => a.id === id);
+                    if (att) {
+                        att.status = 'Present';
+                        window.saveMockDB();
+                        window.logAudit(userName, "Approvals", "Approve", `Approved attendance correction for ${att.employee}`);
+                        window.showToast("Approved attendance check-in", "success");
+                    }
                 }
-            } else if (source === 'tasks') {
-                const task = mockDB.tasks.find(t => t.id === id);
-                if (task) {
-                    task.status = 'Completed';
-                    saveMockDB();
-                    logAudit(mockDB.users.find(u => u.id === userId).name, "Approvals", "Approve", `Approved task closure for ${task.assignee}`);
-                    showToast("Approved task completed", "success");
+                renderApprovals();
+                const table = document.querySelector('#approvalsTable');
+                if (table && table.dataTableController) {
+                    table.dataTableController.refresh();
                 }
-            } else if (source === 'attendance') {
-                const att = mockDB.attendance.find(a => a.id === id);
-                if (att) {
-                    att.status = 'Present';
-                    saveMockDB();
-                    logAudit(mockDB.users.find(u => u.id === userId).name, "Approvals", "Approve", `Approved attendance correction for ${att.employee}`);
-                    showToast("Approved attendance check-in", "success");
-                }
+            } catch (err) {
+                console.error("Error in approveInboxItem:", err);
+                window.showToast(err.message, "error");
             }
-            renderApprovals();
         };
 
         window.rejectInboxItem = (id, source) => {
-            if (source === 'leaves') {
-                const leave = mockDB.leaves.find(l => l.id === id);
-                if (leave) {
-                    leave.status = 'Rejected';
-                    saveMockDB();
-                    logAudit(mockDB.users.find(u => u.id === userId).name, "Approvals", "Reject", `Rejected leave request for ${leave.employee} via consolidated inbox`);
-                    showToast("Rejected leave application", "error");
+            try {
+                const activeUser = window.mockDB.users.find(u => u.id === userId);
+                const userName = activeUser ? activeUser.name : "System Manager";
+                if (source === 'leaves') {
+                    const leave = window.mockDB.leaves.find(l => l.id === id);
+                    if (leave) {
+                        leave.status = 'Rejected';
+                        window.saveMockDB();
+                        window.logAudit(userName, "Approvals", "Reject", `Rejected leave request for ${leave.employee} via consolidated inbox`);
+                        window.showToast("Rejected leave application", "error");
+                    }
+                } else if (source === 'tasks') {
+                    const task = window.mockDB.tasks.find(t => t.id === id);
+                    if (task) {
+                        task.status = 'Working'; // return back to active
+                        window.saveMockDB();
+                        window.logAudit(userName, "Approvals", "Reject", `Rejected task hold request for ${task.assignee}`);
+                        window.showToast("Rejected task hold request. Resumed work.", "warning");
+                    }
+                } else if (source === 'attendance') {
+                    const att = window.mockDB.attendance.find(a => a.id === id);
+                    if (att) {
+                        att.status = 'Late';
+                        window.saveMockDB();
+                        window.logAudit(userName, "Approvals", "Reject", `Rejected attendance correction for ${att.employee}`);
+                        window.showToast("Rejected attendance check-in", "error");
+                    }
                 }
-            } else if (source === 'tasks') {
-                const task = mockDB.tasks.find(t => t.id === id);
-                if (task) {
-                    task.status = 'Working'; // return back to active
-                    saveMockDB();
-                    logAudit(mockDB.users.find(u => u.id === userId).name, "Approvals", "Reject", `Rejected task hold request for ${task.assignee}`);
-                    showToast("Rejected task hold request. Resumed work.", "warning");
+                renderApprovals();
+                const table = document.querySelector('#approvalsTable');
+                if (table && table.dataTableController) {
+                    table.dataTableController.refresh();
                 }
-            } else if (source === 'attendance') {
-                const att = mockDB.attendance.find(a => a.id === id);
-                if (att) {
-                    att.status = 'Late';
-                    saveMockDB();
-                    logAudit(mockDB.users.find(u => u.id === userId).name, "Approvals", "Reject", `Rejected attendance correction for ${att.employee}`);
-                    showToast("Rejected attendance check-in", "error");
-                }
+            } catch (err) {
+                console.error("Error in rejectInboxItem:", err);
+                window.showToast(err.message, "error");
             }
-            renderApprovals();
         };
 
         window.forwardInboxItem = (id) => {
-            const leave = mockDB.leaves.find(l => l.id === id);
-            if (leave) {
-                leave.status = 'Forwarded to Manager';
-                saveMockDB();
-                logAudit(mockDB.users.find(u => u.id === userId).name, "Approvals", "Forward", `Forwarded leave request of ${leave.employee} to Department Manager`);
-                showToast("Forwarded request to Manager", "success");
-                renderApprovals();
+            try {
+                const leave = window.mockDB.leaves.find(l => l.id === id);
+                if (leave) {
+                    leave.status = 'Forwarded to Manager';
+                    window.saveMockDB();
+                    const activeUser = window.mockDB.users.find(u => u.id === userId);
+                    const userName = activeUser ? activeUser.name : "System Manager";
+                    window.logAudit(userName, "Approvals", "Forward", `Forwarded leave request of ${leave.employee} to Department Manager`);
+                    window.showToast("Forwarded request to Manager", "success");
+                    renderApprovals();
+                    const table = document.querySelector('#approvalsTable');
+                    if (table && table.dataTableController) {
+                        table.dataTableController.refresh();
+                    }
+                }
+            } catch (err) {
+                console.error("Error in forwardInboxItem:", err);
+                window.showToast(err.message, "error");
             }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            const user = mockDB.users.find(u => u.id === userId);
+            const user = window.mockDB.users.find(u => u.id === userId);
             if (user) {
                 document.getElementById('currentUserDisplay').innerText = `${user.name} (${role})`;
             }

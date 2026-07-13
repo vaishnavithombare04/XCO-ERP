@@ -134,10 +134,10 @@
     <script>
         const role = localStorage.getItem('currentRole') || 'Manager';
         const userId = localStorage.getItem('currentUserId') || 'EMP002';
-        const isApproveAllowed = canApprove('leaves', role);
+        const isApproveAllowed = window.canApprove('leaves', role);
 
         function renderLeaves() {
-            const data = getScopedData('leaves', role, userId);
+            const data = window.getScopedData('leaves', role, userId);
             const tbody = document.getElementById('leavesListBody');
 
             tbody.innerHTML = data.map(l => {
@@ -189,40 +189,73 @@
         }
 
         window.approveLeave = (id) => {
-            const leave = mockDB.leaves.find(l => l.id === id);
-            if (leave) {
-                leave.status = 'Approved';
-                saveMockDB();
-                logAudit(mockDB.users.find(u => u.id === userId).name, "Leaves", "Approve", `Approved leave request for ${leave.employee}`);
-                showToast("Leave request approved!", "success");
-                renderLeaves();
+            try {
+                const leave = window.mockDB.leaves.find(l => l.id === id);
+                if (leave) {
+                    leave.status = 'Approved';
+                    window.saveMockDB();
+                    const activeUser = window.mockDB.users.find(u => u.id === userId);
+                    const userName = activeUser ? activeUser.name : "System Manager";
+                    window.logAudit(userName, "Leaves", "Approve", `Approved leave request for ${leave.employee}`);
+                    window.showToast("Leave request approved!", "success");
+                    renderLeaves();
+                    const table = document.querySelector('#leavesTable');
+                    if (table && table.dataTableController) {
+                        table.dataTableController.refresh();
+                    }
+                }
+            } catch (err) {
+                console.error("Error in approveLeave:", err);
+                window.showToast(err.message, "error");
             }
         };
 
         window.rejectLeave = (id) => {
-            const leave = mockDB.leaves.find(l => l.id === id);
-            if (leave) {
-                leave.status = 'Rejected';
-                saveMockDB();
-                logAudit(mockDB.users.find(u => u.id === userId).name, "Leaves", "Reject", `Rejected leave request for ${leave.employee}`);
-                showToast("Leave request rejected.", "error");
-                renderLeaves();
+            try {
+                const leave = window.mockDB.leaves.find(l => l.id === id);
+                if (leave) {
+                    leave.status = 'Rejected';
+                    window.saveMockDB();
+                    const activeUser = window.mockDB.users.find(u => u.id === userId);
+                    const userName = activeUser ? activeUser.name : "System Manager";
+                    window.logAudit(userName, "Leaves", "Reject", `Rejected leave request for ${leave.employee}`);
+                    window.showToast("Leave request rejected.", "error");
+                    renderLeaves();
+                    const table = document.querySelector('#leavesTable');
+                    if (table && table.dataTableController) {
+                        table.dataTableController.refresh();
+                    }
+                }
+            } catch (err) {
+                console.error("Error in rejectLeave:", err);
+                window.showToast(err.message, "error");
             }
         };
 
         window.forwardLeave = (id) => {
-            const leave = mockDB.leaves.find(l => l.id === id);
-            if (leave) {
-                leave.status = 'Forwarded to Manager';
-                saveMockDB();
-                logAudit(mockDB.users.find(u => u.id === userId).name, "Leaves", "Forward", `Forwarded leave request of ${leave.employee} to Department Manager`);
-                showToast("Leave request forwarded to Manager.", "success");
-                renderLeaves();
+            try {
+                const leave = window.mockDB.leaves.find(l => l.id === id);
+                if (leave) {
+                    leave.status = 'Forwarded to Manager';
+                    window.saveMockDB();
+                    const activeUser = window.mockDB.users.find(u => u.id === userId);
+                    const userName = activeUser ? activeUser.name : "System Manager";
+                    window.logAudit(userName, "Leaves", "Forward", `Forwarded leave request of ${leave.employee} to Department Manager`);
+                    window.showToast("Leave request forwarded to Manager.", "success");
+                    renderLeaves();
+                    const table = document.querySelector('#leavesTable');
+                    if (table && table.dataTableController) {
+                        table.dataTableController.refresh();
+                    }
+                }
+            } catch (err) {
+                console.error("Error in forwardLeave:", err);
+                window.showToast(err.message, "error");
             }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            const user = mockDB.users.find(u => u.id === userId);
+            const user = window.mockDB.users.find(u => u.id === userId);
             if (user) {
                 document.getElementById('currentUserDisplay').innerText = `${user.name} (${role})`;
             }

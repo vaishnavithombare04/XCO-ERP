@@ -242,7 +242,7 @@
             document.getElementById('kpiScore').innerText = `${avgKpi}%`;
 
             // Check-in status today
-            const todayStr = '2026-07-08'; // matched to database records
+            const todayStr = localStorage.getItem('erp_active_date') || (typeof formatLocalDate === 'function' ? formatLocalDate(new Date()) : new Date().toISOString().substring(0, 10));
             const todayAtt = myAttendance.find(a => a.date === todayStr);
             if (todayAtt) {
                 document.getElementById('todayStatus').innerText = `${todayAtt.status} (Check-in: ${todayAtt.check_in})`;
@@ -251,7 +251,12 @@
                     document.getElementById('btnClockOut').disabled = false;
                 } else {
                     document.getElementById('btnClockOut').disabled = true;
+                    document.getElementById('todayStatus').innerText = `${todayAtt.status} (Check-in: ${todayAtt.check_in}, Check-out: ${todayAtt.check_out})`;
                 }
+            } else {
+                document.getElementById('todayStatus').innerText = "Not Clocked In";
+                document.getElementById('btnClockIn').disabled = false;
+                document.getElementById('btnClockOut').disabled = true;
             }
 
             // Upcoming
@@ -319,13 +324,14 @@
         window.triggerClockIn = () => {
             const now = new Date();
             const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const todayStr = localStorage.getItem('erp_active_date') || (typeof formatLocalDate === 'function' ? formatLocalDate(new Date()) : new Date().toISOString().substring(0, 10));
             
             const newAtt = {
                 id: `ATT0${mockDB.attendance.length + 1}`,
                 employee: 'Raj Patel',
                 check_in: timeStr,
                 check_out: 'N/A',
-                date: new Date().toISOString().substring(0, 10),
+                date: todayStr,
                 shift: 'Morning Shift (9AM - 6PM)',
                 status: 'Present',
                 hours: '0h'
@@ -344,9 +350,9 @@
         window.triggerClockOut = () => {
             const now = new Date();
             const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const todayStr = localStorage.getItem('erp_active_date') || (typeof formatLocalDate === 'function' ? formatLocalDate(new Date()) : new Date().toISOString().substring(0, 10));
             
             // Find today's checkin
-            const todayStr = new Date().toISOString().substring(0, 10);
             const att = mockDB.attendance.find(a => a.employee === 'Raj Patel' && a.date === todayStr);
             if (att) {
                 att.check_out = timeStr;
