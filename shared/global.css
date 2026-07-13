@@ -1320,13 +1320,15 @@ html[data-theme="dark"] .dropdown-item:hover {
     
     /* Calendar Mobile styling overrides */
     /* Calendar Mobile styling overrides (Align directly below date-badge trigger) */
+    /* Calendar Mobile styling overrides (Align directly below date-badge trigger) */
     .calendar-popover {
         position: absolute !important;
         top: 100% !important;
-        left: 0 !important;
-        right: auto !important;
+        right: 0 !important;
+        left: auto !important;
         bottom: auto !important;
-        width: 300px !important;
+        width: 290px !important;
+        padding: 12px !important;
         margin-top: 8px !important;
         border-radius: var(--radius-lg) !important;
         border: 1px solid var(--border-color) !important;
@@ -1344,11 +1346,11 @@ html[data-theme="dark"] .dropdown-item:hover {
         content: none !important;
     }
     .calendar-grid {
-        gap: 6px;
+        gap: 4px !important;
     }
     .calendar-day {
-        width: 38px;
-        height: 38px;
+        width: 32px !important;
+        height: 32px !important;
     }
 }
 
