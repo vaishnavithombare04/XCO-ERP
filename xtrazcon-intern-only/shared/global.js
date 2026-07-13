@@ -630,7 +630,7 @@ function initGlobalCalendar() {
     };
 
     const toggleCalendar = (e) => {
-        e.stopPropagation();
+        if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
         const isShown = popover.classList.contains('show');
         
         // Close other dropdowns first
@@ -648,7 +648,9 @@ function initGlobalCalendar() {
             displayYear = activeDate.getFullYear();
             renderCalendar();
             popover.classList.add('show');
-            overlay.classList.add('show');
+            if (window.innerWidth < 992) {
+                overlay.classList.add('show');
+            }
         } else {
             closeCalendar();
         }
@@ -659,7 +661,27 @@ function initGlobalCalendar() {
         overlay.classList.remove('show');
     };
 
-    dateBadge.addEventListener('click', toggleCalendar);
+    dateBadge.addEventListener('click', (e) => {
+        toggleCalendar(e);
+    });
+
+    dateBadge.addEventListener('mouseenter', () => {
+        if (window.innerWidth >= 992) {
+            const isShown = popover.classList.contains('show');
+            if (!isShown) {
+                displayMonth = activeDate.getMonth();
+                displayYear = activeDate.getFullYear();
+                renderCalendar();
+                popover.classList.add('show');
+            }
+        }
+    });
+
+    dateBadge.addEventListener('mouseleave', () => {
+        if (window.innerWidth >= 992) {
+            closeCalendar();
+        }
+    });
 
     // Stop propagation inside popover so it doesn't close on clicking calendar controls
     popover.addEventListener('click', (e) => {
