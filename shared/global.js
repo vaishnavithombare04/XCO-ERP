@@ -1123,6 +1123,11 @@ const defaultMockDB = {
     ]
 };
 
+// Save Database Helper
+window.saveMockDB = () => {
+    localStorage.setItem('erp_mock_db', JSON.stringify(window.mockDB));
+};
+
 // Initialize Mock Database
 const storedDB = localStorage.getItem('erp_mock_db');
 let parsedDB = null;
@@ -1137,7 +1142,7 @@ try {
 
 if (!parsedDB || !parsedDB.users || parsedDB.users.length < 9 || !parsedDB.contracts) {
     window.mockDB = defaultMockDB;
-    localStorage.setItem('erp_mock_db', JSON.stringify(defaultMockDB));
+    window.saveMockDB();
 } else {
     window.mockDB = parsedDB;
     // Ensure all collections from defaultMockDB exist in window.mockDB (safeguard)
@@ -1156,11 +1161,6 @@ if (!hasCustomUsers) {
     window.mockDB.users = customUsers.concat(window.mockDB.users);
     window.saveMockDB();
 }
-
-// Save Database Helper
-window.saveMockDB = () => {
-    localStorage.setItem('erp_mock_db', JSON.stringify(window.mockDB));
-};
 
 // Scoped Data Retriever
 window.getScopedData = (collectionName, currentRole, currentUserId) => {
