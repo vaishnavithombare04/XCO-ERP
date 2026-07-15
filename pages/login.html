@@ -117,9 +117,31 @@
                 // Pre-seeded credentials validation (in a prototype environment, any password works for valid users)
                 showToast(`Welcome back, ${user.name}!`, "success");
                 logAudit(user.name, "Authentication", "Login", "Successfully signed into ERP console");
+
+                // Set session variables
+                localStorage.setItem('currentUserId', user.id);
+                localStorage.setItem('currentRole', user.role);
+                localStorage.setItem('currentUserEmail', user.email);
+                localStorage.setItem('currentUserName', user.name);
                 
                 setTimeout(() => {
-                    window.location.href = "../admin/index.html";
+                    const role = (user.role || '').toLowerCase();
+                    let redirectUrl = "../admin/index.html";
+
+                    if (role.includes('super admin') || role.includes('admin')) {
+                        redirectUrl = "../admin/index.html";
+                    } else if (role.includes('manager') || role.includes('leader') || role.includes('director')) {
+                        redirectUrl = "../manager/index.html";
+                    } else if (role.includes('client')) {
+                        redirectUrl = "../client/index.html";
+                    } else if (role.includes('freelancer') || role.includes('consultant')) {
+                        redirectUrl = "../freelancer/index.html";
+                    } else if (role.includes('intern')) {
+                        redirectUrl = "../xtrazcon-intern-only/intern/index.html";
+                    } else {
+                        redirectUrl = "../employee/index.html";
+                    }
+                    window.location.href = redirectUrl;
                 }, 1000);
 
 

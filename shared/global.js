@@ -1105,7 +1105,7 @@ window.getScopedData = (collectionName, currentRole, currentUserId) => {
     const team = user.team || "Core ERP Squad";
     const group = user.group || "Core Backend Group";
 
-    const filteredUsers = window.mockDB.users.filter(u => {
+    let filteredUsers = window.mockDB.users.filter(u => {
         if (currentRole === "Manager") {
             return u.department === dept;
         } else if (currentRole === "TL") {
@@ -1118,6 +1118,17 @@ window.getScopedData = (collectionName, currentRole, currentUserId) => {
         return false;
     });
 
+    // Fallback: If no other team members exist in this department/scope, dynamically add dummy employees so the manager folder always displays rich dummy data!
+    const onlyManagerSelf = filteredUsers.length === 1 && filteredUsers[0].id === currentUserId;
+    if (filteredUsers.length === 0 || onlyManagerSelf) {
+        const dummyMembers = [
+            { id: "EMP901", name: "Rahul Sharma", role: "Developer", department: dept, team: team, group: group, shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98111 22233", manager: user.name },
+            { id: "EMP902", name: "Priya Patel", role: "Designer", department: dept, team: team, group: group, shift: "Morning Shift (9AM - 6PM)", status: "active", phone: "+91 98111 22234", manager: user.name },
+            { id: "EMP903", name: "Amit Verma", role: "Intern", department: dept, team: team, group: group, shift: "Flexible Shift", status: "pending", phone: "+91 98111 22235", manager: user.name }
+        ];
+        filteredUsers = filteredUsers.concat(dummyMembers);
+    }
+
     const userNames = filteredUsers.map(u => u.name);
 
     if (collectionName === "users") {
@@ -1127,19 +1138,73 @@ window.getScopedData = (collectionName, currentRole, currentUserId) => {
     const rawData = window.mockDB[collectionName] || [];
 
     if (collectionName === "tasks") {
-        return rawData.filter(t => userNames.includes(t.assignee));
+        let result = rawData.filter(t => userNames.includes(t.assignee));
+        if (result.length === 0) {
+            const assignable = filteredUsers.filter(u => u.id !== currentUserId);
+            const n1 = assignable[0]?.name || "Rahul Sharma";
+            const n2 = assignable[1]?.name || "Priya Patel";
+            result = [
+                { id: "TSK901", title: "Setup Department Portal UI", desc: "Draft layouts and templates.", assignee: n1, deadline: "2026-07-20", status: "Working", priority: "High" },
+                { id: "TSK902", title: "Database Schema Migration", desc: "Perform table index optimization.", assignee: n2, deadline: "2026-07-22", status: "Pending", priority: "Medium" },
+                { id: "TSK903", title: "Conduct Vulnerability Scan", desc: "Run static code security analyzer.", assignee: n1, deadline: "2026-07-18", status: "Completed", priority: "High" }
+            ];
+        }
+        return result;
     }
     if (collectionName === "leads") {
-        return rawData.filter(l => userNames.includes(l.assigned_to));
+        let result = rawData.filter(l => userNames.includes(l.assigned_to));
+        if (result.length === 0) {
+            const assignable = filteredUsers.filter(u => u.id !== currentUserId);
+            const n1 = assignable[0]?.name || "Rahul Sharma";
+            const n2 = assignable[1]?.name || "Priya Patel";
+            result = [
+                { id: "LED901", name: "Nexus Digital Solutions", contact: "Rajesh Kumar", email: "rajesh@nexusdigi.com", status: "Fresh", value: "₹5,40,000", phone: "+91 99111 88221", date: "2026-07-05", next_followup: "2026-07-16", assigned_to: n1 },
+                { id: "LED902", name: "Star Software Labs", contact: "Sunita Roy", email: "sunita@starsoftware.io", status: "Interested", value: "₹8,20,000", phone: "+91 99111 88222", date: "2026-07-06", next_followup: "2026-07-17", assigned_to: n2 },
+                { id: "LED903", name: "CloudWorks ERP", contact: "Vijay Patel", email: "vijay@cloudworks.com", status: "Follow-up", value: "₹12,50,000", phone: "+91 99111 88223", date: "2026-07-08", next_followup: "2026-07-18", assigned_to: n1 }
+            ];
+        }
+        return result;
     }
     if (collectionName === "attendance") {
-        return rawData.filter(a => userNames.includes(a.employee));
+        let result = rawData.filter(a => userNames.includes(a.employee));
+        if (result.length === 0) {
+            const assignable = filteredUsers.filter(u => u.id !== currentUserId);
+            const n1 = assignable[0]?.name || "Rahul Sharma";
+            const n2 = assignable[1]?.name || "Priya Patel";
+            const n3 = assignable[2]?.name || "Amit Verma";
+            result = [
+                { id: "ATT901", employee: n1, check_in: "09:02 AM", check_out: "06:05 PM", shift: "Morning Shift", hours: "9.0", status: "Present", date: "2026-07-15" },
+                { id: "ATT902", employee: n2, check_in: "09:45 AM", check_out: "06:00 PM", shift: "Morning Shift", hours: "8.25", status: "Late", date: "2026-07-15" },
+                { id: "ATT903", employee: n3, check_in: "--:--", check_out: "--:--", shift: "Flexible Shift", hours: "0.0", status: "Absent", date: "2026-07-15" }
+            ];
+        }
+        return result;
     }
     if (collectionName === "leaves") {
-        return rawData.filter(l => userNames.includes(l.employee));
+        let result = rawData.filter(l => userNames.includes(l.employee));
+        if (result.length === 0) {
+            const assignable = filteredUsers.filter(u => u.id !== currentUserId);
+            const n1 = assignable[0]?.name || "Rahul Sharma";
+            const n2 = assignable[1]?.name || "Priya Patel";
+            result = [
+                { id: "LEV901", employee: n1, type: "Sick Leave", duration: "2 days", from: "2026-07-10", to: "2026-07-11", status: "Approved", reason: "Viral Fever" },
+                { id: "LEV902", employee: n2, type: "Casual Leave", duration: "1 day", from: "2026-07-20", to: "2026-07-20", status: "Pending", reason: "Family Function" }
+            ];
+        }
+        return result;
     }
     if (collectionName === "kpi") {
-        return rawData.filter(k => userNames.includes(k.employee));
+        let result = rawData.filter(k => userNames.includes(k.employee));
+        if (result.length === 0) {
+            const assignable = filteredUsers.filter(u => u.id !== currentUserId);
+            const n1 = assignable[0]?.name || "Rahul Sharma";
+            const n2 = assignable[1]?.name || "Priya Patel";
+            result = [
+                { id: "KPI901", employee: n1, rating: "4.5 / 5.0", productivity: "92%", tasks_done: "14", quality: "Excellent" },
+                { id: "KPI902", employee: n2, rating: "4.8 / 5.0", productivity: "96%", tasks_done: "18", quality: "Outstanding" }
+            ];
+        }
+        return result;
     }
     if (collectionName === "notifications") {
         // Scoped by notification types or content relevance
@@ -2100,4 +2165,33 @@ document.addEventListener('DOMContentLoaded', () => {
     initCustomDropdowns();
     initHeaderDropdowns();
     initGlobalNotifications();
+
+    // Dynamically patch all header action dropdown toggles to prevent boundary clipping
+    const headerToggles = document.querySelectorAll('.header-actions .dropdown-toggle, #notificationBell, .user-profile');
+    headerToggles.forEach(toggle => {
+        toggle.setAttribute('data-bs-display', 'static');
+    });
+
+    // Intercept dropdown sign-out clicks globally to redirect to pages/login.html
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    dropdownItems.forEach(item => {
+        if (item.textContent.trim() === 'Sign out') {
+            item.removeAttribute('onclick');
+            item.setAttribute('href', 'javascript:void(0);');
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                showToast('Signed out successfully', 'success');
+                setTimeout(() => {
+                    const path = window.location.pathname;
+                    let loginUrl = 'pages/login.html';
+                    if (path.includes('/admin/') || path.includes('/client/') || path.includes('/employee/') || path.includes('/freelancer/') || path.includes('/manager/')) {
+                        loginUrl = '../pages/login.html';
+                    } else if (path.includes('/intern/')) {
+                        loginUrl = '../../pages/login.html';
+                    }
+                    window.location.href = loginUrl;
+                }, 800);
+            });
+        }
+    });
 });
