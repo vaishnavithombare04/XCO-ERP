@@ -113,8 +113,9 @@
             // Find user in mock database
             const user = mockDB.users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
-            if (user) {
-                // Pre-seeded credentials validation (in a prototype environment, any password works for valid users)
+            const correctPassword = user ? (user.password || "admin123") : null;
+
+            if (user && password === correctPassword) {
                 showToast(`Welcome back, ${user.name}!`, "success");
                 logAudit(user.name, "Authentication", "Login", "Successfully signed into ERP console");
 

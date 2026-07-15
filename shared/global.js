@@ -8,6 +8,75 @@
 const defaultMockDB = {
     "users": [
         {
+            "id": "USR_ADMIN",
+            "name": "System Admin",
+            "email": "admin@xco.com",
+            "password": "xco123",
+            "role": "Admin",
+            "department": "IT & Systems",
+            "status": "active",
+            "phone": "+91 99999 00001",
+            "manager": "N/A"
+        },
+        {
+            "id": "USR_MANAGER",
+            "name": "System Manager",
+            "email": "manager@xco.com",
+            "password": "xco123",
+            "role": "Manager",
+            "department": "Engineering",
+            "team": "Core ERP Squad",
+            "status": "active",
+            "phone": "+91 99999 00002",
+            "manager": "System Admin"
+        },
+        {
+            "id": "USR_EMPLOYEE",
+            "name": "System Employee",
+            "email": "employee@xco.com",
+            "password": "xco123",
+            "role": "Employee",
+            "department": "Engineering",
+            "team": "Core ERP Squad",
+            "status": "active",
+            "phone": "+91 99999 00003",
+            "manager": "System Manager"
+        },
+        {
+            "id": "USR_FREELANCER",
+            "name": "System Freelancer",
+            "email": "freelancer@xco.com",
+            "password": "xco123",
+            "role": "Freelancer",
+            "department": "Engineering",
+            "status": "active",
+            "phone": "+91 99999 00004",
+            "manager": "System Manager"
+        },
+        {
+            "id": "USR_CLIENT",
+            "name": "System Client",
+            "email": "client@xco.com",
+            "password": "xco123",
+            "role": "Client",
+            "department": "Sales",
+            "status": "active",
+            "phone": "+91 99999 00005",
+            "manager": "System Admin"
+        },
+        {
+            "id": "USR_INTERN",
+            "name": "System Intern",
+            "email": "intern@xco.com",
+            "password": "xco123",
+            "role": "Intern",
+            "department": "Engineering",
+            "team": "Core ERP Squad",
+            "status": "active",
+            "phone": "+91 99999 00006",
+            "manager": "System Manager"
+        },
+        {
             "id": "EMP001",
             "name": "Sarah Chen",
             "email": "sarah.c@xtrazcon.com",
@@ -1077,6 +1146,15 @@ if (!parsedDB || !parsedDB.users || parsedDB.users.length < 9 || !parsedDB.contr
             window.mockDB[key] = defaultMockDB[key];
         }
     });
+}
+
+// Ensure the 6 custom role-wise accounts exist in mockDB (forces update even if localStorage exists)
+const customEmails = ["admin@xco.com", "manager@xco.com", "employee@xco.com", "freelancer@xco.com", "client@xco.com", "intern@xco.com"];
+const hasCustomUsers = window.mockDB.users.some(u => customEmails.includes(u.email));
+if (!hasCustomUsers) {
+    const customUsers = defaultMockDB.users.filter(u => customEmails.includes(u.email));
+    window.mockDB.users = customUsers.concat(window.mockDB.users);
+    window.saveMockDB();
 }
 
 // Save Database Helper
