@@ -2258,6 +2258,14 @@ document.addEventListener('DOMContentLoaded', () => {
             item.setAttribute('href', 'javascript:void(0);');
             item.addEventListener('click', (e) => {
                 e.preventDefault();
+                
+                // Clear session storage & local storage keys to ensure clean logout state
+                localStorage.removeItem('currentUserId');
+                localStorage.removeItem('currentRole');
+                localStorage.removeItem('currentUserEmail');
+                localStorage.removeItem('currentUserName');
+                sessionStorage.clear();
+
                 showToast('Signed out successfully', 'success');
                 setTimeout(() => {
                     const path = window.location.pathname;

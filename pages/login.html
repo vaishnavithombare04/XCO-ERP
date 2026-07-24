@@ -65,14 +65,14 @@
             <form id="loginForm">
                 <div class="mb-3">
                     <label class="form-label font-12 font-weight-600">Email address</label>
-                    <input type="email" name="email" class="form-control" placeholder="name@xtrazcon.com" required value="sarah.c@xtrazcon.com">
+                    <input type="email" name="email" class="form-control" placeholder="name@xtrazcon.com" required autocomplete="off">
                 </div>
                 <div class="mb-3">
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <label class="form-label font-12 font-weight-600 mb-0">Password</label>
                         <a href="forgot-password.html" class="font-11 text-primary text-decoration-none">Forgot password?</a>
                     </div>
-                    <input type="password" name="password" class="form-control" placeholder="••••••••" required value="admin123">
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" required autocomplete="new-password">
                 </div>
                 <div class="form-check mb-4">
                     <input class="form-check-input" type="checkbox" id="rememberMe" checked>
@@ -85,6 +85,55 @@
 
             <div class="text-center font-12 text-secondary">
                 Don't have an account? <a href="signup.html" class="text-primary text-decoration-none font-weight-600">Request access / Sign up</a>
+            </div>
+
+            <!-- Mock Account Credentials Helper Table -->
+            <div class="demo-credentials" style="margin-top: 24px; padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: var(--bg-app);">
+              <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
+                Portal Login Credentials
+              </h4>
+              <table style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; color: var(--text-primary);">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-muted);">
+                    <th style="padding: 4px 8px 6px 0; font-weight: 600;">Role</th>
+                    <th style="padding: 4px 8px 6px 8px; font-weight: 600;">Username / Email</th>
+                    <th style="padding: 4px 0 6px 8px; font-weight: 600;">Password</th>
+                  </tr>
+                </thead>
+                 <tbody>
+
+                  <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <td style="padding: 6px 8px 6px 0; font-weight: 600;">Admin</td>
+                    <td style="padding: 6px 8px; font-family: monospace; color: var(--primary);">admin@xco.com</td>
+                    <td style="padding: 6px 0 6px 8px; font-family: monospace;">xco123</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <td style="padding: 6px 8px 6px 0; font-weight: 600;">Manager</td>
+                    <td style="padding: 6px 8px; font-family: monospace; color: var(--primary);">manager@xco.com</td>
+                    <td style="padding: 6px 0 6px 8px; font-family: monospace;">xco123</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <td style="padding: 6px 8px 6px 0; font-weight: 600;">Employee</td>
+                    <td style="padding: 6px 8px; font-family: monospace; color: var(--primary);">employee@xco.com</td>
+                    <td style="padding: 6px 0 6px 8px; font-family: monospace;">xco123</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <td style="padding: 6px 8px 6px 0; font-weight: 600;">Client</td>
+                    <td style="padding: 6px 8px; font-family: monospace; color: var(--primary);">client@xco.com</td>
+                    <td style="padding: 6px 0 6px 8px; font-family: monospace;">xco123</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <td style="padding: 6px 8px 6px 0; font-weight: 600;">Freelancer</td>
+                    <td style="padding: 6px 8px; font-family: monospace; color: var(--primary);">freelancer@xco.com</td>
+                    <td style="padding: 6px 0 6px 8px; font-family: monospace;">xco123</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 8px 0 0; font-weight: 600;">Intern</td>
+                    <td style="padding: 6px 8px 0 8px; font-family: monospace; color: var(--primary);">intern@xco.com</td>
+                    <td style="padding: 6px 0 0 8px; font-family: monospace;">xco123</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
         </div>
     </div>
@@ -153,6 +202,20 @@
 
         // Bind form submit handler programmatically
         document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+        // Ensure fields are empty on load/logout (override browser autofill)
+        function clearFields() {
+            const emailInput = document.querySelector('input[name="email"]');
+            const passwordInput = document.querySelector('input[name="password"]');
+            if (emailInput) emailInput.value = '';
+            if (passwordInput) passwordInput.value = '';
+        }
+        document.addEventListener('DOMContentLoaded', clearFields);
+        window.addEventListener('load', clearFields);
+        setTimeout(clearFields, 50);
+        setTimeout(clearFields, 100);
+        setTimeout(clearFields, 200);
+        setTimeout(clearFields, 500);
     </script>
 </body>
 </html>
